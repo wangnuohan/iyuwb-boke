@@ -1,4 +1,4 @@
-# H5 端 rem 适配方案与 viewport 适配
+# H5 端 rem 与 viewport 适配
 
 ## rem
 
@@ -73,7 +73,7 @@
 //定义设计稿宽度为375
 const DESIGN_WIDTH = 375;
 //通过设置meta元素中content的initial-scale值达到移动端适配
-const setViewport = function () {
+const setViewport = function() {
   //计算当前屏幕的宽度与设计稿比例
   let scale = window.screen.width / DESIGN_WIDTH;
   // 获取元素

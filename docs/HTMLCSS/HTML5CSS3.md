@@ -1,12 +1,12 @@
 # HTML5CSS3
 
-### HTML5 和 HTML 事件
+## HTML5 和 HTML 事件
 
 注意：行内代码的为 H5 新增事件
 
-#### Window 事件属性：
+### Window 事件属性：
 
-> 针对 window 对象触发的事件（应用到 <body> 标签）
+> 针对 window 对象触发的事件（应用到 `<body>` 标签）
 
 | `onafterprint`   | 文档打印之后运行的脚本                           |
 | ---------------- | ------------------------------------------------ |
@@ -44,14 +44,14 @@
 | onselect        | 在元素中文本被选中后触发       |
 | onsubmit        | 在提交表单时触发               |
 
-#### keyboard 事件
+### keyboard 事件
 
 | onkeydown  | 按下按键时触发     |
 | ---------- | ------------------ |
 | onkeypress | 用户敲击按钮是触发 |
 | onkeyup    | 释放按键时触发     |
 
-#### Mouse 事件
+### Mouse 事件
 
 > 由鼠标或类似用户动作触发
 
@@ -73,7 +73,7 @@
 | `onmousewheel` | 当鼠标滚轮正在被滚动式运行               |
 | `onscroll`     | 当元素滚动条被滚动时运行的脚本           |
 
-#### Media 事件
+### Media 事件
 
 > 有媒介，比如视频图像和音频处罚的事件，适用于所有 HTML 元素，但常见于媒介元素中
 
@@ -101,9 +101,9 @@
 | `onvolumechange`     | 当音量改变时运行                                         |
 | `onwaiting`          | 当媒介已停止播放但打算继续播放时                         |
 
-### input 的 type 属性值
+## input 的 type 属性值
 
-#### HTML
+### HTML
 
 | button   | 按钮                   |
 | -------- | ---------------------- |
@@ -117,7 +117,7 @@
 | submit   | 提交按钮               |
 | text     | 输入字段               |
 
-#### HTML5
+### HTML5
 
 | `color`          | 拾色器                               |
 | ---------------- | ------------------------------------ |
@@ -134,11 +134,11 @@
 | `tel`            | 定义用于电话号码的文本字段           |
 | `url`            | 定义用于 URL 的文本字段              |
 
-### HTML5 离线储存
+## HTML5 离线储存
 
 [https://www.cnblogs.com/jing-tian/p/11011369.html](https://www.cnblogs.com/jing-tian/p/11011369.html)
 
-### 拖拽释放
+## 拖拽释放
 
 > 拖拽是 H5 中非常常见的功能。为了让元素可以拖动需要添加`draggable`属性
 > 注意：链接和图片是默认可拖动的 不需要额外添加`draggable`属性
@@ -154,7 +154,7 @@
   - `ondragleave`：当被鼠标拖动的对象离开其容器范围内触发
   - `ondrop`：在一个拖动过程中，释放鼠标时触发
 
-### 自定义属性 data-id
+## 自定义属性 data-id
 
 > 方便的保存并适用数据
 
@@ -174,7 +174,7 @@ one.dataset.wenbo = "wenbo";
 console.log(one.dataset.wenbo); //wenbo
 ```
 
-### 语义化标签
+## 语义化标签
 
 - `header`：section 或 page 页眉
 - `nav`：导航连接
@@ -183,14 +183,14 @@ console.log(one.dataset.wenbo); //wenbo
 - `article`：文章
 - `section`：section，部分
 
-### 音频视频
+## 音频视频
 
 **`audio`和`video`**
 
 - 自动播放：在标签属性中添加 autoplay
 - [音频视频相关方法，属性以及事件](https://www.w3school.com.cn/tags/html_ref_audio_video_dom.asp)
 
-### 画布 Canvas
+## 画布 Canvas
 
 > canvas 标签定义图片
 > canvas 本身是没有绘图能力的，所有的绘制工作必需在 JavaScript 内部完成
@@ -214,7 +214,7 @@ console.log(one.dataset.wenbo); //wenbo
 
 [Canvas 相关方法，属性](https://www.w3school.com.cn/tags/html_ref_canvas.asp)
 
-### 地理位置 API Geolocation
+## 地理位置 API Geolocation
 
 `navigator.geolocation.getCurrentPosition()`：获取用户当前位置，传参是两个回调函数，一个成功时，一个失败时
 
@@ -233,12 +233,12 @@ navigator.geolocation.getCurrentPosition(
 );
 ```
 
-### localStorage 和 sessionStorage
+## localStorage 和 sessionStorage
 
 - `localStorage`：存储大小 5M 左右，数据可长期保存在本地。同源域名窗口中共享数据。
 - `sessionStorage`：存储大小 5M 左右，与`localStorage`类似，但是储存数据仅当前窗口有效，关闭窗口自动删除。
 
-### H5 浏览器存储
+## H5 浏览器存储
 
 - `cookie`
 - `localStorage`
@@ -247,7 +247,7 @@ navigator.geolocation.getCurrentPosition(
 - `WebSQL`
 - `window变量`
 
-### 表单控件
+## 表单控件
 
 - `email`：邮箱
 - `url`：连接
@@ -258,7 +258,7 @@ navigator.geolocation.getCurrentPosition(
 - `search`：搜索
 - `color`：颜色选择
 
-### 新的技术 web worker 和 web socket
+## 新的技术 web worker 和 web socket
 
 **Web Worker**
 **[Web Worker 适用教程](http://www.ruanyifeng.com/blog/2018/07/web-worker.html)**
@@ -274,7 +274,7 @@ navigator.geolocation.getCurrentPosition(
 
 # CSS3
 
-### 颜色：新增 RGBA，HSLA 模式
+## 颜色：新增 RGBA，HSLA 模式
 
 - RGBA：`background-color: rgba(179, 133, 133, 0.5);`
 - HSLA：`background-color: hsla(120, 60%, 70%, 0.3)`
@@ -284,7 +284,7 @@ navigator.geolocation.getCurrentPosition(
   - `lightness`：亮度，增加亮度，颜色会向白色变化，减少会向黑色变化。取值 0-100%，
   - `alpha`：透明度，取值 0-1 之间，代表透明度。
 
-### 文字阴影
+## 文字阴影
 
 - `text-shadow: h-shadow v-shadow blur color;`
   - `h-shadow`：必需。水平阴影的位置，允许负值
@@ -292,19 +292,19 @@ navigator.geolocation.getCurrentPosition(
   - `blur`：可选，模糊的距离
   - `color`：可选，阴影的颜色
 
-### 边框阴影
+## 边框阴影
 
 `box-shadow: h-shadow v-shadow blur color;`
 
-### 圆角
+## 圆角
 
 `border-radius:左上 右上 右下 左下;`
 
-### 盒子模型
+## 盒子模型
 
 盒子模型包括：外边框 margin，边框 border，内边框 padding，和内容 content
 
-### 背景相关
+## 背景相关
 
 - `background-size`：指定背景图片的大小
 - 语法：`background-size: length|percentage|cover|contain;`
@@ -323,7 +323,7 @@ navigator.geolocation.getCurrentPosition(
   - `boder-box`：背景被剪切到内边框盒
   - `content-box`：背景被剪切到内容框
 
-### 渐变
+## 渐变
 
 线性渐变
 
@@ -357,7 +357,7 @@ background-image: radial-gradient(closest-side at 60% 55%, red, yellow, black);
 background-image: repeating-radial-gradient(red, yellow 10%, green 15%);
 ```
 
-### 过度
+## 过度
 
 - `transition`：过渡允许在规定时间内平滑的改变属性值
   - 过渡可以连写，一个`transition`写多个过渡。
@@ -368,7 +368,7 @@ background-image: repeating-radial-gradient(red, yellow 10%, green 15%);
     - `linear` ，`ease`，`ease-in`，`ease-out`，`ease-in-out` ，`cubic-bezoer(n,n,n,n)`
   - `transition-delay`：规定过渡效果何时开始，以秒或者毫秒计
 
-### 自定义动画
+## 自定义动画
 
 - `animation`：
 - 语法：`animation: name duration timing-function delay iteration-count direction fill-mode play-state;`
@@ -408,7 +408,7 @@ animation: myfirst 5s;
 -webkit-animation: myfirst 5s; /* Safari 与 Chrome */
 ```
 
-### 媒体查询
+## 媒体查询
 
 - 针对不同的媒体类型(根据屏幕大小)定义不同的样式。
 - 语法：
@@ -429,11 +429,11 @@ animation: myfirst 5s;
 }
 ```
 
-### 边框图片
+## 边框图片
 
 语法：`border-image: source slice width outset repeat|initial|inherit;`
 
-### transform
+## transform
 
 `transform`：
 **2D 转换：**
@@ -474,13 +474,13 @@ transform 其他相关样式
   - Y 轴
   - Z 轴
 
-### 字体图标
+## 字体图标
 
 特殊的一种字体，通过这种字体显示给用户的就像一个个图片一样
 优点：不会变形，加载速度快。可以使用 CSS 来控制它的大小和颜色。
 **以 iconfont 为例：**
 
-#### unicode 引用
+### unicode 引用
 
 unicode 是字体再网页端最原始的应用方式
 
@@ -530,7 +530,7 @@ unicode 是字体再网页端最原始的应用方式
 <i class="iconfont">&#x33;</i>
 ```
 
-#### font-class 引用
+### font-class 引用
 
 font-class 是 unicode 使用方式的一种变种，主要是解决 unicode 书写不直观，语意不明确的问题。
 
@@ -553,7 +553,7 @@ font-class 是 unicode 使用方式的一种变种，主要是解决 unicode 书
 <i class="iconfont icon-xxx"></i>
 ```
 
-#### symbol 引用
+### symbol 引用
 
 全新的使用方式，应该说这才是未来的主流，也是平台目前推荐的用法。
 
@@ -592,7 +592,7 @@ font-class 是 unicode 使用方式的一种变种，主要是解决 unicode 书
 </svg>
 ```
 
-### 弹性布局
+## 弹性布局
 
 `flex`：CSS3 的一种全新布局
 

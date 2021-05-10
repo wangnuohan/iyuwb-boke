@@ -1,12 +1,10 @@
-# CSS3 Canvas 实现两张图片合成一张图片
-
-### 需求
+# Canvas 实现两张图片合成
 
 需求：在项目中遇到将一张固定图片和一张二维码图片合成一张新图片，并且用户能够将图片保存下载到本地。
 
 思路：使用 CSS3 中的 Canvas 将两张图片绘制。
 
-### HTML 部分
+## HTML 部分
 
 ```html
 <div>
@@ -19,7 +17,7 @@
 </div>
 ```
 
-### JavaScript 部分
+## JavaScript 部分
 
 ```js
 var c = document.getElementById("myCanvas");
