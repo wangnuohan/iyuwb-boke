@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>H5 端 rem 与 viewport 适配 | 耶温博客</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    <link rel="icon" href="http://iyuwb.cn/img/boke.ico">
+    <meta name="description" content="小耶温学习笔记">
+    
+    <link rel="preload" href="/boke/assets/css/0.styles.2ef54e11.css" as="style"><link rel="preload" href="/boke/assets/js/app.4de19324.js" as="script"><link rel="preload" href="/boke/assets/js/2.474ec04b.js" as="script"><link rel="preload" href="/boke/assets/js/8.edcd77b1.js" as="script"><link rel="prefetch" href="/boke/assets/js/10.03983752.js"><link rel="prefetch" href="/boke/assets/js/11.b3e0d17c.js"><link rel="prefetch" href="/boke/assets/js/12.e8b723bd.js"><link rel="prefetch" href="/boke/assets/js/13.da93ee07.js"><link rel="prefetch" href="/boke/assets/js/14.48136aec.js"><link rel="prefetch" href="/boke/assets/js/15.d04fb2b2.js"><link rel="prefetch" href="/boke/assets/js/16.4d871e8b.js"><link rel="prefetch" href="/boke/assets/js/17.38f75ba3.js"><link rel="prefetch" href="/boke/assets/js/18.8cf1cbba.js"><link rel="prefetch" href="/boke/assets/js/19.61a20ffb.js"><link rel="prefetch" href="/boke/assets/js/20.6d044040.js"><link rel="prefetch" href="/boke/assets/js/21.98f16d4a.js"><link rel="prefetch" href="/boke/assets/js/22.9d5cbf6d.js"><link rel="prefetch" href="/boke/assets/js/23.a969bf48.js"><link rel="prefetch" href="/boke/assets/js/24.f618c67a.js"><link rel="prefetch" href="/boke/assets/js/25.6895dafc.js"><link rel="prefetch" href="/boke/assets/js/26.01d99cfc.js"><link rel="prefetch" href="/boke/assets/js/27.f10e6e77.js"><link rel="prefetch" href="/boke/assets/js/28.95b028df.js"><link rel="prefetch" href="/boke/assets/js/29.4fd5d92f.js"><link rel="prefetch" href="/boke/assets/js/3.33041445.js"><link rel="prefetch" href="/boke/assets/js/30.a1e44e96.js"><link rel="prefetch" href="/boke/assets/js/4.e7c996f5.js"><link rel="prefetch" href="/boke/assets/js/5.db5a0810.js"><link rel="prefetch" href="/boke/assets/js/6.17d5dd20.js"><link rel="prefetch" href="/boke/assets/js/7.d5fdd109.js"><link rel="prefetch" href="/boke/assets/js/9.09832efc.js">
+    <link rel="stylesheet" href="/boke/assets/css/0.styles.2ef54e11.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/boke/" class="home-link router-link-active"><img src="http://iyuwb.cn/img/wenbo.jpg" alt="耶温博客" class="logo"> <span class="site-name can-hide">耶温博客</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/boke/Notes/面试题总结.html" class="nav-link">
+  Notes
+</a></div><div class="nav-item"><a href="/boke/JavaScript/JavaScript笔记.html" class="nav-link">
+  JavaScript
+</a></div><div class="nav-item"><a href="/boke/HTMLCSS/HTML5CSS3.html" class="nav-link">
+  HTMLCSS
+</a></div><div class="nav-item"><a href="/boke/Vue/Vue进阶之旅.html" class="nav-link">
+  Vue
+</a></div><div class="nav-item"><a href="/boke/TypeScript/从0开始了解TypeScript.html" class="nav-link">
+  TypeScript
+</a></div><div class="nav-item"><a href="/boke/React/React.html" class="nav-link">
+  React
+</a></div><div class="nav-item"><a href="/boke/PHP/PHP.html" class="nav-link">
+  PHP
+</a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/boke/Notes/面试题总结.html" class="nav-link">
+  Notes
+</a></div><div class="nav-item"><a href="/boke/JavaScript/JavaScript笔记.html" class="nav-link">
+  JavaScript
+</a></div><div class="nav-item"><a href="/boke/HTMLCSS/HTML5CSS3.html" class="nav-link">
+  HTMLCSS
+</a></div><div class="nav-item"><a href="/boke/Vue/Vue进阶之旅.html" class="nav-link">
+  Vue
+</a></div><div class="nav-item"><a href="/boke/TypeScript/从0开始了解TypeScript.html" class="nav-link">
+  TypeScript
+</a></div><div class="nav-item"><a href="/boke/React/React.html" class="nav-link">
+  React
+</a></div><div class="nav-item"><a href="/boke/PHP/PHP.html" class="nav-link">
+  PHP
+</a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/boke/HTMLCSS/HTML5CSS3.html" class="sidebar-link">HTML5CSS3</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/boke/HTMLCSS/HTML5CSS3.html#html5-和-html-事件" class="sidebar-link">HTML5 和 HTML 事件</a></li><li class="sidebar-sub-header"><a href="/boke/HTMLCSS/HTML5CSS3.html#input-的-type-属性值" class="sidebar-link">input 的 type 属性值</a></li><li class="sidebar-sub-header"><a href="/boke/HTMLCSS/HTML5CSS3.html#html5-离线储存" class="sidebar-link">HTML5 离线储存</a></li><li class="sidebar-sub-header"><a href="/boke/HTMLCSS/HTML5CSS3.html#拖拽释放" class="sidebar-link">拖拽释放</a></li><li class="sidebar-sub-header"><a href="/boke/HTMLCSS/HTML5CSS3.html#自定义属性-data-id" class="sidebar-link">自定义属性 data-id</a></li><li class="sidebar-sub-header"><a href="/boke/HTMLCSS/HTML5CSS3.html#语义化标签" class="sidebar-link">语义化标签</a></li><li class="sidebar-sub-header"><a href="/boke/HTMLCSS/HTML5CSS3.html#音频视频" class="sidebar-link">音频视频</a></li><li class="sidebar-sub-header"><a href="/boke/HTMLCSS/HTML5CSS3.html#画布-canvas" class="sidebar-link">画布 Canvas</a></li><li class="sidebar-sub-header"><a href="/boke/HTMLCSS/HTML5CSS3.html#地理位置-api-geolocation" class="sidebar-link">地理位置 API Geolocation</a></li><li class="sidebar-sub-header"><a href="/boke/HTMLCSS/HTML5CSS3.html#localstorage-和-sessionstorage" class="sidebar-link">localStorage 和 sessionStorage</a></li><li class="sidebar-sub-header"><a href="/boke/HTMLCSS/HTML5CSS3.html#h5-浏览器存储" class="sidebar-link">H5 浏览器存储</a></li><li class="sidebar-sub-header"><a href="/boke/HTMLCSS/HTML5CSS3.html#表单控件" class="sidebar-link">表单控件</a></li><li class="sidebar-sub-header"><a href="/boke/HTMLCSS/HTML5CSS3.html#新的技术-web-worker-和-web-socket" class="sidebar-link">新的技术 web worker 和 web socket</a></li><li class="sidebar-sub-header"><a href="/boke/HTMLCSS/HTML5CSS3.html#颜色-新增-rgba-hsla-模式" class="sidebar-link">颜色：新增 RGBA，HSLA 模式</a></li><li class="sidebar-sub-header"><a href="/boke/HTMLCSS/HTML5CSS3.html#文字阴影" class="sidebar-link">文字阴影</a></li><li class="sidebar-sub-header"><a href="/boke/HTMLCSS/HTML5CSS3.html#边框阴影" class="sidebar-link">边框阴影</a></li><li class="sidebar-sub-header"><a href="/boke/HTMLCSS/HTML5CSS3.html#圆角" class="sidebar-link">圆角</a></li><li class="sidebar-sub-header"><a href="/boke/HTMLCSS/HTML5CSS3.html#盒子模型" class="sidebar-link">盒子模型</a></li><li class="sidebar-sub-header"><a href="/boke/HTMLCSS/HTML5CSS3.html#背景相关" class="sidebar-link">背景相关</a></li><li class="sidebar-sub-header"><a href="/boke/HTMLCSS/HTML5CSS3.html#渐变" class="sidebar-link">渐变</a></li><li class="sidebar-sub-header"><a href="/boke/HTMLCSS/HTML5CSS3.html#过度" class="sidebar-link">过度</a></li><li class="sidebar-sub-header"><a href="/boke/HTMLCSS/HTML5CSS3.html#自定义动画" class="sidebar-link">自定义动画</a></li><li class="sidebar-sub-header"><a href="/boke/HTMLCSS/HTML5CSS3.html#媒体查询" class="sidebar-link">媒体查询</a></li><li class="sidebar-sub-header"><a href="/boke/HTMLCSS/HTML5CSS3.html#边框图片" class="sidebar-link">边框图片</a></li><li class="sidebar-sub-header"><a href="/boke/HTMLCSS/HTML5CSS3.html#transform" class="sidebar-link">transform</a></li><li class="sidebar-sub-header"><a href="/boke/HTMLCSS/HTML5CSS3.html#字体图标" class="sidebar-link">字体图标</a></li><li class="sidebar-sub-header"><a href="/boke/HTMLCSS/HTML5CSS3.html#弹性布局" class="sidebar-link">弹性布局</a></li></ul></li><li><a href="/boke/HTMLCSS/H5端rem适配方案.html" class="active sidebar-link">H5 端 rem 与 viewport 适配</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/boke/HTMLCSS/H5端rem适配方案.html#rem" class="sidebar-link">rem</a></li><li class="sidebar-sub-header"><a href="/boke/HTMLCSS/H5端rem适配方案.html#viewport" class="sidebar-link">viewport</a></li></ul></li><li><a href="/boke/HTMLCSS/Canvas实现两张图片合成.html" class="sidebar-link">Canvas 实现两张图片合成</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/boke/HTMLCSS/Canvas实现两张图片合成.html#html-部分" class="sidebar-link">HTML 部分</a></li><li class="sidebar-sub-header"><a href="/boke/HTMLCSS/Canvas实现两张图片合成.html#javascript-部分" class="sidebar-link">JavaScript 部分</a></li></ul></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="h5-端-rem-与-viewport-适配"><a href="#h5-端-rem-与-viewport-适配" class="header-anchor">#</a> H5 端 rem 与 viewport 适配</h1> <h2 id="rem"><a href="#rem" class="header-anchor">#</a> rem</h2> <blockquote><p>rem 是 CSS3 新增的一个相对单位（root em，根 em）
+只根据当前页面 HTML 页面的 font-size 设置，如果根目录的 font-size 为 18px，则 1rem=18px</p></blockquote> <h3 id="媒体查询设置"><a href="#媒体查询设置" class="header-anchor">#</a> 媒体查询设置</h3> <div class="language-css extra-class"><pre class="language-css"><code><span class="token atrule"><span class="token rule">@media</span> screen <span class="token keyword">and</span> <span class="token punctuation">(</span><span class="token property">min-width</span><span class="token punctuation">:</span> 320px<span class="token punctuation">)</span></span> <span class="token punctuation">{</span>
+  <span class="token selector">html</span> <span class="token punctuation">{</span>
+    <span class="token property">font-size</span><span class="token punctuation">:</span> 32px<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token atrule"><span class="token rule">@media</span> screen <span class="token keyword">and</span> <span class="token punctuation">(</span><span class="token property">min-width</span><span class="token punctuation">:</span> 375px<span class="token punctuation">)</span></span> <span class="token punctuation">{</span>
+  <span class="token selector">html</span> <span class="token punctuation">{</span>
+    <span class="token property">font-size</span><span class="token punctuation">:</span> 37.5px<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token atrule"><span class="token rule">@media</span> screen <span class="token keyword">and</span> <span class="token punctuation">(</span><span class="token property">min-width</span><span class="token punctuation">:</span> 414px<span class="token punctuation">)</span></span> <span class="token punctuation">{</span>
+  <span class="token selector">html</span> <span class="token punctuation">{</span>
+    <span class="token property">font-size</span><span class="token punctuation">:</span> 41.4px<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token atrule"><span class="token rule">@media</span> screen <span class="token keyword">and</span> <span class="token punctuation">(</span><span class="token property">min-width</span><span class="token punctuation">:</span> 750px<span class="token punctuation">)</span></span> <span class="token punctuation">{</span>
+  <span class="token selector">html</span> <span class="token punctuation">{</span>
+    <span class="token property">font-size</span><span class="token punctuation">:</span> 75px<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="使用-js-动态修改"><a href="#使用-js-动态修改" class="header-anchor">#</a> 使用 JS 动态修改</h3> <div class="language-html extra-class"><pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
+  <span class="token comment">// 根据屏幕尺寸大小调整html的fontsize</span>
+  <span class="token keyword">function</span> <span class="token function">setHtmlFontSize</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> width <span class="token operator">=</span> document<span class="token punctuation">.</span>documentElement<span class="token punctuation">.</span>clientWidth<span class="token punctuation">;</span>
+    document<span class="token punctuation">.</span>documentElement<span class="token punctuation">.</span>style<span class="token punctuation">.</span>fontSize <span class="token operator">=</span> width <span class="token operator">/</span> <span class="token number">10</span> <span class="token operator">+</span> <span class="token string">&quot;px&quot;</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token comment">//   初始化</span>
+  <span class="token function">setHtmlFontSize</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment">//   监听屏幕尺寸变化事件</span>
+  window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">&quot;resize&quot;</span><span class="token punctuation">,</span> setHtmlFontSize<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment">//   监听屏幕翻转事件</span>
+  window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">&quot;orientationchange&quot;</span><span class="token punctuation">,</span> setHtmlFontSize<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div><h2 id="viewport"><a href="#viewport" class="header-anchor">#</a> viewport</h2> <blockquote><p>通过缩放来实现移动端各个尺寸的适配</p></blockquote> <blockquote><p>适配方案 动态创建 mate viewport 属性，根据当前屏幕尺寸动态设置缩放值</p></blockquote> <h3 id="viewport-属性"><a href="#viewport-属性" class="header-anchor">#</a> Viewport 属性</h3> <table><thead><tr><th>属性</th> <th>说明</th> <th>备注</th></tr></thead> <tbody><tr><td>width</td> <td>以 px 为单位定义 viewport 的宽度</td> <td>一个正整数或者额字符串 device-width</td></tr> <tr><td>height</td> <td>以 px 为单位定义 viewport 的高度</td> <td>一个正整数或者额字符串 device-height</td></tr> <tr><td>initial-scale</td> <td>定义设备的 dips 宽度与 viewport 尺寸之间的比例</td> <td>一个 0.0 到 10.0 之间的正数</td></tr> <tr><td>maximum-scale</td> <td>定义最大缩放值，他的值必需大于等于 minimum-scale 的值</td> <td>一个 0.0 到 10.0 之间的正数</td></tr> <tr><td>minimum-scale</td> <td>定义最小缩放值，他的值必需小于等于 maximum-scale 的值</td> <td>一个 0.0 到 10.0 之间的正数</td></tr> <tr><td>user-scalable</td> <td>一个布尔值，用户是否可以缩放页面</td> <td>yes 或 no</td></tr></tbody></table> <p>使用 js 动态设置 viewport 属性</p> <blockquote><p>原理：通过设置 viewport 的 initial-scale 相关属性 , 将所有设备布局视口的宽度调整为设计图的宽度</p></blockquote> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">//定义设计稿宽度为375</span>
+<span class="token keyword">const</span> <span class="token constant">DESIGN_WIDTH</span> <span class="token operator">=</span> <span class="token number">375</span><span class="token punctuation">;</span>
+<span class="token comment">//通过设置meta元素中content的initial-scale值达到移动端适配</span>
+<span class="token keyword">const</span> <span class="token function-variable function">setViewport</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">//计算当前屏幕的宽度与设计稿比例</span>
+  <span class="token keyword">let</span> scale <span class="token operator">=</span> window<span class="token punctuation">.</span>screen<span class="token punctuation">.</span>width <span class="token operator">/</span> <span class="token constant">DESIGN_WIDTH</span><span class="token punctuation">;</span>
+  <span class="token comment">// 获取元素</span>
+  <span class="token keyword">let</span> meta <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">&quot;meta[name=viewport]&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">let</span> content <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">width=</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token constant">DESIGN_WIDTH</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">, initial-scale=</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>scale<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">, maximum-scale=</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>scale<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">, minimum-scale=</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>scale<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span>
+  <span class="token comment">// 判断是否已存在</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>meta<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    meta <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">&quot;meta&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    meta<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">&quot;name&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;viewport&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    document<span class="token punctuation">.</span>head<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>meta<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  meta<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">&quot;content&quot;</span><span class="token punctuation">,</span> content<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token function">setViewport</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//   监听屏幕变化事件</span>
+window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">&quot;resize&quot;</span><span class="token punctuation">,</span> setViewport<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//   监听屏幕翻转事件</span>
+window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">&quot;orientationchange&quot;</span><span class="token punctuation">,</span> setViewport<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/boke/HTMLCSS/HTML5CSS3.html" class="prev">
+        HTML5CSS3
+      </a></span> <span class="next"><a href="/boke/HTMLCSS/Canvas实现两张图片合成.html">
+        Canvas 实现两张图片合成
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/boke/assets/js/app.4de19324.js" defer></script><script src="/boke/assets/js/2.474ec04b.js" defer></script><script src="/boke/assets/js/8.edcd77b1.js" defer></script>
+  </body>
+</html>
