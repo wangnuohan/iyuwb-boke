@@ -9,6 +9,7 @@ module.exports = {
   }]
  ],
  base: '/boke/',
+ // theme: 'antdocs',
  themeConfig: {
   logo: 'http://iyuwb.cn/img/wenbo.jpg',
   // 导航栏可以下拉列表
@@ -58,6 +59,7 @@ module.exports = {
     'Canvas实现两张图片合成'
    ],
    '/Notes/': [
+    '个人简历',
     '面试题总结',
     '前端笔记',
     '前端工程师进阶之手撕代码',

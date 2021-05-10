@@ -8,9 +8,9 @@
 
 ### 原始类型
 
->     最新的ECMAScript定义了9中数据类型
->     其中包括6中原始类型：Number，String，Boolean，undefined，Symbol，Bight
->     除此之外还有：null，Object，Function
+> 最新的 ECMAScript 定义了 9 中数据类型
+> 其中包括 6 中原始类型：Number，String，Boolean，undefined，Symbol，Bight
+> 除此之外还有：null，Object，Function
 
 - SymBol 为 ES6 新添加数据类型，可以用作对象键值。
 - BigInt 是一种数字类型的数据，它可以表示任意精度格式的整数。

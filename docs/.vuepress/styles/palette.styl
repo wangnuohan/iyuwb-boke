@@ -1,0 +1,95 @@
+// 头部链接分类
+#app .navbar .links .nav-links a.nav-link{
+  line-height: 2rem;
+  color #444;
+  font-weight: normal;
+}
+
+#app .navbar .links .nav-links .nav-item{
+  padding:0 6px
+}
+// 头部搜索框
+#app .navbar .links .nav-links{
+ margin-left :2.5rem 
+}
+#app .navbar .search-box input{
+ width: 12.5rem ;
+ border-radius: 0.5rem;
+}
+
+// 侧边滚动条
+#app .sidebar::-webkit-scrollbar {
+/*滚动条整体样式*/
+/*高宽分别对应横竖滚动条的尺寸*/
+  width: 5px;     
+  height: 2px;
+}
+#app .sidebar::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+  border-radius: 10px;
+  background: #ddd;
+}
+
+// 侧边菜单
+#app .sidebar > .sidebar-links > li:not(:first-child) {
+    margin-top: 0.2rem;
+}
+#app .sidebar > .sidebar-links > li > a.sidebar-link{
+  color: #333;
+  padding-left:1.5rem;
+  font-weight: normal;
+  font-size: 0.875rem;
+  line-height: 2;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+  border-left: none
+  border-right: 0.35rem solid transparent
+}
+body::-webkit-scrollbar { 
+ width:2px;  background:#eee; border-radius:10px;
+} 
+#app .sidebar > .sidebar-links > li > a.sidebar-link.active {
+  color: #3eaf7c;
+  background-color: rgba(62, 175, 124, 0.1)
+  border-right-color:  #3eaf7c;
+}
+#app .sidebar .sidebar-sub-headers{
+  padding-left:1.5rem;
+  font-size: 0.875rem;
+  line-height: 2.75;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+  a{
+    color: #666;
+  }
+  a.active.sidebar-link{
+    color: #3eaf7c;
+  }
+}
+
+// 文章内容覆盖
+// 大盒子
+#app .page .theme-default-content:not(.custom){
+ max-width: 100%
+ padding: 2rem 5rem
+}
+// 全局颜色
+#app .page .theme-default-content   {
+    color:#333
+}
+
+// 全局行高 
+#app .page .theme-default-content  p, ul, ol {
+    line-height: 2;
+}
+// 引用做边框颜色更改
+
+#app .page .theme-default-content  blockquote{
+  background-color: rgba(62, 175, 124, 0.1)
+  padding: 0.75rem 0 0.75rem 1rem
+  border-left: 0.25rem solid #3eaf7c
+  p{
+   color:#666
+  }
+}
