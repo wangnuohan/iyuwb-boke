@@ -65,7 +65,8 @@ module.exports = {
     '前端工程师进阶之手撕代码',
     'HTTP请求详解',
     'NPM和NPX区别',
-    'WebSocket简单了解'
+    'WebSocket简单了解',
+    '[JavaScript高级程序设计]读书笔记'
    ],
    '/PHP/': [
     'PHP',
