@@ -1,6 +1,14 @@
 module.exports = {
  title: '耶温博客',
  description: '小耶温学习笔记',
+ // icon
+ head: [
+  ['link', {
+   rel: 'icon',
+   href: 'http://iyuwb.cn/img/boke.ico'
+  }]
+ ],
+ base: '/boke/',
  themeConfig: {
   logo: 'http://iyuwb.cn/img/wenbo.jpg',
   // 导航栏可以下拉列表
