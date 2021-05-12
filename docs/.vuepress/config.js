@@ -38,8 +38,8 @@ module.exports = {
     link: '/React/React'
    },
    {
-    text: 'PHP',
-    link: '/PHP/PHP'
+    text: '读书笔记',
+    link: '/读书笔记/[JavaScript高级程序设计]读书笔记'
    },
   ],
   sidebar: {
@@ -66,10 +66,9 @@ module.exports = {
     'HTTP请求详解',
     'NPM和NPX区别',
     'WebSocket简单了解',
-    '[JavaScript高级程序设计]读书笔记'
    ],
-   '/PHP/': [
-    'PHP',
+   '/读书笔记/': [
+    '[JavaScript高级程序设计]读书笔记',
    ],
    '/React/': [
     'React',
