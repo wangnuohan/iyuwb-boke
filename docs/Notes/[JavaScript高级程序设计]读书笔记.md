@@ -741,7 +741,7 @@ console.log(typeof obj); //object
 
 :::
 
-Boolean
+### Boolean
 
 Boolean 的实例会重写 valueOf()方法，返回一个原始值 true 或者 false，toString() 方法被调用时也会被覆盖，返回字符串 true 或者 false。
 
@@ -750,4 +750,127 @@ let obj = new Boolean(false);
 console.log(obj && true); //true
 ```
 
-Number
+### Number
+
+Number 类型提供了几个用于将数值格式化为字符串的方法
+
+- `toFixed()`:返回包含指定小数点位数的数值字符串，该方法会四舍五入。位数不够会自动填充 0。
+- `toExponential()`：与`toFixed()`基本一直，但是返回科学计数法表示的数值字符串，接受一个参数表示结果中小数的位数。
+
+::: details 点击查看代码
+
+```js
+var num = 123.126;
+console.log(num.toFixed(2)); //123.13
+console.log(num.toFixed(6)); //123.126000
+
+console.log(num.toExponential(2)); //1.23e+2
+console.log(num.toExponential(6)); //1.231260e+2
+```
+
+:::
+
+`Number.isInteger()` （ES6 新增）：用来判断一个舒适是否保存整数
+
+### String
+
+> 每个 String 对象都有一个 length 属性，表示字符串中字符的数量
+> JavaScript 字符串有 16 位 Code Unit 组成。每 16 位码元对应一个字符。
+
+- `charAt()`：返回指定索引位置的字符。
+- `charCodeAt()`：返回指定索引位置的字符的字符编码
+- `fromCharCode()`：返回根据指定 UFT-16 码创建的字符串，可以接受多个数值
+
+::: tip 注意
+
+代理对(使用两个 16 位码元)编码字符：可以使用`codePointAt()`和`fromCodePoint()`代替
+:::
+
+字符串操作方法
+
+- `concat()`：拼接多个字符串
+- `slice()`：提取子字符串，第一个参数位开始，第二个参数位结束，可以为负数（从字符串尾部往前计数）
+- `substring()`：与`slice()`一致，第二个参数为负值时，将转换成 0
+- `substr()`：提取子字符串，第一个参数位开始，第二个参数用提取的长度
+
+以上方法都不会更改原本字符串，只会返回一个新的字符串
+
+字符串位置方法
+
+- `indexOf()`从字符串开头开始搜索传入的字符串，并返回位置，没有找到返回-1
+- `lastIndexOf()`：从字符串末尾开始搜索传入字符串，并返回位置，没有找到返回-1
+
+字符串包含方法（ES6 新增）
+
+用于判断字符串中是否包含另一个字符串的方法
+
+- `startsWith()`：检查开始于索引 0 的匹配项，第二个参数表示开始搜索的位置
+- `endsWith()`：检查开始于索引(string.length -substring.length)的匹配项
+- `includes()`：检查整个字符串，第二个参数表示开始搜索的位置
+
+::: details 点击显示代码
+
+```js
+var str = "qweasd";
+console.log(str.startsWith("qwe")); //true
+console.log(str.startsWith("qwe", 1)); //false
+console.log(str.startsWith("we", 1)); //true
+
+console.log(str.endsWith("asd")); //true
+
+console.log(str.includes("we", 1)); //true
+```
+
+:::
+
+去除字符串两端空格符
+
+- `trim()`：去除字符串两端的空格，返回一个新的字符串
+- `trimLeft()`：去除字符串中左边的空格
+- `trimRight()`：去除字符串中右边的空格
+
+字符串大小写转换
+
+- `toLowerCase()`：转换小写
+- `toLocaleLowerCase()`：转换小写
+- `toUpperCase()`：转换大写
+- `toLocaleUpperCase()`：转换大写
+
+字符串正则匹配
+
+> 详情见 正则方程式
+
+其他方法
+
+- `repeat()`：接受一个整数参数，将当前字符串复制多少次，并返回拼接字符串
+- `padStart()`：接受一个整数参数，复制字符串，如果长度不够会填充字符，第二个参数为填充字符（默认为空格）
+- `padEnd()`：与`padStart()`基本一致，填充字符是，一个填充在开始，一个填充在结束
+
+- `localeCompare()`：两个字符串 对比字母表，字母表在前返回-1，在后返回 1，相等则返回 0
+
+::: details 点击查看代码
+
+```js
+var str = "yewen";
+
+console.log(str.padStart(10, "?")); //?????yewen
+console.log(str.padEnd(10, "?")); //yewen?????
+```
+
+:::
+
+字符串迭代与解构
+
+> 字符串的原型上暴露了一个迭代器方法，表示可以迭代字符串中的每个字符
+
+> 可以使用 for-of 语句
+
+字符串可以使用解构语法
+
+```js
+let str = "abc";
+console.log(...str); //a b c
+console.log([...str]); //[ a , b , c ]
+```
+
+### 单例内置对象
