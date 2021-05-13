@@ -1,4 +1,4 @@
-# H5 离线存储-使用 serverWorker 实现
+# JavaScript 深入理解-H5 离线储存
 
 ## 离线存储所用技术
 

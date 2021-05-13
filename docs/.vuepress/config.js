@@ -12,6 +12,11 @@ module.exports = {
  // theme: 'antdocs',
  themeConfig: {
   logo: 'http://iyuwb.cn/img/wenbo.jpg',
+  //搜索
+  // algolia: {
+  //  apiKey: '<API_KEY>',
+  //  indexName: '<INDEX_NAME>'
+  // },
   // 导航栏可以下拉列表
   nav: [{
     text: 'Notes',
@@ -45,13 +50,14 @@ module.exports = {
   sidebar: {
    '/JavaScript/': [
     'JavaScript笔记',
+    'JavaScript深入理解-内置对象方法',
     'JavaScript深入理解-原型链',
     'JavaScript深入理解-正则表达式',
     'JavaScript深入理解-ECMAScript 6',
     'JavaScript深入理解-Promise',
     'JavaScript深入理解-PWA渐进式应用',
     'JavaScript深入理解-Set、Map、WeakSet和WeakMap',
-    'H5离线储存-使用serverWorker实现'
+    'JavaScript深入理解-H5离线储存'
    ],
    '/HTMLCSS/': [
     'HTML5CSS3',
@@ -59,6 +65,7 @@ module.exports = {
     'Canvas实现两张图片合成'
    ],
    '/Notes/': [
+    '前端学习路线',
     '个人简历',
     '面试题总结',
     '前端笔记',
@@ -69,6 +76,7 @@ module.exports = {
    ],
    '/读书笔记/': [
     '[JavaScript高级程序设计]读书笔记',
+    '[HTTP图解]读书笔记'
    ],
    '/React/': [
     'React',
