@@ -1047,4 +1047,56 @@ console.log(arr2.fill(4, 2, 4));
 
 操作和位置方法
 
-- `indexOf`
+- `indexOf` 返回要查找的元素在数组中的位置，如果没找到则返回-1
+- `lastIndexOf()` 从后往前查找，返回要查找的元素在数组中的位置，如果没找到则返回-1
+- `includes()` ECMAScript7 新增的，返回布尔值，表示是否查找到
+
+::: tip 注意
+以上方法按严格相等（===）搜索判断
+:::
+
+- `find()` 返回第一个匹配的元素
+- `findIndex()` 返回第一个匹配元素的索引
+
+迭代方法
+
+- `every()` 数组每一项都运行传入的函数,都返回 `true` 这个方法返回 `true`
+- `filter()` 数组每一项都运行传入的函数，函数返回 true 的项会组成数组之后返回
+- `forEach()` 对数组每一项都运行传入的函数，没有返回值。
+- `map()` 对数组每一项都运行传入的函数，返回由每次函数调用的结果构成的数组
+- `some()`对数组每一项都运行传入的函数，如果有一项函数返回 true，则这个方法返回 true
+
+归并方法
+
+- `reduce()`迭代数组的所有项，并在此基础上构建一个最终返回值
+- `reduceRight()`迭代数组的所有项，并在此基础上构建一个最终返回值,最后一项开始遍历至第一项
+
+### 定型数组
+
+::: danger 注意
+需要深入研究
+:::
+
+> 定型数组（typed array）是 ECMAScript 新增的结构，目的是提升向原生库传输数据的效率
+
+::: tip 注意
+JavaScript 并没有“TypedArray”类型，它所指的其实是一种特殊的包含数值类型的数组
+:::
+
+ArrayBuffer
+
+> Float32Array 实际上是一种“视图”，可以允许 JavaScript 运行时访问一块名为 ArrayBuffer 的预分配内存。ArrayBuffer 是所有定型数组及视图引用的基本单位。
+
+ArrayBuffer 创建之后不能在调整大小
+
+```js
+const buf = new ArrayBuffer(16); //在内存中分配16字节
+
+console.log(buf.byteLength); //16
+```
+
+DataView
+
+> DataView 允许读写 ArrayBuffer 的视图
+
+> 对已有的 ArrayBuffer 读取或写入时才能创建 DataView 实例, 可以使用全部或部分 ArrayBuffer,且维护着对该缓冲实例的引用，以及视图在缓冲中开始的位置
