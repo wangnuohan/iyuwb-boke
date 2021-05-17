@@ -2,7 +2,7 @@
 
 > 包括 React 基础、React-Router、PubSub、Redex、Ant-Design
 
-## React 基础
+## React 了解
 
 > [React 中文官网](https://react.docschina.org/)
 
@@ -31,9 +31,11 @@
 
 ## React 入门
 
-### React 的基本适用
+### 案例
 
-```js
+::: details 点击查看代码
+
+```html
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -62,5 +64,92 @@
     </script>
   </body>
 </html>
+```
 
+:::
+
+### 创建 DOM 的两种方法
+
+#### JavaScript
+
+> 嵌套元素不方便
+
+::: details 点击查看代码
+
+```html
+<script type="text/babel">
+  const vDom = React.createElement("h1", { id: "title" }, "Hello World");
+  ReactDOM.render(vDom, document.querySelector(".test"));
+</script>
+```
+
+:::
+
+### JSX
+
+::: details 点击查看代码
+
+```html
+<script type="text/babel">
+  const vDom = <h1>Hello world</h1>;
+  ReactDOM.render(vDom, document.querySelector(".test"));
+</script>
+```
+
+:::
+
+多层嵌套元素
+
+> 方便书写元素，原理还是利用`React.createElement`创建
+
+::: details 点击查看代码
+
+```html
+<script type="text/babel">
+  const vDom = (
+    <h1 id="title">
+      <span> Helle world </span>
+    </h1>
+  );
+  ReactDOM.render(vDom, document.querySelector(".test"));
+</script>
+```
+
+:::
+
+### 虚拟 DOM 与真实 DOM
+
+查看虚拟 DOM 类型
+
+- 虚拟 DOM 本质是一个`Object`对象
+- 虚拟 DOM 对象属性比真实 DOM 少，因为虚拟 DOM 是 React 内部使用，无需真实 DOM 上那么多的属性
+- 虚拟 DOM 最终会被 React 转化为真实 DOM，渲染呈现到页面
+
+虚拟 DOM
+
+```jsx
+const vDom = (
+  <h1 id="title">
+    <span> Helle world </span>
+  </h1>
+);
+
+const =document.get
+
+console.log(vDom);
+console.log(typeof vDom); //object
+
+```
+
+真实 DOM
+::: tip 注意
+因为使用 console.log 打印的直接是元素，所以需要需要 debugger 在控制台查看真实 DOM 属性
+:::
+
+```js
+//真实dom
+const tDom = document.querySelector(".test");
+//因为使用console.log打印的直接是元素，所以需要需要debugger在控制台查看真实DOM属性
+debugger;
+console.log(tDom);
 ```
