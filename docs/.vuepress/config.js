@@ -40,7 +40,7 @@ module.exports = {
    },
    {
     text: 'React',
-    link: '/React/React'
+    link: '/React/React入门'
    },
    {
     text: '读书笔记',
@@ -79,7 +79,7 @@ module.exports = {
     '[HTTP图解]读书笔记'
    ],
    '/React/': [
-    'React',
+    'React入门',
    ],
    '/TypeScript/': [
     '从0开始了解TypeScript',

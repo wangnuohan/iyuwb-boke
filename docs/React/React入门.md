@@ -29,11 +29,17 @@
 - 模块化
 - 原型、原型链
 
-## React 入门
+## 基本适用
 
-### React 的基本适用
+### JSX 语法
 
-```js
+> 预处理器 可以直接写元素标签
+
+### Hello World
+
+::: details 点击查看代码
+
+```html
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -55,12 +61,44 @@
   </head>
   <body>
     <div class="test"></div>
-
     <script type="text/babel">
       const vDom = <h1>Hello world</h1>;
       ReactDOM.render(vDom, document.querySelector(".test"));
     </script>
   </body>
 </html>
-
 ```
+
+:::
+
+### 虚拟 DOM 的两种创建方法
+3
+#### JavaScript
+
+> `React.createElement('h1',{id:title},'hello,React')`
+
+> 使用`React.createElement`创建
+
+::: details 点击查看代码
+
+```html
+<script type="text/babel">
+  const vDom = React.createElement("h1", { id: "title" }, "hello,React");
+  ReactDOM.render(vDom, document.querySelector(".test"));
+</script>
+```
+
+:::
+
+#### JSX
+
+::: details 点击查看代码
+
+```html
+<script type="text/babel">
+  const vDom = <h1>Hello world</h1>;
+  ReactDOM.render(vDom, document.querySelector(".test"));
+</script>
+```
+
+:::
