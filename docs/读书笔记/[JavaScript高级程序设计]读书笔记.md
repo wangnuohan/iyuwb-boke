@@ -1073,29 +1073,40 @@ console.log(arr2.fill(4, 2, 4));
 
 ### 定型数组
 
-::: danger 注意
-需要深入研究
-:::
-
 > 定型数组（typed array）是 ECMAScript 新增的结构，目的是提升向原生库传输数据的效率
+
+::: tip 注意
+保存特殊类型数值的数组，方便直接传递给某些场景，即不需要再做类型转换，提升性能
+:::
 
 ::: tip 注意
 JavaScript 并没有“TypedArray”类型，它所指的其实是一种特殊的包含数值类型的数组
 :::
 
-ArrayBuffer
+WebGL：专用于 2D 和 3D 计算机图形的子集，开发者利用它能够编写设计负责图形的应用程序，他会被兼容 WebGL 的浏览器原生解释执行。但是 JavaScript 数组与其原生数组之间不匹配，因为 JavaScript 默认是双精度浮点格式的。
 
-> Float32Array 实际上是一种“视图”，可以允许 JavaScript 运行时访问一块名为 ArrayBuffer 的预分配内存。ArrayBuffer 是所有定型数组及视图引用的基本单位。
+于是出现了`CanvasFloatArray`，最终变成`Float32Array`
 
-ArrayBuffer 创建之后不能在调整大小
+> Float32Array 实际上是一种“视图”，可以允许 JavaScript 运行时访问一块名为 ArrayBuffer 的预分配内存。
+
+#### ArrayBuffer
+
+> ArrayBuffer 是所有定型数组及视图引用的基本单位。
+
+> `ArrayBuffer()`是一个普通的 JavaScript 构造函数，可用于在内存中分配特定数量的字节空间
+
+ArrayBuffer 创建之后不能在调整大小，但是可以使用`slice()`复制其全部或者部分到一个新的实例中
 
 ```js
 const buf = new ArrayBuffer(16); //在内存中分配16字节
-
 console.log(buf.byteLength); //16
+
+console.log(buf.slice(4, 12)); //8
 ```
 
-DataView
+对 ArrayBuffer 的读取或写入，必须通过视图实现。
+
+#### DataView
 
 > DataView 允许读写 ArrayBuffer 的视图
 
