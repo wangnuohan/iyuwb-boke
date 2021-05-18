@@ -88,7 +88,12 @@ module.exports = {
    '/Vue/': [
     'Vue进阶之旅',
     '在Vue2.0中使用Less与Sass',
-    'Vue相关面试题'
+    // 'Vue相关面试题'
+   ],
+   '/中原集团/': [
+    '发版流程',
+    '负责项目结构'
+    // 'Vue相关面试题'
    ]
   },
   displayAllHeaders: true // 默认值：false 显示所有页面的标题链接
