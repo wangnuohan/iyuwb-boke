@@ -20,10 +20,10 @@ module.exports = {
   // 导航栏可以下拉列表
   nav: [{
     text: 'Notes',
-    link: '/Notes/面试题总结'
+    link: '/Notes/个人简历'
    }, {
     text: 'JavaScript',
-    link: '/JavaScript/JavaScript笔记'
+    link: '/JavaScript/JavaScript-常用方法'
    },
    {
     text: 'HTMLCSS',
@@ -50,6 +50,7 @@ module.exports = {
   sidebar: {
    '/JavaScript/': [
     'JavaScript笔记',
+    'JavaScript-常用方法',
     'JavaScript深入理解-内置对象方法',
     'JavaScript深入理解-原型链',
     'JavaScript深入理解-正则表达式',
@@ -57,7 +58,8 @@ module.exports = {
     'JavaScript深入理解-Promise',
     'JavaScript深入理解-PWA渐进式应用',
     'JavaScript深入理解-Set、Map、WeakSet和WeakMap',
-    'JavaScript深入理解-H5离线储存'
+    'JavaScript深入理解-H5离线储存',
+    'JavaScript简单了解-WebSocket',
    ],
    '/HTMLCSS/': [
     'HTML5CSS3',
@@ -67,12 +69,11 @@ module.exports = {
    '/Notes/': [
     '前端学习路线',
     '个人简历',
-    '面试题总结',
     '前端笔记',
-    '前端工程师进阶之手撕代码',
+    '计算机基础-浏览器是运作原理',
+    'HTTPS原理解析',
     'HTTP请求详解',
     'NPM和NPX区别',
-    'WebSocket简单了解',
    ],
    '/读书笔记/': [
     '[JavaScript高级程序设计]读书笔记',
@@ -87,7 +88,12 @@ module.exports = {
    '/Vue/': [
     'Vue进阶之旅',
     '在Vue2.0中使用Less与Sass',
-    'Vue相关面试题'
+    // 'Vue相关面试题'
+   ],
+   '/中原集团/': [
+    '发版流程',
+    '负责项目结构'
+    // 'Vue相关面试题'
    ]
   },
   displayAllHeaders: true // 默认值：false 显示所有页面的标题链接
