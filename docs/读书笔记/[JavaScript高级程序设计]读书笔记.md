@@ -1111,3 +1111,29 @@ console.log(buf.slice(4, 12)); //8
 > DataView 允许读写 ArrayBuffer 的视图
 
 > 对已有的 ArrayBuffer 读取或写入时才能创建 DataView 实例, 可以使用全部或部分 ArrayBuffer,且维护着对该缓冲实例的引用，以及视图在缓冲中开始的位置
+
+::: details 点击查看代码
+
+```js
+const buf = new ArrayBuffer(16);
+const fullDataView = new DataView(buf);
+//const fullDataView = new DataView(buf,0,8 );
+console.log(fullDataView.byteOffset); //0   //0
+console.log(fullDataView.byteLength); //16   //8
+console.log(fullDataView.buffer === buf); //true
+```
+
+:::
+
+#### ElementType
+
+> DataView 对存储在缓冲内的数据类型没有预设，它暴露的 API 强制开发者在读、写时指定一个 ElementType，然后 DataView 就会忠实地为读、写而完成相应的转换
+
+- `Int8` 8 位有符号整数 -128-127
+- `Uint8` 8 位无符号整数 0-255
+- `Int16` 16 位有符号整数 -32768-32767
+- `Uint16` 16 位无符号整数 0-65535
+- `Int32` 32 位有符号整数 -128-127
+- `Uint32` 32 位有符号整数 -128-127
+- `Float32` 32 位有符号整数 -128-127
+- `Float64` 64 位有符号整数 -128-127
