@@ -29,11 +29,22 @@
 - 模块化
 - 原型、原型链
 
-## React 入门
+## 基本适用
+
+<<<<<<< HEAD
+
+### JSX 语法
+
+> 预处理器 可以直接写元素标签
+
+### Hello World
+
+=======
 
 ### 案例
 
-::: details 点击查看代码
+> > > > > > > 6676dbc52ca91a59960f68739086d5bc42a47e21
+> > > > > > > ::: details 点击查看代码
 
 ```html
 <!DOCTYPE html>
@@ -57,7 +68,6 @@
   </head>
   <body>
     <div class="test"></div>
-
     <script type="text/babel">
       const vDom = <h1>Hello world</h1>;
       ReactDOM.render(vDom, document.querySelector(".test"));
@@ -153,3 +163,5 @@ const tDom = document.querySelector(".test");
 debugger;
 console.log(tDom);
 ```
+
+:::
