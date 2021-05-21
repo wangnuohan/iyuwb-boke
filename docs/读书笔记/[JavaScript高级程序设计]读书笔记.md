@@ -5,7 +5,9 @@
 ### 浏览器内核
 
 - Chrome：Blink、V8
+
   > Node.js 是一个基于 Chrome V8 引擎 的 JavaScript 运行时。
+
 - Firefox：Gecko、SpiderMonkey
 - Safari：Webkit、JavaScriptCore
 - 微软：Trident、EdgeHtml、Cha kra
@@ -1125,7 +1127,7 @@ console.log(fullDataView.buffer === buf); //true
 
 :::
 
-#### ElementType
+##### ElementType
 
 > DataView 对存储在缓冲内的数据类型没有预设，它暴露的 API 强制开发者在读、写时指定一个 ElementType，然后 DataView 就会忠实地为读、写而完成相应的转换
 
@@ -1133,7 +1135,56 @@ console.log(fullDataView.buffer === buf); //true
 - `Uint8` 8 位无符号整数 0-255
 - `Int16` 16 位有符号整数 -32768-32767
 - `Uint16` 16 位无符号整数 0-65535
-- `Int32` 32 位有符号整数 -128-127
-- `Uint32` 32 位有符号整数 -128-127
-- `Float32` 32 位有符号整数 -128-127
-- `Float64` 64 位有符号整数 -128-127
+- `Int32` 32 位有符号整数 -2147483648-2147483647
+- `Uint32` 32 位无符号整数 0-4294967295
+- `Float32` 32 位 IEEE-754 浮点数 -3.4e+38 - +3.4e+38
+- `Float64` 64 位 IEEE-754 浮点数 -1.7e+308 - +1.7e+308
+
+#### 定型数组
+
+> 定型数组是另一种形式的 ArrayBuffer 视图。虽然概念上与 DataView 接近，但定型数组的区别在于，它特定于一种 ElementType 且遵循系统原生的字节序。相应地，定型数组提供了适用面更广的 API 和更高的性能。
+
+创建定型数组：
+
+创建定型数组的方式包括读取已有的缓冲、使用自有缓冲、填充可迭代结构，以及填充基于任意类型的定型数组。另外，通过`<ElementType>.from()`和`<ElementType>.of()`
+
+- 定型数组和普通数组相似，可以使用数组的部分相关操作符方法和属性
+- 定型数组同样使用数组缓存（ArrayBuffer）来存储数组，因为无法适用相关合并，复制修改数组方法
+- 但是定型数组提供了两个新的方法`set()`和`subarray()`
+
+### Map
+
+> Map 可以使用任何 Javascript 数据类型作为建，数据会按照创建顺序插入到实例，Map 是一个可迭代对象
+
+::: tip 注意
+
+[Map,Set,WeakMap 以及 WeakSet 详解](http://iyuwb.cn/boke/JavaScript/JavaScript%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-Set%E3%80%81Map%E3%80%81WeakSet%E5%92%8CWeakMap.html)
+
+:::
+
+#### 创建 Map
+
+可以给 Map 构造函数传入一个可迭代对象，需要包含键/值对数组。
+
+```
+const m1 = new Map([
+    ["key": "123"],
+    ["key": "123"],
+    ["key": "123"]
+]);
+```
+
+#### 相关方法属性
+
+- `size` 属性，获取映射中的键值对数量
+- `set()` 添加键值对
+- `get()` 获取数据
+- `has()` 查询数据
+- `delete()` 删除数据
+- `clear()` 清空数据
+
+#### 与 Object 对比
+
+- 内存占用，在给定内存的情况下 Map 多储存键值对
+- 插入性能，大量插入操作，Map 性能更加
+- 查找速度，大量查找 Oject 会更好
