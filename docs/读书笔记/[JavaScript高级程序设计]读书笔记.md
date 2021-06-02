@@ -1392,3 +1392,50 @@ console.log(s[Symbol.iterator]); //Object [String Iterator] {}
 - `Promise.all()` 接收由期约组成的可迭代对象
 - `Promise.race()` 接收由期约组成的可迭代对象
 - `yield *`操作符，在生成器中使用
+
+原生语言解构会在后台调用提供的可迭代对象的这个工厂函数，从而返回一个迭代器：
+:::details 点击查看代码
+
+```js
+let arr = ["hello", "world", "heihei"];
+
+//for of
+for (const item of arr) {
+  console.log(item); // hello world heihei
+}
+
+//解构
+let [a, b, c] = arr;
+console.log(a, b, c); // hello world heihei
+
+let arr2 = [...arr, "yewen"];
+console.log(arr2); //[ 'hello', 'world', 'heihei', 'yewen' ]
+
+//Array.from()
+let arr3 = Array.from(arr);
+console.log(arr3); //[ 'hello', 'world', 'heihei' ]
+
+let set = new Set(arr);
+console.log(set); //Set(3) { 'hello', 'world', 'heihei' }
+
+let arr4 = [
+  ["yewen", 1],
+  ["zhijian", 2],
+  ["wenbo", 3],
+];
+let map = new Map(arr4);
+console.log(map); //Map(3) { 'yewen' => 1, 'zhijian' => 2, 'wenbo' => 3 }
+```
+
+:::
+
+如果对象原型链上的父类实现了 Iterable 接口，那这个对象也实现了该接口：
+:::details 点击查看代码
+
+```js
+let arr = ["hello", "world", "heihei"];
+
+//for - of 循环
+```
+
+:::
