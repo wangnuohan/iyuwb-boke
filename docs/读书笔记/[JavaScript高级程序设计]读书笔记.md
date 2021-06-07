@@ -1433,9 +1433,59 @@ console.log(map); //Map(3) { 'yewen' => 1, 'zhijian' => 2, 'wenbo' => 3 }
 :::details 点击查看代码
 
 ```js
-let arr = ["hello", "world", "heihei"];
-
-//for - of 循环
+class YewenArray extends Array {}
+let wenbo = new YewenArray("1", "2", "3");
+for (let item of wenbo) {
+  console.log(item); // 1 2 3
+}
 ```
+
+:::
+
+### 迭代器协议
+
+迭代器是一种一次性使用的对象，用来迭代预期关联的可迭代对象：
+
+- 迭代器 API 使用 `next()`方法可以迭代对象中遍历数据
+
+  - 返回一个 IteratorResult 对象
+  - IteratorResult 对象有两个属性 done 和 value
+  - done：为一个布尔值，便是是否可以再次调用 `next()` 获取下一个值，done: true 状态称为“耗尽”。
+  - value：包含可迭代对象的下一个值
+
+- 迭代器使用游标记录遍历可迭代对象。如果在迭代过程中对象被修改，迭代器也会反映相应的变化
+  :::details 点击查看代码
+
+```js
+let arr = ["hei", "ha", "hu"];
+let iter = arr[Symbol.iterator]();
+console.log(iter);
+console.log(iter.next());
+console.log(iter.next());
+console.log(iter.next());
+console.log(iter.next());
+//Object [Array Iterator] {}
+//{ value: 'hei', done: false }
+//{ value: 'ha', done: false }
+//{ value: 'hu', done: false }
+//{ value: undefined, done: true }
+
+//迭代过程中修改
+let arr = ["123", "456"];
+let iter = arr[Symbol.iterator]();
+
+console.log(iter.next());
+arr.push("789");
+console.log(iter.next());
+console.log(iter.next());
+
+//{ value: '123', done: false }
+//{ value: '456', done: false }
+//{ value: '789', done: false }
+//{ value: undefined, done: true }
+```
+
+:::
+:::tip 注意
 
 :::
