@@ -1454,7 +1454,8 @@ for (let item of wenbo) {
   - value：包含可迭代对象的下一个值
 
 - 迭代器使用游标记录遍历可迭代对象。如果在迭代过程中对象被修改，迭代器也会反映相应的变化
-  :::details 点击查看代码
+
+:::details 点击查看代码
 
 ```js
 let arr = ["hei", "ha", "hu"];
@@ -1486,6 +1487,78 @@ console.log(iter.next());
 ```
 
 :::
-:::tip 注意
+
+::: tip 注意
+迭代器维护着一个指向可迭代对象的引用，因此迭代器会阻止垃圾回收程序回收可迭代对象。
+:::
+
+### 自定义迭代器
+
+::: details 点击查看代码
+
+```js
+class Counter {
+  constructor(limit) {
+    this.limit = limit;
+  }
+  [Symbol.iterator]() {
+    (letcount = 1), (limit = this.limit);
+    return {
+      next() {
+        if (count <= limit) {
+          return { done: false, value: count++ };
+        } else {
+          return { done: true, value: undefined };
+        }
+      },
+    };
+  }
+}
+let counter = new Counter(3);
+for (let i of counter) {
+  console.log(i);
+}
+// 1
+// 2
+// 3
+```
 
 :::
+
+### 提前终止迭代器
+
+- `return()`用于指定在迭代器提前关闭时执行的逻辑
+- 必需返回一个有效的 IteratorResult 对象，可简单返回`{done:true}`
+
+### 生成器
+
+> ES 6 新增一个结构，拥有在一个函数块内暂停和恢复代码执行的能力
+
+### 生成器基础
+
+生成器的形式是一个函数，函数名称前面加一个星号`(*)`表示。
+
+```js
+//生成器声明
+
+function* generatorFn() {}
+
+//or
+let generatorFn = function*() {};
+
+//or
+class Wen {
+  *generatorFn() {}
+}
+console.log(generatorFn);
+
+//[GeneratorFunction: generatorFn]
+```
+
+::: tip 注意
+箭头函数不能用来定义生成器函数
+
+表示生成器的星号不受两侧空格的影响
+:::
+
+调用生成器函数会生成
