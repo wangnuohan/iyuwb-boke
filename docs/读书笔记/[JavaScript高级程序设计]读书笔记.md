@@ -1392,3 +1392,4 @@ console.log(s[Symbol.iterator]); //Object [String Iterator] {}
 - `Promise.all()` 接收由期约组成的可迭代对象
 - `Promise.race()` 接收由期约组成的可迭代对象
 - `yield *`操作符，在生成器中使用
+
