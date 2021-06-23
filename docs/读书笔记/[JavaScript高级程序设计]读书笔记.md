@@ -1561,4 +1561,1134 @@ console.log(generatorFn);
 表示生成器的星号不受两侧空格的影响
 :::
 
-调用生成器函数会生成
+调用生成器函数会产生一个生成器对象：生成器对象一开始处于暂停执行（suspended）的状态。与迭代器相似，生成器对象也实现了Iterator接口，因此具有next()方法。调用这个方法会让生成器开始或恢复执行。
+
+```js
+let g = function* () {}
+console.log(g)
+console.log(g().next())
+//[GeneratorFunction: g]
+//{ value: undefined, done: true }
+```
+生成器对象实现了Iterable接口，他们默认的迭代器是自引用的。
+
+### 通过yield中断执行
+ >` yield`关键字可以让生成器停止和开始执行。
+
+- 生成器函数在遇到yield关键字之前回正常执行。
+- 遇到yield之后，执行回停止，函数作用域的状态会被保留。
+- 只能通过在生成器对象上调用next()
+
+
+:::details 点击查看代码
+```js
+function* generatorfn() {
+ yield 'wenbo01'
+ yield 'wenbo02'
+ return 'returns'
+}
+let g = generatorfn()
+console.log(g.next())
+console.log(g.next())
+console.log(g.next())
+console.log(g.next())
+
+//{ value: 'wenbo01', done: false }
+//{ value: 'wenbo02', done: false }
+//{ value: 'returns', done: true }
+//{ value: undefined, done: true }
+```
+:::
+
+::: tip 注意
+生成器函数内部的执行流程会针对每个生成器对象区分作用域。
+在一个生成器对象上调用next()不会影响其他生成器。
+:::
+
+::: tip 注意
+yield关键字只能在生成器函数内部使用，用在其他地方会抛出异常。
+:::
+
+::: tip 注意
+可以使用星号增强yield的行为，让他能够迭代一个可迭代对象，从而一次产出一个值
+
+```js
+function* generatorfn() {
+ yield*[1, 2, 3]
+
+}
+let g = generatorfn()
+console.log(g.next())
+console.log(g.next())
+console.log(g.next())
+console.log(g.next())
+//{ value: 1, done: false }
+//{ value: 2, done: false }
+//{ value: 3, done: false }
+//{ value: undefined, done: true }
+```
+:::
+
+### 提前终止生成器
+强制生成器进入关闭状态
+- `return()` 所有生成器都有`return()`方法，进入关闭无法恢复
+- `throw()`
+
+:::details 点击查看代码
+```js
+//return 
+function* generatorfn() {
+ yield*[1, 2, 3]
+}
+
+let g = generatorfn()
+console.log(g.next())
+console.log(g.return(4))
+console.log(g.next())
+//{ value: 1, done: false }
+//{ value: 4, done: true }
+//{ value: undefined, done: true }
+
+//throw
+
+
+```
+:::
+
+## 对象，类与面向对象编程
+> 对象：ECMA-262将对象定义为一组属性的无序集合
+
+### 对象属性
+
+描述对象内部特性的属性
+- 数据属性：包含一个保存数据值的位置，值会从这个位置读取，也会写入到这个位置。数据属性有4个特性描述它们的行为。
+- 访问器属性：不包括数值，只包括getter获取和setter设置函数。
+  - setter：在写入访问器属性的时候调用,会调用设置函数并传入新值，这个函数必须决定对数据做出什么修改
+  - getter：在读取访问器属性的时候调用
+
+
+::: tip 注意
+ECMA-262使用一些内部特性来描述属性的特征。这些特性是由为JavaScript实现引擎的规范定义的。因此，开发者不能在JavaScript中直接访问这些特性。
+:::
+#### 数据属性
+
+- 「configurable」：表示属性是否可以通过`delete`删除并重新定义
+- 「enumerable」：表示是否可以通`for-in`循环返回
+- 「writable」：表示属性的值是否可以修改
+- 「value」：包含属性实际的值
+- 以上属性除了value，默认都为`true`
+
+#### 设置数据属性
+> 需要修改属性的默认特性，就必须使用Object.defineProperty()方法
+::: details 点击查看代码
+```js
+let demo = {}
+Object.defineProperty(demo, 'name', {
+ configurable: true,
+ enumerable: true,
+ writable: true,
+ value: 'Yevin'
+})
+
+```
+:::
+#### 访问器属性
+- 「set」：设置函数，在写入属性时调用。默认值为undefined
+- 「get」：获取函数，在读取属性时调用。默认值为undefined。
+
+
+#### 设置访问器属性
+访问器属性不能直接定义，需要借助`Object.defineProperty()`
+::: details 点击查看代码
+```js
+let demo = {
+ _name: 'wenbo'
+}
+console.log(demo, demo._name, demo.name)
+//{_name:'wenbo'}   wenbo  undefined
+let test = ''
+//监听demo的name值，使其在改变和获取的时候改变和返回_name的值
+//实际上，并没有直接改变或者获取demo对象上name的值，而是返回和改变demo上_name的值
+Object.defineProperty(demo, 'name', {
+ get() {
+  return this._name
+ },
+ set(val) {
+  this._name = val
+  test = val
+ }
+})
+console.log(demo, demo._name, demo.name)
+//{_name:'wenbo'}   wenbo  wenbo
+demo.name = "zhijian"
+console.log(demo, demo.name, test)
+//{_name:'zhijian'}  zhijian  zhijian
+```
+:::
+
+#### 获取属性的特性
+
+> 使用Object.getOwnPropertyDescriptor()方法可以取得指定属性的属性描述符。
+
+::: details 点击查看代码
+```js
+let demo = {}
+
+Object.defineProperties(demo, {
+ _name: {
+  value: 'zhijian',
+  enumerable: false
+ },
+ name: {
+  get() {
+   return this._name
+  },
+  set(val) {
+   this._name = val
+  }
+ }
+})
+
+let test = Object.getOwnPropertyDescriptor(demo, '_name')
+console.log(test.value)
+console.log(test.configurable)
+console.log(test.enumerable)
+console.log(test.writable)
+console.log(test.get)
+console.log(test.set)
+//zhijian
+//false
+//false
+//false
+//undefined
+//undefined
+
+let test1 = Object.getOwnPropertyDescriptor(demo, 'name')
+console.log(test1.value)
+console.log(test1.configurable)
+console.log(test1.enumerable)
+console.log(test1.writable)
+console.log(test1.get)
+console.log(test1.set)
+//undefined
+//false
+//false
+//undefined
+//[Function: get]
+//[Function: set]
+```
+:::
+
+### 对象方法
+#### 合并对象
+
+>通过ES6 新增方法 `Object.assign()`合并对象
+
+>方法会使用源对象上的[[Get]]取得属性的值，然后使用目标对象上的[[Set]]设置属性的值。
+
+::: tip 注意
+`Object.assign()`实际上对每个源对象执行的是浅复制。
+并且该方法会改变源对象的数据,即第一个参数对象的数据
+:::
+::: details 点击查看代码
+```js
+let a = {
+ name: 'yewen'
+}
+let b = {
+ name: 'zhijian',
+ age: '18'
+}
+console.log(Object.assign(a, b), a, b)
+//{ name: 'zhijian', age: '18' } { name: 'zhijian', age: '18' } { name: 'zhijian', age: '18' }
+
+
+let a1 = {
+ name: 'yewen',
+ age: '18'
+}
+let b1 = {
+ name: 'zhijian',
+
+}
+console.log(Object.assign(a1, b1), a1, b1)
+//{ name: 'zhijian', age: '18' } { name: 'zhijian', age: '18' } { name: 'zhijian' }
+```
+:::
+####  相等判定
+
+ >ECMAScript 6规范新增了`Object.is()`，方法必须接收两个参数。
+
+#### 增强对象语法
+
+- 属性值简写   
+- 可计算属性
+- 方法名简写
+
+::: details 点击查看代码
+```js
+//属性值简写
+let name="zhijian"
+const obj={
+ name
+}
+//可计算属性
+let name="yewen"
+const obj={
+ [name]:'zhijian'
+}
+//方法名简写
+const obj={
+ eat:function(){}
+}
+const obj={
+ eat(){
+
+ }
+}
+
+```
+:::
+
+#### 对象解构
+> 解构，ES6新增语法，可以在一个语句中使用潜逃数据实现一个或者多个赋值操作
+
+
+```js
+const obj = {
+ a: 1,
+ b: 2
+}
+const {
+ a,
+ b
+} = obj
+console.log(obj, a, b) // {a:1,b:2}   1   2
+
+let {
+ a: c,
+ b: d
+} = obj
+console.log(c, b) // 1  2
+```
+- 解构复制可以值复制需要的属性
+- 如果引用的属性不存在，则该变量的值为undefined
+- 解构复制的同时也可以定义默认值，当属性不存在，变量就为默认值
+
+
+### 对象创建
+- 字面量
+- 构造函数
+
+> ES6正式开始支持类和继承
+
+
+#### 工厂模式
+一种按照特定接口创建对象的方式
+- 解决创建多个类似对象的问题
+- 没有解决对象标识问题，新创建的对象是什么类型
+
+```js
+function creatPerson(name, age, job) {
+ let o = new Object()
+ o.name = name
+ o.age = age
+ o.job = job
+ o.sayName = function () {
+  console.log(this.name)
+ }
+ return o
+}
+
+let person1=creatPerson('zhijian',18,'code')
+```
+
+
+#### 构造函数模式
+
+构造函数是用于构造特定类型对象。
+- 按照惯例，构造函数名称的首字母要大写。
+
+
+```js
+function Person(name, age, job) {
+ this.name = name
+ this.age = age
+ this.job = job
+ this.sayName = function () {
+  console.log(this.name)
+ }
+}
+let person1=new Person('zhijian',18,'code')
+```
+创建Person实力时，应使用new操作符：
+- 在内存中创建一个新对象
+- 这个新对象内部的[[Prototype]]特性被赋值为构造函数的property属性
+- 构造函数内部的this被赋值为这个新对象（this指向新对象）
+- 执行构造函数内部的代码（给新对象添加属性）
+- 如果构造函数返回非空对象，则返回该对象，否则返回刚创建的新对象
+
+::: tip 注意
+- 构造函数也是函数，构造函数需要用new调用
+- 问题：定义的方法会在每个实例上创建一遍
+- 解决方法：可以把函数定义转移刀构造函数外部
+- 也可以通过原型来处理
+:::
+
+#### 原型模式
+
+> 每个函数都会创建一个prototype属性，这个属性是一个对象，包含应该由特定引用类型的实例共享的属性和方法
+
+实际上，这个对象就是通过调用构造函数创建的对象的原型。使用原型对象的好处是，在它上面定义的属性和方法可以被对象实例共享。
+```js
+function Person(name,age){
+ this.name=name
+ this.age=age
+}
+Person.property.sayName=function(){
+ console.log(this.name)
+}
+
+```
+
+::: tip 注意
+原型链理解
+- Object.isPrototypeOf
+- Object.getPrototypeOf
+- Object.setPrototypeOf
+- Object.create()
+
+in操作符会在可以通过对象访问指定属性时返回true，无论该属性是在实例上还是在原型上
+operty()返回false，就说明该属性是一个原型属性
+
+Object.keys()和Object.getOwnPropertyNames()不会从原型链上循环拿取属性
+:::
+
+#### 属性枚举顺序
+ > for-in循环、Object.keys()、Object.getOwnPropertyNames()、Object.getOwnProperty-Symbols()以及Object.assign()在属性枚举顺序方面有很大区别。for-in循环和Object.keys()的枚举顺序是不确定的，取决于JavaScript引擎，可能因浏览器而异。
+ 
+ > Object.getOwnPropertyNames()、Object.getOwnPropertySymbols()和Object.assign()的枚举顺序是确定性的。先以升序枚举数值键，然后以插入顺序枚举字符串和符号键。在对象字面量中定义的键以它们逗号分隔的顺序插入。
+
+#### 对象迭代
+> ES 2017新增两个静态方法
+
+- `Object.values()` 返回对象值的数组
+- `Object.entries()` 返回对象健值对的数组
+
+其他原型语法
+
+自定义prototype属性
+
+:::details 点击显示代码
+```js
+function Person(){}
+
+Person.prototype={
+ name:'zhijian',
+ age:18,
+ sayName(){
+  console.log(this.name)
+ }
+}
+//注意这样设置后 prototype的constructor属性就不指向Person了，因为重写了默认的prototype对象。
+
+//可以手动指向constructor
+
+function Person(){}
+
+Person.prototype={
+ constructor:Person,
+ name:'zhijian',
+ age:18,
+ sayName(){
+  console.log(this.name)
+ }
+}
+//注意：以这种方式恢复constructor属性会创建一个[[Enumerable]]为true的属性。而原生constructor属性默认是不可枚举的
+
+//可以使用Object.defineProperty()方法来定义constructor属性
+
+function Person(){}
+
+Person.prototype={
+ constructor:Person,
+ name:'zhijian',
+ age:18,
+ sayName(){
+  console.log(this.name)
+ }
+}
+Object.defineProperty(Person.prototype,'constructor',{
+ enumerable:false,
+ value:Person
+})
+```
+:::
+
+原型的动态性
+
+> 因为从原型上搜索值的过程是动态的，所以即使实例在修改原型之前已经存在，任何时候对原型对象所做的修改也会在实例上反映出来。
+- 简单来说就是定义实例之后，在原型上添加属性，通过实例仍然能够访问到。
+
+::: tip 注意
+如果实例定义之后，自己重写的原型，在原型上添加的属性则不能访问到。会进行报错
+
+因为重写原型切断了最初原型和构造函数的联系，但是实例引用的仍然是最初的原型。
+:::
+
+::: details 点击查看代码
+```js
+function Person(){}
+//
+let p=new Person(){}
+Person.prototype.sayHi=funciton(){
+ console.log('hi~)
+}
+p.sayHi() // hi~     能够访问到不会报错
+
+
+//重写原型之前创建会报错
+#
+let p=new Person(){}
+Person.prototype={
+ constructor:Person,
+ name:'zhijian',
+ age:'18',
+ job:'coding',
+ sayName(){
+  console.log(this.name)
+ }
+}
+p.sayName() //  报错 
+
+```
+:::
+
+
+原生对象原型
+
+> 原型模式之所以重要，不仅体现在自定义类型上，而且还因为它也是实现所有原生引用类型的模式。所有原生引用类型的构造函数（包括Object、Array、String等）都在原型上定义了实例方法。
+
+比如：
+- Array
+  - sort()
+- String
+  - substring()
+
+- 同样可以该方法给原生引用类型添加自定义方法（但是不建议）
+
+原型中存在的问题
+- 多个实例共享属性
+
+### 继承
+ > 很多对象语言支持两种继承：接口继承和实现继承。前者只继承方法签名，后者继承实际的方法。
+
+ > 实现继承是ESMAScript唯一支持的继承方式，主要通过原型链实现。
+
+#### 原型链继承
+
+::: tip 注意
+原型链
+
+默认情况下，所有引用类型都继承自Object
+:::
+
+> 基本思想：通过原型继承多个引用类型的属性和方法
+
+```js
+function Father() {
+  this.hobby = ["coding", "eat"];
+}
+Father.prototype.skill = function() {
+  console.log("i will javascript");
+};
+function Son() {}
+Son.prototype = new Father();
+```
+- 注意：原型中的引用对象会被所有的实例共享
+- 子类有时候需要覆盖父类的方法，或者增加父类没有的方法。为此，这些方法必须在原型赋值之后再添加到原型上
+
+```js
+function Father() {
+  this.hobby = ["coding", "eat"];
+}
+Father.prototype.skill = function() {
+  console.log("i will javascript");
+};
+function Son() {}
+Son.prototype = new Father();
+Son.prototypr.sonSkill=function(){
+ console.log('eat')
+}
+```
+
+::: tip 注意
+继承时，不能通过对象字面量方式添加新方法，这样会重写原型
+:::
+
+
+确定原型与实例关系
+
+- instanceof 
+- isPrototypeOf() 原型链中包含改原型就返回true
+
+
+#### 借用构造函数继承
+> 基本思想：在子类构造函数中调用父类构造函数
+
+- 存在问题：方法定义子在构造函数内，因此每次创建子类实例都会创建一边方法
+```js
+function Father(name) {
+  this.name = name;
+  this.sayNmae = function() {
+    return this.name;
+  };
+}
+
+function Son(name,age) {
+  Father.call(this, name);
+  this.age=age
+}
+Son.prototype = new Father();
+```
+
+#### 组合继承
+
+> 基本思想：综合原型链和借用构造函数继承，将两者结合起来。
+```js
+function Father(name) {
+  this.name = name;
+}
+Father.prototype.sayName = function() {
+  return this.name;
+};
+
+function Son(name, age) {
+ //继承属性
+  Father.call(this, name);
+  this.age = age;
+}
+//继承方法
+Son.prototype = new Father();
+
+```
+
+#### 原型式继承
+
+```js
+//根本是对传入的对象进行一个浅复制。
+function object(o){
+ function F(){}
+ F.prototype=o
+ return New F()
+}
+
+```
+::: tip 注意
+ES5 通过增加Object.create()将原型式继承的概念规范化了。
+- 方法创建一个新对象，使用现有的对象来提供新创建的对象的__proto__。
+- 该方法接受两个参数
+- 1.作为新对象原型的对象
+- 2.给新对象额外定义属性的对象 可选
+:::
+
+
+#### 寄生式继承
+
+> 基本思想：创建一个实现继承的函数，以某种方式增强对象，然后返回这个对象。
+
+```js
+function createAnother(o){
+ let clone=object(o)
+ clone.sayHi=function(){
+  console.log('hi')
+ }
+ return clone
+}
+
+```
+
+#### 寄生式组合继承
+```js
+//寄生组合继承
+// 组合继承会导致调用两次父类构造函数
+function Father(name) {
+  this.name = name;
+}
+Father.prototype.sayName = function() {
+  return this.name;
+};
+
+function Son(name, age) {
+  Father.call(this, name);
+  this.age = age;
+}
+
+Son.prototype = Object.create(Father.prototype);
+Son.prototype.constructor = Son;
+
+```
+
+### 类
+> ES6引入class关键字，具有正式定义类的能力。
+
+
+#### 定义类
+
+```js
+//类声明
+class Person{}
+//类表达式
+const Animal = class{}
+```
+> 与函数表达式类似，类表达式在它们被求值前也不能引用。不过，与函数定义不同的是，虽然函数声明可以提升，但类定义不能
+
+> 另一个跟函数声明不同的地方是，函数受函数作用域限制，而类受块作用域限制
+
+ 类的构成
+
+- 构造函数方法
+- 实例方法
+- 获取函数方法
+- 设置函数方法
+- 静态类方法
+
+::: details 点击查看代码
+```js
+//空类定义
+class Foo{}
+
+//有构造函数的类
+class Bar{
+ constructor(){
+
+ }
+}
+//有获取函数的类
+class Baz{
+ get myBaz(){}
+}
+
+//有静态方法的类
+class Qux{
+ static myQux(){}
+}
+```
+:::
+
+#### 类构造函数
+
+> constructor关键字用于在类定义块内部创建类的构造函数。方法名constructor会告诉解释器在使用new操作符创建类的新实例时，应该调用这个函数。
+
+实例化
+- 使用new操作符实例化，相当于使用new调用其构造函数
+
+```js
+class Person{
+ constructor(name){
+  console.log('console:',name)
+  this.name=name
+ }
+}
+let p=new Person('zhijian') // console:zhijian
+console.log(p.name) //zhijian
+```
+默认情况下，类构造函数会在执行之后返回this对象，构造函数返回的对象会被用作实例化的对象。
+
+如果返回的不是this对象，而是其他对象，则该对象不会通过instanceof操作符检测出给类有关联。
+
+类构造函数与构造函数的区别：
+- 调用构造函数必须使用new操作符，否则会报错
+- 普通构造函数不实用new，则会以全局的this作为内部对象
+
+把类当成特殊函数
+
+> ECMAScript类就是一种特殊函数。声明一个类之后，通过typeof操作符检测类标识符，表明它是一个函数
+```js
+class Person{}
+console.log(Person)
+console.log(typeof Person) function
+```
+- 类标识符 有prototype属性，而这个原型也有constructor属性，指向自身
+- 类可以使用instanceof操作符检查构造函数原型是否存在于实例的原型链中
+- 类中定义的constructor方法不会被当成构造函数
+
+
+#### 实例，原型和类成员
+
+实例成员
+- 每个实例都对应一个唯一的成员对象。所有成员都不会在原型上共享
+原型方法与访问器
+- 为了在实例间共享方法，类定于语法把在类块中定义的方法作为原型方法。
+- 在constructor上添加的内容会存在于不同的实例上
+- 在类块中定义的所有内容都会定义在类的原型上
+
+```js
+class Person{
+ constructor(){
+  this.test=()=>{console.log('heihei')}
+ }
+ test(){console.log('prototype')}
+}
+
+let p =new Person()
+p.test() //heihei 
+Person.prototype.test() //prototype
+```
+
+- 可以把方法定义在类构造函数中或者类块中，但是不能在类块中给原型添加原始值或者对象作为成员数据。
+- 类方法等同于对象属性，因此可以使用字符串，符号（Symbol）或者计算的值作为健。
+- 类定义支持获取和设置访问器
+```js
+class Person{
+ set name(newName){
+  this.name_=newName
+
+ }
+ get name(){
+  return this.name_
+ }
+}
+```
+
+静态类方法
+
+> 在类上定义静态方法，静态类成员在类定义中使用statice关键字作为前缀。在静态成员中，this引用类自身
+
+```js
+class Person{
+ constructor(){
+  this.test=()=>{console.log('heihei')}
+ }
+ test(){
+  console.log('prototype')
+ }
+ static test(){
+  console.log('static')
+ }
+}
+
+let p =new Person()
+p.test() //heihei 
+Person.prototype.test() //prototype
+Person.test() //static
+```
+
+非函数原型和类成员
+
+> 类定义并不显式支持在原型或者类上添加成员数据，但在类定义外部，可以手动添加
+
+迭代器和生成器方法
+
+- 类定义语法支持在原型和类本身（static）上定义生成器方法
+- 因为支持生成器方法，所以可以通过添加一个默认的迭代器，把类实例变成可迭代对象
+
+```js
+class Person{
+//在原型上定义生成器方法
+ * createTestIterator(){
+  yield '123'
+  yield '456'
+  yield '789'
+ }
+ //在类本身上定义生成器方法
+ static *createTest2Iterator(){
+  yield 'abc'
+  yield 'def'
+  yield 'ghi'
+ }
+
+ //添加默认迭代器
+class Person{
+ constructor(){
+  this.nicknames=['zhijian','yewen','yevin']
+ }
+
+ *[Symbol.iterator](){
+  yeild * this.nicknames.entries()
+ }
+}
+let p=new Person()
+for (let [index,nickname] of p){
+ console.log(nickname) 
+}
+//zhijian
+//yewen
+//yevin
+
+```
+
+#### 继承
+
+ > 类继承使用的是新语法，但是背后依旧使用的是原型链
+
+继承基础
+
+ES6支持单继承，使用extends关键字就可以继承任何拥有构造函数和原型的对象。不仅可以继承一个类，也可以继承普通的构造函数。
+
+```js
+
+class Father{}
+class Son extends Father{}
+
+let s=new Son()
+console.log(s instanceof Son)//true
+console.log(s instanceof Father)//true
+
+//普通构造函数
+
+function Father(){}
+class Son extends Father{}
+let s=new Son()
+console.log(s instanceof Son)//true
+console.log(s instanceof Father)//true
+```
+
+::: tip 注意
+this的值会反映调用响应方法的实例或者类
+:::
+
+##### super()
+- 派生类：利用继承机制，新的类可以从已有的类中派生。那些用于派生的类称为这些特别派生出的类的“基类”。
+
+> `super()`: 派生类可以通过该关键字引用他们的原型。注意：该关键字只能在派生类中使用。而且仅限于类构造函数，实例方法和静态方法内部。
+> 在类构造函数中使用super可以调用父类构造函数
+```js
+class Father{
+ constructor(){
+  this.name='zhijian'
+ }
+}
+class Son extends Father{
+ constructor(){
+  super() //相当于super.constructor()
+ }
+}
+
+let s=new Son()
+console.log(s.name) //zhijian
+```
+在静态方法中可以通过super调用继承的类上定义的静态方法
+
+```js
+class Father{
+ constructor(){
+  this.name='zhijian'
+ }
+ static test(){
+  console.log('test') //test
+ }
+}
+class Son extends Father{
+  static test1(){
+   super.test()
+  }
+}
+Son.test1() //test
+```
+::: tip 注意
+- super只能在派生类构造函数和静态方法中使用
+- 不能单独引用super关键字，要么用它调用构造函数，要么用它引用静态方法
+- 调用super()会调用父类构造函数，并将返回的实例赋值给this
+- super()的行为如同调用构造函数，如果需要给父类构造函数传值，需要手动传入，比如：`super(name,age)`
+- 在类构造函数中，不能在调用super()之前引用this
+- 如果没有定义类构造函数，在实例化派生类是会自动调用super(),而且会传入所有传给派生类的参数。
+- 如果在派生类中显式定义了构造函数，则要么必须在其中调用super()，要么必须在其中返回一个对象。
+:::
+
+抽象基类
+
+> 定义一个类，可供其他类继承，但是本身不会被实例化。
+
+```js
+//抽象基类
+class Father{
+ constructor(){
+  if(new.targer===Father){
+   throw new Error('Father cannot be directly instantiated')
+  }
+ }
+}
+
+class Son  extends Father{}
+new  Son()
+new Father() //会报错
+```
+
+继承内置类型
+
+> ES6类 为继承内置引用类型提供了顺畅的机制，开发者可以方便的扩展内置类型。
+
+```js
+class SuperArray extends Array {
+ //洗牌算法
+ shuffle() {
+  for (let i = this.length - 1; i > 0; i--) {
+   const j = Math.floor(Math.random() * (i + 1));
+   [this[i], this[j]] = [this[j], this[i]]
+  }
+ }
+}
+
+let arr = new SuperArray(1, 2, 3, 4, 5)
+console.log(arr) //[1,2,3,4,5]
+arr.shuffle()
+console.log(arr)
+```
+
+类混入
+
+> JS 里的 class 和函数一样，都是高阶的，也就是它可以作为参数，也可以作为返回值
+::: tip 注意
+很多JavaScript框架（特别是React）已经抛弃混入模式，转向了组合模式（把方法提取到独立的类和辅助对象中，然后把它们组合起来，但不使用继承）。这反映了那个众所周知的软件设计原则：“组合胜过继承（compositionover inheritance）。”这个设计原则被很多人遵循，在代码设计中能提供极大的灵活性。
+:::
+
+## 代理与反射
+
+> ECMAScript 6新增的代理和反射为开发者提供了拦截并向基本操作嵌入额外行为的能力。具体地说，可以给目标对象定义一个关联的代理对象，而这个代理对象可以作为抽象的目标对象来使用。在对目标对象的各种操作影响目标对象之前，可以在代理对象中对这些操作加以控制
+
+
+### 代理基础
+
+代理：
+- 目标对象的抽象
+- 目标对象既可以直接被操作，也可以通过代理来操作
+
+
+#### 创建代理
+- 使用Proxy构造函数创建,构造函数接受两个参数：
+  - 目标对象
+  - 处理程序对象
+- 两个参数缺一不可，不然会报错
+- 如果创建空代理，可以传
+
+
+创建空代理
+::: details 点击查看代码
+
+```js
+const target = {
+ id: 'target'
+}
+const proxy = new Proxy(target, {})
+
+console.log(target.id) // target
+console.log(proxy.id)// target
+
+target.id = 'zhijian'
+console.log(target.id)//zhijian
+console.log(proxy.id)//zhijian
+
+proxy.id = 'yewen'
+console.log(target.id)//yewen
+console.log(proxy.id)//yewen
+
+```
+:::
+
+#### 定义捕获器
+
+> 捕获器：在处理程序对象中定义的基本操作拦截器
+
+- 每个捕获器都对应一种基本操作，可以直接或者间接在代理对象上调用
+- 每次在代理对象上调用这些基本操作时，代理可以在这些操作传播到目标对象之前先调用捕获器函数，从而拦截并修改响应的行为。
+
+定义一个`get()`捕获器：
+- 当通过代理对象执行get操作时，就会触发定义的get捕获器
+- JavaScript代码中可以通过多种形式触发并被get捕获器拦截到
+   - proxy[property]
+   - proxy.property
+   - Object.create(proxy)[property]
+   - 等等
+::: details 点击查看代码
+```js
+const target = {
+ foo: 'bar'
+}
+const handler = {
+ get() {
+  return 'get捕获器'
+ }
+}
+const proxy = new Proxy(target, handler)
+
+console.log(proxy.foo) //get捕获器
+console.log(target.foo)//bar
+```
+:::
+
+#### 捕获器参数
+所有捕获器都可以访问响应的参数，基于这些参数可以重建被捕获方法的原始行为。
+
+
+get()捕获器三个参数：
+- 目标对象
+- 要查询属性
+- 代理对象
+::: details 点击查看代码
+```js
+const target = {
+ foo: 'bar'
+}
+const handler = {
+ get(target2,property,receiver) {
+  console.log(target2===target)
+  console.log(property)
+  console.log(receiver===proxy)
+
+ }
+}
+const proxy = new Proxy(target, handler)
+) 
+target.foo
+
+//true
+//foo
+//true
+```
+:::
+
+#### 反射API：Reflect
+
+处理程序对象中所有可以捕获的方法都有对象的反射API方法。
+
+
+::: details 点击查看代码
+```js
+const target = {
+ foo: 'bar'
+}
+const handler = {
+ get() {
+ return Reflect.get(...arguments)
+ }
+}
+const proxy = new Proxy(target, handler)
+
+console.log(proxy.foo) //bar
+console.log(target.foo) //bar
+
+//以上可以简化为：
+const target = {
+ foo: 'bar'
+}
+const handler = {
+ get:Reflect.get
+}
+const proxy = new Proxy(target, handler)
+
+console.log(proxy.foo) //bar
+console.log(target.foo) //bar
+
+//还可以简化为：
+const target = {
+ foo: 'bar'
+}
+
+const proxy = new Proxy(target, Reflect)
+console.log(proxy.foo) //bar
+console.log(target.foo) //bar
+```
+:::
+反射API为开发者准备好了样板代码，再次基础上可以用最少的代码修改捕获的方法
+

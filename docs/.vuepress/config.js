@@ -78,7 +78,7 @@ module.exports = {
    ],
    '/读书笔记/': [
     '[JavaScript高级程序设计]读书笔记',
-    '[HTTP图解]读书笔记'
+    // '[HTTP图解]读书笔记'
    ],
    '/React/': [
     'React入门',

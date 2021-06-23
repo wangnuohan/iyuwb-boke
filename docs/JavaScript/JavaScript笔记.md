@@ -16,7 +16,7 @@
 - BigInt 是一种数字类型的数据，它可以表示任意精度格式的整数。
 
 可以使用`typeof`来判断 6 种原始类型:
-
+::: details 点击查看代码
 ```js
 typeof 0; //number
 typeof "wenbo"; //string
@@ -25,7 +25,7 @@ typeof undefined; //undefined
 typeof Symbol(1); //symbol
 typeof 1n; //bight
 ```
-
+::: 
 因为`typeof`判断对象的类型为 Object，不会精确到哪种对象，会不准确。推荐使用`Object.prototype.toString.call()`代替以上进行判断数据类型。
 
 ## ECMAScript6 相关
@@ -34,8 +34,8 @@ typeof 1n; //bight
 
 > 解构赋值语法是一种 Javascript 表达式。通过解构赋值, 可以将属性/值从对象/数组中取出,赋值给其他变量。
 
-数组解构
-
+#### 数组解构
+::: details 点击查看代码
 ```js
 //数组
 var [a, b] = [1, 2, 3];
@@ -48,9 +48,10 @@ var arr = [1, 2, 3];
 console.log(...arr); // 1 2 3
 console.log([...arr]); // [1,2,3]
 ```
+:::
 
-对象解构
-
+#### 对象解构
+::: details 点击查看代码
 ```js
 var { name, skill } = {
   name: "wenbo",
@@ -68,11 +69,12 @@ var name, skill;
 });
 console.log(name, skill); //wenbo  eat
 ```
+::: 
 
-`...`解构
+#### `...`展开
 
 > `...`语法，可以适用于迭代器对象
-
+::: details 点击查看代码
 ```js
 let arr = [1, 2, 3];
 console.log(...arr); // 1 2 3
@@ -83,7 +85,7 @@ console.log(a, b); // 1   [2,3]
 let set = new Set([1, 2, 3]);
 console.log(...set); // 1 2 3
 ```
-
+::: 
 ### let 与 const
 
 - `var`：定义变量会挂载到`window`上，变量会被提升
@@ -102,7 +104,7 @@ console.log(...set); // 1 2 3
 - 在使用 `let`和 `const`定义变量时，在声明之前是不可以使用变量的，在语法上称为暂时性死区
 
 ### 继承
-
+::: details 点击查看更多
 - `class`：本质还行是函数，`class`只是语法糖
 
 ```javascript
@@ -251,7 +253,7 @@ var son = new Son("heihei", 18);
 console.log(son); //Son { name: 'heihei', age: 18 }
 console.log(son.getName(), son.getAge()); //heihei 18
 ```
-
+:::
 ## JavaScript 内置函数
 
 > 详情见 JavaScript 内置函数部分
@@ -262,7 +264,7 @@ console.log(son.getName(), son.getAge()); //heihei 18
 
 ## instanceof 和 typeof
 
-`typeof`：
+### `typeof`：
 
 > 判断一个变量的类型，可以利用`typeof`,来判断`number`，`bight`，`string`，`object`，`boolean`，`function`，`undefined`，`symbol`八种类型
 
@@ -272,11 +274,11 @@ console.log(son.getName(), son.getAge()); //heihei 18
 
   - `typeof`不能判断`null`，会把`null`判定为`object`
 
-```javascript
-console.log(typeof null); //object
-```
+  -  `console.log(typeof null); //object`
 
-`instanceof`：
+
+
+### `instanceof`：
 `object instanceof constructor`
 
 > `instanceof` 运算符用来检测 `constructor.prototype`是否存在于参数 `object` 的原型链上。
@@ -284,7 +286,7 @@ console.log(typeof null); //object
 - 判定一个实例是否属于某种类型
 
 - 判定一个实例是否是其父类型或者祖先类型的实例
-
+::: details 点击查看代码
 ```javascript
 function Person() {}
 function Child() {}
@@ -294,9 +296,9 @@ var person = new Person();
 console.log(person instanceof Person); //true
 console.log(child instanceof Person); //true
 ```
-
+::: 
 `instanceof` 实现原理：
-
+::: details 点击查看代码
 ```javascript
 function new_instance_of(leftVaule, rightVaule) {
   let rightProto = rightVaule.prototype; // 取右表达式的 prototype 值
@@ -312,13 +314,14 @@ function new_instance_of(leftVaule, rightVaule) {
   }
 }
 ```
+:::
 
 `Object.prototype.toString`
 
 > `Object.prototype.toString.call()` 一个不错的判断方法，可以对一个变量的类型来进行比较准确的判断
 
-如下：
 
+::: details 点击查看代码
 ```javascript
 Object.prototype.toString.call(1); // "[object Number]"
 Object.prototype.toString.call("hi"); // "[object String]"
@@ -330,7 +333,22 @@ Object.prototype.toString.call(null); // "[object Null]"
 Object.prototype.toString.call(undefined); // "[object Undefined]"
 Object.prototype.toString.call(Symbol(1)); // "[object Symbol]"
 ```
+::: 
 
-## call，apply 和 bind 的区别和用法
+## call，apply 和 bind
 
-> 详情见 JavaScript 深入理解部分
+### call
+
+- 调用 call 的对象，必须是个函数 Function。
+- call 的第一个参数，是一个对象。 Function 的调用者，将会指向这个对象。如果不传，则默认为全局对象 window。
+- 第二个参数开始，可以接收任意个参数。每个参数会映射到相应位置的 Function 的参数上。但是如果将所有的参数作为数组传入，它们会作为一个整体映射到 Function 对应的第一个参数上，之后参数都为空。
+
+### apply
+- 它的调用者必须是函数 Function，并且只接收两个参数，第一个参数的规则与 call 一致。
+- 第二个参数，必须是数组或者类数组，它们会被转换成类数组，传入 Function 中，并且会被映射到 Function 对应的参数上。这也是 call 和 apply 之间，很重要的一个区别。
+
+### bind
+
+- bind 方法 与 apply 和 call 比较类似，也能改变函数体内的 this 指向。
+- 不同的是，bind 方法的返回值是函数，并且需要稍后调用，才会执行。而 apply 和 call 则是立即调用。
+

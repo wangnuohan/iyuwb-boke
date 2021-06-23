@@ -43,6 +43,8 @@ console.log(person2.name);
 
 > 每一个 JavaScript 对象(null 除外)在创建的时候就会与之关联另一个对象，这个对象就是我们所说的原型，每一个对象都会从原型继承属性
 
+> 继承：一般来说继承意味着复制操作，但是在Javascript中，继承并不会复制对象的属性，而是在两个对象中建立一个关联。相当于委托。
+
 **用一张图表示构造函数和实例之间的关系：**
 
 ![](https://yevin.gitee.io/yiran/img/01-1.png#align=left&display=inline&height=415&margin=%5Bobject%20Object%5D&originHeight=415&originWidth=848&status=done&style=none&width=848)
