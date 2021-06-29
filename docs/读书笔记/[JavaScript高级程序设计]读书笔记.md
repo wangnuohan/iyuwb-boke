@@ -2560,7 +2560,7 @@ console.log(arr)
   - 目标对象
   - 处理程序对象
 - 两个参数缺一不可，不然会报错
-- 如果创建空代理，可以传
+- 如果创建空代理，可以传一个{}
 
 
 创建空代理
@@ -2691,4 +2691,74 @@ console.log(target.foo) //bar
 ```
 :::
 反射API为开发者准备好了样板代码，再次基础上可以用最少的代码修改捕获的方法
+
+#### 捕获器不变式
+> 根据ECMAScript规范，捕获处理程序的行为必须遵循“捕获器不变式”（trapinvariant）。防止捕获器定义出现过于反常的行为。
+
+例如：目标对象又一个不可配置切不可写的数据属性，那么捕获器返回一个与该属性不同的值时，会报错。
+
+#### 可撤销代理
+
+> Proxyb暴露了`revocable()`方法，该方法支持撤销代理对象与目标对象的关联。需要注意：撤销代理的操作是不可逆的。
+- `revoke()`
+
+#### 实用反射API
+
+反射API与对象API
+
+在使用反射API时：
+- 反射API并不限于捕获处理程序
+- 大多数反射API方法在Object类型上有对应的方法
+Object上的方法适用于通用程序，而反射方法适用于细粒度的对象控制与操作。
+
+状态标记
+
+- 很多反射方法返回 状态标记 的布尔值，表示执行操作是否成功。而在普通对象方法中会报错。
+
+以下反射方法都会提供 状态标记
+- Reflect.defineProperty()
+- Reflect.preventExtensions()
+- Reflect.setPrototype()
+- Reflect.set()
+- Reflect.deleteProperty()
+
+反射方法
+
+- Reflect.get() 可以替代对象属性访问操作符
+- Reflect.set() 可以替代=赋值操作符
+- Reflect.has() 可以替代in操作符或with()
+- Reflect.deleteProperty() 可以替代delete操作符
+- Reflect.construct() 可以替代new操作符
+
+
+反射函数
+- Reflect.apply
+
+#### 代理另一个代理
+
+代理可以拦截反射API的操作，而这意味着完全可以创建一个代理，通过它去代理另一个代理
+
+#### 代理的问题与不足
+- 代理中的this值
+- 内置引用类型 Date类型 
+
+### 代理捕获器和反射方法
+
+> 代理可以捕获13种不同的基本操作。这些操作有各自不同的反射API方法、参数、关联ECMAScript操作和不变式。
+
+注意：捕获器也会拦截他们对应的反射API操作。所以可以使用代理去代理另一个代理对象。
+
+#### get()
+- `get()`捕获器会在获取属性值的操作中被调用。
+- 反射API：`Reflect.get()`。
+- 无返回值
+- 拦截操作：
+  - `proxy.property`
+  - `proxy[property]`
+  - `Object.create(proxy)[property]`
+  - `Reflect.get(proxy, property, receiver)`
+- 
+
+
+
 

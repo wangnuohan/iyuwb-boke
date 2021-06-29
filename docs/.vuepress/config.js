@@ -62,6 +62,7 @@ module.exports = {
     'JavaScript简单了解-WebSocket',
    ],
    '/HTMLCSS/': [
+    'CSS选择器',
     'HTML5CSS3',
     'H5端rem适配方案',
     'Canvas实现两张图片合成'

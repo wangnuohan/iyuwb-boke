@@ -104,21 +104,17 @@ console.log(...set); // 1 2 3
 - 在使用 `let`和 `const`定义变量时，在声明之前是不可以使用变量的，在语法上称为暂时性死区
 
 ### 继承
+> 原型链继承  借用构造函数实现继承 组合继承 寄生式组合继承 class 实现继承
+
+
 ::: details 点击查看更多
-- `class`：本质还行是函数，`class`只是语法糖
-
-```javascript
-class Person {}
-console.log(Person instanceof Function); //true
-```
-
-- `instanceof`：用来判断一个构造函数的`property`属性所指向的对象是否在另一个要监测对象的原型链上
 
 #### 原型链继承
 
+原型链继承
+
+存在问题：原型中的引用对象会被所有的实例共享，子类在实例化的时候不能给父类构造函数传参
 ```js
-// 原型链继承
-// 问题：原型中的引用对象会被所有的实例共享，子类在实例化的时候不能给父类构造函数传参
 function Father() {
   this.hobby = ["coding", "eat"];
 }
@@ -144,11 +140,11 @@ console.log(father.hobby, son.hobby, son1.hobby);
 son.skill(); //i will javascript
 ```
 
-#### 构造函数继承
+#### 借用构造函数继承
+借用构造函数继承
 
+存在问题：方法需要定义在构造函数内，因此每次创建子类实例都会创建一边方法
 ```js
-// 原型链继承
-// 问题：方法需要定义在构造函数内，因此每次创建子类实例都会创建一边方法
 function Father(name) {
   this.name = name;
   this.sayNmae = function() {
@@ -169,15 +165,11 @@ console.log(father.sayNmae(), son.sayNmae()); //wenbo zhijian
 ```
 
 #### 组合继承
-
-**核心：**
-
+组合继承
 - 在子类的构造函数中通过`Parent.call(this,)`继承父类的属性
 - 然后改变之类的原型为`new Parent()`来继承父类的函数
 
-**缺点：**
-
-- 组合继承会导致调用两次父类构造函数,存在内存上的浪费
+存在问题：组合继承会导致调用两次父类构造函数,存在内存上的浪费
 
 ```javascript
 function Father(name) {
@@ -201,14 +193,14 @@ console.log(son.sayName()); //yewen
 
 #### 寄生组合继承
 
-**对组合继承的优化**
-
 - `Object.create(proto，[propertiesObject])`：创建一个新对象，使用现有的对象来提供新创建的对象的`__proto__`
   - `proto`：新创建对象的原型对象
   - `propertiesObjec`：可选，需要传入一个对象
+寄生组合继承
 
+解决组合继承会导致调用两次父类构造函数
 ```javascript
-// 组合继承
+
 function Father(name) {
   this.name = name;
 }
@@ -220,7 +212,8 @@ function Son(name, age) {
   Father.call(this, name);
   this.age = age;
 }
-Son.prototype = new Father();
+
+Son.prototype = Object.create(Father.prototype);
 Son.prototype.constructor = Son;
 
 var son = new Son("yewen", 18);
@@ -254,6 +247,12 @@ console.log(son); //Son { name: 'heihei', age: 18 }
 console.log(son.getName(), son.getAge()); //heihei 18
 ```
 :::
+
+### Promise 
+实现一个Promise
+:::details 点击查看代码
+:::
+
 ## JavaScript 内置函数
 
 > 详情见 JavaScript 内置函数部分
