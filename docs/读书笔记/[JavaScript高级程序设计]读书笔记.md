@@ -3274,11 +3274,27 @@ Promise的状态是私有的，不能直接通过Javascript检测到
 
 #### Promise.resolve(data)
 > 返回一个状态由给定 data 决定的 Promise 对象 
-
+```js
+Promise.resolve("test-resolve")
+  .then((res) => {
+    console.log(res); //test-resolve
+  })
+  .catch((e) => {
+    console.log(e);
+  });
+```
 
 #### Promise.reject(data)
 >  Promise.reject(data)方法返回一个带有拒绝原因的 Promise 对象。（状态为失败的Promise）
-
+```js
+Promise.reject("test-reject")
+  .then((res) => {
+    console.log(res);
+  })
+  .catch((e) => {
+    console.log(e); //test-reject
+  });
+```
 
 
 #### Promise.prototype.then(onFulfilled, onRejected)
