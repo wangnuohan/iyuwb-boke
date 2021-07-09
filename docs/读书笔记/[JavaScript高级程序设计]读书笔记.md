@@ -2547,6 +2547,16 @@ console.log(arr)
 
 > ECMAScript 6新增的代理和反射为开发者提供了拦截并向基本操作嵌入额外行为的能力。具体地说，可以给目标对象定义一个关联的代理对象，而这个代理对象可以作为抽象的目标对象来使用。在对目标对象的各种操作影响目标对象之前，可以在代理对象中对这些操作加以控制
 
+缺点：
+- 不支持向后兼容
+
+优点：
+- 通过捕获器，可以拦截JS绝大部分基本操作和方法，在遵从捕获器不变式的情况下，可以修改任何基本操作。
+
+应用场景：
+通过代理，可以创造出各种编码模式，比如跟踪你属性访问，隐藏属性，阻止修改或者删除属性，函数参数验证，数据绑定。
+
+
 
 ### 代理基础
 
@@ -2757,8 +2767,535 @@ Object上的方法适用于通用程序，而反射方法适用于细粒度的�
   - `proxy[property]`
   - `Object.create(proxy)[property]`
   - `Reflect.get(proxy, property, receiver)`
-- 
+- 拦截器函数传参：
+  -  `target`：目标对象
+  -  `property`：引用的目标对象上的字符串键属性
+  -  `receiver`：代理对象或者继承代理对象的对象
+- 捕获不变式：
+  - 如果`target.property`不可写且不可配置，则处理程序的返回值也必须于`target.property`匹配
+  - 如果`target.property`不可配置，且[[Get]]特性为`undefined`，则处理程序的返回值也必须为`undefined`
+ 
+#### set()
+- `set()`捕获器会在设置属性值的操作中被调用。
+- 反射API：`Reflect.set()`。
+- 返回值：true表示成功，false表示失败，严格模式下会抛出TypeError
+- 拦截操作：
+  - `proxy.property = value`
+  - `proxy[property] = value `
+  - `Object.create(proxy)[property] = value`
+  - `Reflect.set(proxy, property, value, receiver)`
+- 拦截器函数传参：
+  -  `target`：目标对象
+  -  `property`：引用的目标对象上的字符串键属性
+  -  `value`：要赋给属性的值。
+  -  `receiver`：代理对象或者继承代理对象的对象
+- 捕获不变式：
+  - 如果`target.property`不可写且不可配置，则不能修改目标属性的值
+  - 如果`target.property`不可配置，且[[Set]]特性为`undefined`，则处理程序的返回值也必须为`undefined`
+  - 严格模式下，处理程序中返回false会抛出TypeError
+
+#### has()
+- `has()`捕获器会在in操作符中被调用。
+- 反射API：`Reflect.has()`。
+- 返回值：必须返回布尔值，表示属性是否存在，返回非布尔值，会被自动转型为布尔值
+- 拦截操作：
+  - `property in proxy`
+  - `property in Object.create(proxy)`
+  - `with(proxy){(property)}`
+  - `Reflect.has(proxy, property)`
+- 拦截器函数传参：
+  -  `target`：目标对象
+  -  `property`：引用的目标对象上的字符串键属性
+
+- 捕获不变式：
+  - 如果`target.property`存在且不可配置，则处理程序必须返回True
+  - 如果`target.property`存在且目标对象不可拓展，则处理程序必须返回True
+
+#### defineProperty()
+- `defineProperty()`捕获器会在`Object.defineProperty()`中被调用。
+- 反射API：`Reflect.defineProperty()`。
+- 返回值：必须返回布尔值，表示属性是否成功定义，返回非布尔值，会被自动转型为布尔值
+- 拦截操作：
+  - `Object.defineProperty(proxy,property,descriptor)`
+  - `Reflect.defineProperty(proxy,property,descriptor)`
+- 拦截器函数传参：
+  -  `target`：目标对象
+  -  `property`：引用的目标对象上的字符串键属性
+  -  `descriptor`：包含可选的`enumerable`、`configurable`、`writable`、`value`、`get`和`set`定义的对象。
+
+- 捕获不变式：
+  - 如果目标对象不可拓展，则无法定义属性
+  - 如果目标对象有一个可配置的属性，则不能添加同名的不可配置属性
+  - 如果目标对象又一个不可配置的属性，则不能添加同名的可配置属性
+
+
+#### getOwnPropertyDescriptor()
+- `getOwnPropertyDescriptor()`捕获器会在`Object.getOwnPropertyDescriptor()`中被调用。
+- 反射API：`Reflect.getOwnPropertyDescriptor()`。
+- 返回值：必须返回对象，或者在属性不存在时返回undefined
+- 拦截操作：
+  - `Object.getOwnPropertyDescriptor(proxy,property)`
+  - `Reflect.getOwnPropertyDescriptor(proxy,property)`
+- 拦截器函数传参：
+  -  `target`：目标对象
+  -  `property`：引用的目标对象上的字符串键属性
+- 捕获不变式：
+   - 如果自有的target.property存在且不可配置，则处理程序必须返回一个表示该属性存在的对象。
+   - 如果自有的target.property存在且可配置，则处理程序必须返回表示该属性可配置的对象。
+   - 如果自有的target.property存在且target不可扩展，则处理程序必须返回一个表示该属性存在的对象。
+   - 如果target.property不存在且target不可扩展，则处理程序必须返回undefined表示该属性不存在。
+   - 如果target.property不存在，则处理程序不能返回表示该属性可配置的对象。
+
+#### deleteProperty()
+- `deleteProperty()`捕获器会在`Object.deleteProperty()`中被调用。
+- 反射API：`Reflect.deleteProperty()`。
+- 返回值：必须返回布尔值，表示删除是否成功，返回非布尔值，会被自动转型为布尔值
+- 拦截操作：
+  - `delete proxy.property`
+  - `delete proxy[property]`
+  - `Reflect.deleteProperty(proxy,property)`
+
+- 拦截器函数传参：
+  -  `target`：目标对象
+  -  `property`：引用的目标对象上的字符串键属性
+- 捕获不变式：
+   - 如果自由的target.property存在且不可配置，则处理程序不能删除这个属性
+   
+
+
+#### ownKeys()
+- `ownKeys()`捕获器会在`Object.Keys()`中被调用。
+- 反射API：`Reflect.ownKeys()`。
+- 返回值：必须返回包含字符串或者符号的可枚举
+- 拦截操作：
+  - `Object.getOwnPropertyNames(proxy)`
+  - `Object.getOwnPropertyNames(proxy)`
+  - `Object.keys(proxy)`
+  - `Reflect.ownKeys(proxy)`
+
+- 拦截器函数传参：
+  -  `target`：目标对象
+  -  `property`：引用的目标对象上的字符串键属性
+- 捕获不变式：
+   - 返回的可枚举对象必须包含target所有不可配置的自有属性
+   - 如果target不可扩展，则返回可枚举对象必须准确的包含自由属性键
+ 
+#### getPropertyOf()
+- `getPropertyOf()`捕获器会在`Object.getPropertyOf()`中被调用。
+- 反射API：`Reflect.getPropertyOf()`。
+- 返回值：必须返回对象或者null
+- 拦截操作：
+  - `Object.getPropertyOf(proxy)`
+  - `Reflect.getPropertyOf(proxy)`
+  - `proxy.__proto__`
+  - `Object.prototype.isPrototypeOf(proxy)`
+  - `proxy instanceof Object`
+- 拦截器函数传参：
+  -  `target`：目标对象
+  
+- 捕获不变式：
+   - 如果target不可扩展，则`Object.getPropertyOf(proxy)`唯一有效的返回值，就是`Object.getPropertyOf(proxy)`的返回值
+
+#### setPropertyOf()
+- `setPropertyOf()`捕获器会在`Object.setPropertyOf()`中被调用。
+- 反射API：`Reflect.setPropertyOf()`。
+- 返回值：必须返回布尔值，表示原型复制是否成功。返回非布尔值会被转型为布尔值。
+- 拦截操作：
+  - `Object.setPropertyOf(proxy)`
+  - `Reflect.setPropertyOf(proxy)`
+- 拦截器函数传参：
+  -  `target`：目标对象
+  - `prototype`:target的替代原型，如果是顶级原型则为null
+- 捕获不变式：
+   - 如果target不可扩展，则唯一有效的返回值，就是`Object.getPropertyOf(proxy)`的返回值
+#### isExtensible()
+- `isExtensible()`捕获器会在`Object.isExtensible()`中被调用。
+- 反射API：`Reflect.isExtensible()`。
+- 返回值：必须返回布尔值，表示target是否可扩展。返回非布尔值会被转型为布尔值。
+- 拦截操作：
+  - `Object.isExtensible(proxy)`
+  - `Reflect.isExtensible(proxy)`
+- 拦截器函数传参：
+  -  `target`：目标对象
+- 捕获不变式：
+   - 如果target不可扩展，则处理程序必须返回false
+   - 如果target可扩展，则处理程序必须返回true
+#### preventExtensions()
+- `preventExtensions()`捕获器会在`Object.preventExtensions()`中被调用。
+- 反射API：`Reflect.preventExtensions()`。
+- 返回值：必须返回布尔值，表示target是否以及不可扩展。返回非布尔值会被转型为布尔值。
+- 拦截操作：
+  - `Object.preventExtensions(proxy)`
+  - `Reflect.preventExtensions(proxy)`
+- 拦截器函数传参：
+  -  `target`：目标对象
+- 捕获不变式：
+   - 如果Object.isExtensible(proxy)是false，则处理程序必须返回true
+#### apply()
+- `apply()`捕获器会在调用函数时中被调用。
+- 反射API：`Reflect.apply()`。
+- 返回值：必须返回布尔值，表示target是否以及不可扩展。返回非布尔值会被转型为布尔值。
+- 拦截操作：
+  - `proxy(...argumentslList)`
+  - `Function.prototypr.apply(thisArg,argumentslList)`
+  - `Function.prototypr.call(thisArg,argumentslList)`
+  - `Reflect.apply(target,thisArg,argumentslList)`
+- 拦截器函数传参：
+  -  `target`：目标对象
+  -  `thisArg`：调用函数的this参数
+  -  `argumentslList`：调用函数时的参数列表
+
+- 捕获不变式：
+   - target必须是一个函数对象
+
+#### construct()
+- `construct()`捕获器会在new操作符中被调用。
+- 反射API：`Reflect.construct()`。
+- 返回值：必须返回一个对象
+- 拦截操作：
+  - `new proxy(...argumentslList)`
+  - `Reflect.construct(target,argumentslList,newTarget)`
+- 拦截器函数传参：
+  -  `target`：目标对象
+  -  `argumentslList`：传给目标构造函数的参数列表
+  -  `newTarget`：最初被调用的构造函数
+
+- 捕获不变式：
+   - target必须可以用作构造函数
+
+### 代理模式
+
+#### 跟踪属性访问
+- 通过捕获器等操作，可以知道对象属性什么时候进行过什么操作。
+#### 隐藏属性
+- 通过捕获器，拦截到相关操作，返回undefined等，用来隐藏对象属性。
+
+#### 属性验证
+- 通过捕获器set(),根据所赋值内容判断是够允许赋值。
+- 比如只允许一个属性赋值为number类型，当判断为其他类型时，不进行赋值。
+
+#### 函数与构造函数参数验证
+- 对函数和构造函数参数进行审查判断，可以让函数只接受固定类型的值
+
+#### 数据绑定和可观察对象
+
+- 通过代理可以把运行时原本不相关的部分联系在一起，这样就可以实现各种模式，从而让不同的代码相互操作。
+
+## 函数
+
+::: tip 注意
+函数实际上也是对象。每个函数都是Function类型的实例，而Function也有相关属性和方法。
+
+函数名实际上就是指向函数对象的指针。
+:::
+
+函数声明方法：
+```js
+//函数声明
+function fn(data){
+console.log('hello'，data)
+}
+
+//函数表达式
+let fn = function(data) {
+ console.log('hello'，data)
+};
+
+//箭头函数
+let fn=(data)=>{
+ onsole.log('hello'，data)
+};
+```
+
+### 箭头函数
+> ES6新增，使用箭头愈发定义函数表达式
+
+::: tip  注意
+- 箭头函数不能使用 arguments，super，new.target
+- 不能作为构造函数，没有this指向，箭头函数中的this指向window
+- 箭头函数没有prototy属性
+:::
+
+```JS
+//箭头函数
+let fn = (data)=>{
+ onsole.log('hello'，data)
+};
+```
+只有一个参数时，可以不使用括号：
+```JS
+let fn = data=>{
+ onsole.log('hello'，data)
+};
+```
+当没有参数，可以使用空括号表示：
+```JS
+let fn = ()=>{
+ onsole.log('hello'，data)
+};
+```
+::: tip 注意
+箭头函数可以不实用大括号，但会改变函数的行为。
+- 使用大括号，表明包含函数体，可以在一个函数中包含多个语句
+- 不使用打括号，那么箭头后面就只能有一行代码，并且省略大括号会隐式返回这行代码的值
+:::
+
+::: details 点击查看代码
+```js
+
+let fn = (a)=>{return a*2}
+console.log(fn(2) ) //4
+
+let fn1 = a=>a*2
+console.log(fn1(2) ) //4
+```
+:::
+
+### 函数名
+- 函数名实际上就是指向函数对象的指针。
+- 因此一个函数可以有多个名称
+
+### 函数参数
+
+::: tip 注意
+实际上，函数并不关心传参个数以及传参类型
+
+ES函数的参数只是为了方便才写出来，并不是必须。
+
+不写参数的情况下可以通过arguments[0],arguments[1]等来获取数据。
+:::
+
+- 函数内部arguments（类数组）对象，储存函数传入的每个参数值。
+- 在定义函数时，没有定义参数，在调用函数时传参，照样可以使用arguments获取到。
+- 可以通过arguments.length获取传参个数
+- arguments可以和命名参数混用
+
+::: tip 注意
+箭头函数中不能使用arguments关键字访问，只能通过定义的命名参数访问
+:::
+### 没有重载
+- ES函数不能像传统编程一样重载。
+- 在ES中定义两个同名函数，则后定义的会覆盖掉先定义的。
+
+### 默认参数值
+ES5.1及以前需要判断参数是否等于undefined
+```js
+function fn(name){
+ name = (typeof name!=='undefined')?name:'yewen'
+ return name
+}
+```
+ES6之后，可以直接显示定义默认参数
+```js
+function fn(name='yewen'){
+ return name
+}
+```
+::: tip 注意
+需要注意的是，arguments对象的值不反映，函数的默认的参数传值，
+:::
+
+- 默认参数值，不限制与原始值和对象类型，也可以使用调用函数返回值
+- 需要注意的是：使用函数返回值，只有在调用的时候才会执行函数
+
+
+### 参数拓展与收集
+```js
+function fn(...values){
+ console.log(arguments)
+}
+
+
+function fn(name,...values){
+ console.log(name)
+ console.log(arguments)
+}
+```
+
+### 函数声明与函数表达式
+
+- 函数声明，会在Javascript引擎在任何代码执行之前读取，并在执行上下文中生成函数定义
+   - 函数声明提升，提升到顶部。
+- 函数表达式，会在代码执行到函数表达式的哪一行，才会在执行上下文中生成函数定义
+   - 在函数表达式之前调用函数，会报错
+
+###  函数作为值
+
+- 函数在ES中就是变量
+- 函数可以用在任何可以使用变量的地方
+- 可以在函数中返回另一个函数
+
+###  函数内部
+ES中，函数中有两个特殊的对象：
+- arguments
+  - 类数组
+  - 有length方法
+  - 只存在与funciton关键字定义的函数中
+  - callee方法：指向arguments对象所在函数的指针
+- this
+  - this引用的是把函数当成方法调用的上下文对象
+  - 在网页的全局上下文调用函数时，this指向windows
+  - 箭头函数中的this会保留定义该函数时的上下文
+- caller
+  - 该属性引用的是调用当前函数的函数
+ES6中新增：
+- new.target
+  - 检测函数是否使用new关键字调用的new.target属性
+  - 函数正常调用new.target返回undefined
+  - 使用new关键字调用的，new.target返回被调用的构造函数
+### 函数属性和方法
+
+- length
+   - 保存函数定义的命名参数个数
+- prototype
+   - 保存引用类型所有的实例方法
+- call()
+   - 以指定的this调用函数
+   - 第一个值this
+   - 后面是函数传参数
+- apply()
+   -  以指定的this调用函数
+   - 第一个值this
+   - 第二个值为传参数组
+- bind()
+   - 创建一个新的函数实例，this值会被绑定到传给bind()的对象
+
+
+### 函数表达式
+
+匿名函数：创建一个函数再把它赋值给一个变量
+
+### 递归
+
+递归函数：一个函数通过名称在函数内部调用自己
+- 不可以给函数赋值给其他变量
+- 解决方法
+  - 通过arguments.callee()在函数内部调用自己
+
+### 尾调用优化
+- 尾调用：即外部函数的返回值是一个内部函数的返回值
+- ES6规则新增了恶意相内存管理优化机制，使用尾调用，不会造成大量消耗性能。
+
+### 闭包
+>  闭包：引用了另一个函数作用域中变量的函数
+- 闭包在被函数返回之后，其作用域一直保存在内存中，直到闭包被销毁。
+::: details 点击查看代码
+```js
+function createFcuntion(name){
+  return function(obj1,obj2){
+   let v1=obj1[name]
+   let v2=obj2[name]
+   if(v1<v2)return -1
+   else return 1
+  }
+}
+
+```
+以上代码在，匿名函数内部，引用了外部函数的变量，内部函数被返回后，仍然引用着该变量。
+:::
+
+::: tip 注意
+闭包会保留他们包含函数的作用域，所以比其他函数更占用内存，过度使用闭包可能导致内存过度占用。
+:::
+
+#### this对象
+- 在闭包中使用this会让代码变复杂
+- 如果内部函数没有使用箭头函数定义，this指向运行时绑定到执行函数的上下文
+- 在全局函数中调用this指向window，严格模式下this为undefined
+- 作为某个对象的方法调用，this指向window，严格模式下指向undefined
+
+#### 内存泄漏
+- IE9之前不同的垃圾回收机制造成
+
+### 立即调用函数
+
+```js
+(function(){
+ //code
+ //块级作用域
+})()
+```
+
+::: tip 注意
+在ES6之后，可以直接创建块级作用域
+```js
+{
+//code 
+//块级作用域
+}
+```
+:::
+
+### 私有变量
+
+> 任意定义在函数或块中的变量，都可以认为是私有的。
+
+- 特权方法：能够访问函数私有变量的公有方法
+- 静态私有变量：可以通过私有作用域定义私有变量和函数实现（可通过匿名函数实现）
+- 模块模式：在单例对象实现隔离和封装
+- 模块增强模式：利用模块模式在返回对象之前先对其进行增强，添加额外属性和方法。
 
 
 
 
+## 期约与异步函数
+### 过去异步编程
+
+- 通过回调函数（当代码越来越复杂，需要嵌套很多回调函数）（回调地狱）
+- 错误处理，需要`try catch`
+
+### 期约 Promise
+> ES6增加了对Promises/A+规范的完善支持，即Promise类型。
+- 现在浏览器都支持ES6期约，很多浏览器API也以期约为基础。（fetch等）
+
+
+#### 创建Promise
+> Promise 对象是由关键字 new 及其构造函数来创建的。
+- 该构造函数会把一个叫做“处理器函数”（executor function）的函数作为它的参数。
+- 这个“处理器函数”接受两个函数——resolve 和 reject ——作为其参数。
+- 当异步任务顺利完成且返回结果值时，会调用 resolve 函数；
+- 而当异步任务失败且返回失败原因（通常是一个错误对象）时，会调用 reject 函数
+```js
+new Promise((resolve, reject) => {
+  //处理操作  返回resolve或者reject
+  if (flag) resolve(data);
+  eles(reject(data));
+});
+```
+
+#### Promise状态
+- 待定：pending 初始状态
+- 兑现：fulfilled（resolved）代表成功
+- 拒绝：rejected 代表失败
+
+::: tip 注意
+Promise的状态是私有的，不能直接通过Javascript检测到
+:::
+
+#### Promise.resolve(data)
+> 返回一个状态由给定 data 决定的 Promise 对象 
+
+
+#### Promise.reject(data)
+>  Promise.reject(data)方法返回一个带有拒绝原因的 Promise 对象。（状态为失败的Promise）
+
+
+
+#### Promise.prototype.then(onFulfilled, onRejected)
+> Promise.prototype.then()是为契约实例，添加处理程序的主要方法
+
+> then() 方法返回一个 新的Promise。它最多需要有两个参数：Promise 的成功和失败情况的回调函数。当只穿一个值得时候默认是 Promise 成功的回调函数
+
+- 该方法接受两个参数：
+- onFulfilled 处理程序 - 兑现状态是执行
+- onRejected 处理程序 - 拒绝状态时执行
+
+
+#### Promise.prototype.catch(onRejected)
+
+> catch() 方法返回一个 Promise ，并且处理拒绝的情况 
+- 实际上 catch 的行为与调用 Promise.prototype.then(undefined, onRejected) 相同 
+- `obj.catch(onRejected)` 内部 `calls`了 `obj.then(undefined, onRejected)`
+
+#### Promise.prototype.finally(onFinally)
+> finally() 方法返回一个 Promise。在 promise 结束时，无论结果是 fulfilled 或者是 rejected，都会执行指定的回调函数。
