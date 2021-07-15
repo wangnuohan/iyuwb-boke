@@ -3270,6 +3270,8 @@ new Promise((resolve, reject) => {
 
 ::: tip 注意
 Promise的状态是私有的，不能直接通过Javascript检测到
+
+- Promise在落定状态之后，与之相关的处理程序会被排期，不会立刻执行，跟在添加这个处理程序之后的同步代码一定会在处理程序之前执行。（处理程序，promise中的then等等）
 :::
 
 #### Promise.resolve(data)
@@ -3305,7 +3307,25 @@ Promise.reject("test-reject")
 - 该方法接受两个参数：
 - onFulfilled 处理程序 - 兑现状态是执行
 - onRejected 处理程序 - 拒绝状态时执行
+::: details 点击查看代码
+```js
+//默认一个参数
+var promise = new Promise((resolve, reject) => {
+  resolve("成功~");
+  //or
+  // reject('失败~')
+});
 
+promise.then(
+  (res) => {
+    console.log(res); //成功~
+  },
+  (error) => {
+    console.log(error); // 失败~
+  }
+);
+```
+:::
 
 #### Promise.prototype.catch(onRejected)
 
@@ -3313,5 +3333,234 @@ Promise.reject("test-reject")
 - 实际上 catch 的行为与调用 Promise.prototype.then(undefined, onRejected) 相同 
 - `obj.catch(onRejected)` 内部 `calls`了 `obj.then(undefined, onRejected)`
 
+::: details 点击查看代码
+```js
+var promise = new Promise((resolve, reject) => {
+  throw "出现了错误~";
+});
+promise.then(
+  (res) => {
+    console.log(res);
+  },
+  (e) => {
+    console.log(e); //出现了错误~
+  }
+);
+
+promise
+  .then((res) => {
+    console.log(res);
+  })
+  .catch((e) => {
+    console.log(e); //出现了错误~
+  });
+```
+:::
+
 #### Promise.prototype.finally(onFinally)
 > finally() 方法返回一个 Promise。在 promise 结束时，无论结果是 fulfilled 或者是 rejected，都会执行指定的回调函数。
+
+
+- 需要注意的是finally无法知道该期约是成功还是失败
+
+::: details 点击查看代码
+```js
+var promise = new Promise((resolve, reject) => {
+  resolve("成功~");
+  //or
+  // reject('失败~')
+});
+
+promise
+  .then(
+    (res) => {
+      console.log(res); //成功~
+    },
+    (error) => {
+      console.log(error); // 失败~
+    }
+  )
+  .finally((res) => {
+    console.log("finally~");
+  });
+```
+:::
+
+#### 拒绝期约与拒绝错误处理
+- 无论是使用  `reject() `还是 `throwError()`都会在期约的执行函数或者处理程序中抛出错误，导致拒绝。
+- 对应的错误对象会成为拒绝的原因
+- 通常在Javascript运行时的错误处理机制，回停止执行抛出错误之后的任何指令
+- 但是在Promise中抛出错误时，不会阻止继续执行的同步指令
+#### 期约连锁与期约合成
+期约连锁
+- 由于每个Promise的实例方法(`then catch finally`)等都会返回一个新的Promise对象，新的Promise又有自己新的实例方法。这样连续方法调用构成期约连锁，链式调用。
+- 可以解决回调地狱
+
+#### Promise.all()和Promise.race()
+
+Promise.all()
+> 传参需要是一个可迭代对象 Promise.all 返回一个 Promise 对象（解决值数组对象）。 该 Promise 对象会在 Promise.all 的 iterable 参数对象里的所有 Promise 对象都成功才会触发。
+
+- 简单来说就是只有 Promise.all 参数里的所有 Promise 成功才会触发
+- 有一个失败就不会触发,返回失败。
+- 如果有期约失败，则第一个失败的期约回将自己的理由作为合成期约的拒绝理由，之后在拒绝的期约不会影响最终期约的拒绝理由
+
+Promise.race()
+
+> 传参需要是一个可迭代对象 Promise.race 返回一个 Promise 对象。 接收一个 Promise 对象的集合，当其中的一个 promise 成功或者失败时，就返回那个成功或者失败的 promise 的值。
+- 同样的，如果有期约失败，则第一个失败的期约回将自己的理由作为合成期约的拒绝理由，之后在拒绝的期约不会影响最终期约的拒绝理由
+
+#### 期约拓展
+ES6不支持取消期约和进度通知
+- 期约取消
+- 期约进度通知
+
+
+### 异步函数
+
+> ES8的async和await旨在解决利用异步结构阻止代码的问题。为此，ECMAScript对函数进行了拓展，新增加了两个关键字 async和await
+
+#### async
+> 用于声明异步函数。可以用在函数声明，函数表达式，箭头函数和方法。
+
+::: tip 注意
+如果加了async的函数使用return关键字返回了值，这个值会被Promise.resolve()包装成一个Promise对象。
+- 异步函数始终返回Promise对象
+::: 
+
+
+::: details 点击查看代码
+```js
+//无返回值
+async function foo() {
+ console.log(1)
+}
+foo()
+console.log(2)
+//1
+//2
+
+//有返回值
+async function foo() {
+ console.log(1)
+ return 2
+}
+foo().then(res => {
+ console.log(res)
+})
+console.log(3)
+//1
+//3
+//2
+```
+::: 
+
+#### await
+> 使用await关键字可以暂停异步函数代码的执行，等待期约解决
+::: tip 注意
+await关键字会暂停执行异步函数后面的代码，当异步函数有值返回后，再恢复异步函数后面代码的执行
+- await必须在异步函数中使用
+- 不能在顶级上下文如script标签或者模块中使用
+- 但是可以定义并立即调用异步函数
+:::
+
+#### 异步函数策略
+
+实现sleep()
+```js
+async function sleep(delay){
+ return new Promise(resolve=>{setTimeout(resolve,delay)})
+}
+```
+利用平行执行
+串行执行期约
+栈追踪与内存管理
+
+
+## BOM
+- BOM核心-window对象
+- 控制窗口以及弹窗
+- 通过location对象获取页面信息
+- 通过navigator对象了解浏览器
+- 通过history对象操作浏览器历史
+
+在HTML5规范中有一部分涵盖了BOM的主要内容。
+
+### Window对象
+ > BOM的核心是window对象，表示浏览器的实例。
+ - window对象在浏览器中有两重身份
+    - ECMAScript中的Global对象
+    - 浏览器窗口的Javascript接口
+::: tip 注意
+因为window对象的属性在全局作用域汇总有效，因此很多浏览器API以及相关构造函数都以Window对象属性的形式暴露出来。
+- 因为实现不同，在不同浏览器window对象可能存在差异
+:::
+
+#### Global作用域
+- 通过var声明的所有全局变量和方法都会变成window对象的属性和方法
+   - 通过let和const定义的则不会给变量添加给全局对象
+
+通过window查询是否存在可能未声明的变量
+```js
+var newValue=oldValue  //会报错，如果为定义oldValue
+
+var newValue=window.oldValue //不会操作，如果oldValue为定义，newValue的值为undefined
+
+```
+
+#### 窗口关系
+- `window.self `
+- `window.parent`
+- `window.top`
+- `window.open()`
+
+#### 窗口位置与像素比
+
+- `window.screenLeft`： 窗口相当于屏幕左侧的位置，返回值单位是CSS像素
+- `window.screenTop`：窗口相当于屏幕顶部的位置，返回值单位是CSS像素
+
+- `window.moveTo(x,y)`： 移动窗口，接受两个参数，绝对左边x和y
+- `window.moveBy(x,y)`： 移动窗口，接受两个参数，相对与当前位置移动的像素数
+
+
+- `window.devicePixelRatio`： 像素比
+
+
+#### 窗口大小
+
+- `window.innerWidth`：返回浏览器窗口的大小
+- `window.innerHeight`：返回浏览器窗口的大小
+
+- `window.outerWidth`：返回浏览器页面窗口的大小
+- `window.outerHeight`：返回浏览器页面窗口的大小
+
+
+- `document.documentElement.clientWidth`： 返回页面视口宽度
+- `document.documentElement.clientHeight`： 返回页面视口高度
+
+- `document.compatMode`
+   - 值为`BackCompat`时，浏览器客户区宽度是`document.body.clientWidth`；
+   - 值为`CSS1Compat`时，浏览器客户区宽度是`document.documentElement.clientWidth`;
+   - 高度同理
+
+
+- `resizeTo()`： 调整窗口大小，接受两个值，新的宽度和高度
+- `resizeBy()`： 调整窗口大小，接受两个值，宽度和高度各缩放多少
+
+#### 视口位置
+
+- `window.pageXoffset/window.scrollX`：返回相对于视口滚动距离
+- `window.pageYoffset/window.scrollY`：返回相对于视口滚动距离
+
+- `window.scroll()`：滚动页面，接受两个值，要滚动到的坐标
+- `window.scrollTo()`：滚动页面，接受两个值，要滚动到的坐标
+- `window.scrollBy()`：滚动页面，接受两个值，要滚动的距离
+   - 以上方法可以接受一个`ScrollToOptions`字典
+   - 通过`behavior`属性表示是否平滑滚动`auto,smooth`
+   ```js
+   window.scrollTo({left:100,top:100,behavior:'auto'})
+   ```
+
+#### 导航与打开新窗口
+- `window.open()`：打开新的浏览器窗口
+- ``
