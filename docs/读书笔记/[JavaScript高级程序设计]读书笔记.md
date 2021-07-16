@@ -3563,4 +3563,110 @@ var newValue=window.oldValue //不会操作，如果oldValue为定义，newValue
 
 #### 导航与打开新窗口
 - `window.open()`：打开新的浏览器窗口
-- ``
+   - 4个参数：要加载的URL、目标窗口、特性字符串和表示新窗口在浏览器历史记录中是否替代当前加载页面的布尔值
+
+
+#### 定时器
+- `setTimeout()`：使用定时器在某个时间之后执行代码
+   - 接受两个参数，要执行的代码字符串或者函数，和等待时间
+   - 返回值：一个表示该定时器的数值ID
+   - `clearTimeout()`，传入定时器ID，清除定时器，可以在执行之前清除
+   - 在该方法中this指向window
+- `setInterval()`：指定每隔一段时间执行某些代码
+   - 接受两个参数，要执行的代码字符串或者函数，和等待时间
+   - 返回值：一个表示该定时器的数值ID
+   - `clearInterval()`，传入定时器ID，清除计时器
+   - 在该方法中this指向window
+
+
+#### 系统对话框
+
+- `alert()`：弹出指定内容的系统对话框
+- `comfirm()`：弹出指定内容的系统对话框，带有确认与取消
+  - 返回值，确认为true，取消为false
+- `prompt()`：弹出提示输入框，
+  - 返回值为输入内容
+
+
+### location对象
+
+> location对象是一个特殊的对象，它既是window的属性，也是document的属性。
+- `window.location`和`document.location`指向同一个对象
+- `location`不仅保存这当前加载文档的信息，也保存着吧URL解析为离散片段后通过属性访问的信息
+
+
+
+以`http://foouser:barpassword@www.wrox.com:80/WileyCDA/?q=javascript#contents`
+
+
+为例：
+
+
+- `location.hash`： URL散列值，#后面跟着的自负，没有则为空字符串
+  - `#contents`
+- `location.host`： 域名(服务器名)以及端口号
+  - `www.wrox.com:80`
+- `location.hostname`： 域名(服务器名)
+  - `www.wrox.com`
+- `location.href`： 当前加载页面的完整URL
+  - `http://www.wrox.com:80/WileyCDA/?q=javascript#contents`
+- `location.port`： 请求的端口号
+  - `80`
+- `location.portocol`： 页面使用协议
+  - `http：`
+- `location.search`： URL的查询字符串，这个字符串以问号开头
+  - `?q=javascript` 
+- `location.username`： 域名前指定的用户名
+  - `foouser`
+- `location.password`： 域名前指定的密码
+  - `barpassword`
+- `location.origin`： URL的原地址（只读）
+  - `http://www.wrox.com`
+
+:::  tip 注意
+除了hash之外，只要修改location的一个属性，就会导致页面重新加载URL
+:::
+  #### 查询字符串
+
+  > URLSearchParams 提供了一组标准API方法，通过他们可以检查和修改查询字符串
+
+- `new URLSearchParams('?key=name&id=123')`
+  - `get(key)`
+  - `set(key,value)`
+  - `delete(key)`
+
+#### 操作地址
+
+ - `location.assing(url)`： 跳转到新URL，同时添加一条历史记录
+    - 使用`location.href`和`window.location`时，都会执行与显示调用`assign()`一样的操作
+
+ - `location.replace(url)`： 跳转到新URL但是不会增加历史记录
+ - `location.reload()`： 重新加载
+ - `location.reload(true)`： 重新加载，从服务器加载
+
+
+ ### navigator对象
+ > 客户端标识，只要浏览器启用Javascript，navigator对象就一定存在。
+ - 与其他BOM对象一样，每个浏览器都支持自己的属性
+ - navigator具体相关属性不再列举
+
+::: tip 注意
+navigator对象的属性通常用于确定浏览器的类型
+:::
+#### 检测插件
+#### 注册处理程序
+
+
+
+### screen对象
+> 编程中很少使用，对象中保存的纯粹是客户端能力信息。也就是浏览器窗口外面的客户端显示器的信息，比如像素宽度，和像素高度等等。
+
+
+### history对象
+> 表示当前窗口首次使用以来用户的导航历史记录。history是window的属性。
+
+#### 导航
+- history.go()：前进或者后退，根据传参判断多少步
+- history.back()： 后退一页
+- history.forward()：前进一页
+- history.length：表示历史记录中有多个条目，反应历史记录的数量。
