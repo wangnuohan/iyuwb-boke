@@ -85,7 +85,7 @@ module.exports = {
     'React入门',
    ],
    '/TypeScript/': [
-    '从0开始了解TypeScript',
+    'TypeScript基础',
    ],
    '/Vue/': [
     'Vue进阶之旅',
