@@ -1561,201 +1561,215 @@ console.log(generatorFn);
 表示生成器的星号不受两侧空格的影响
 :::
 
-调用生成器函数会产生一个生成器对象：生成器对象一开始处于暂停执行（suspended）的状态。与迭代器相似，生成器对象也实现了Iterator接口，因此具有next()方法。调用这个方法会让生成器开始或恢复执行。
+调用生成器函数会产生一个生成器对象：生成器对象一开始处于暂停执行（suspended）的状态。与迭代器相似，生成器对象也实现了 Iterator 接口，因此具有 next()方法。调用这个方法会让生成器开始或恢复执行。
 
 ```js
-let g = function* () {}
-console.log(g)
-console.log(g().next())
+let g = function*() {};
+console.log(g);
+console.log(g().next());
 //[GeneratorFunction: g]
 //{ value: undefined, done: true }
 ```
-生成器对象实现了Iterable接口，他们默认的迭代器是自引用的。
 
-### 通过yield中断执行
- >` yield`关键字可以让生成器停止和开始执行。
+生成器对象实现了 Iterable 接口，他们默认的迭代器是自引用的。
 
-- 生成器函数在遇到yield关键字之前回正常执行。
-- 遇到yield之后，执行回停止，函数作用域的状态会被保留。
-- 只能通过在生成器对象上调用next()
+### 通过 yield 中断执行
 
+> `yield`关键字可以让生成器停止和开始执行。
+
+- 生成器函数在遇到 yield 关键字之前回正常执行。
+- 遇到 yield 之后，执行回停止，函数作用域的状态会被保留。
+- 只能通过在生成器对象上调用 next()
 
 :::details 点击查看代码
+
 ```js
 function* generatorfn() {
- yield 'wenbo01'
- yield 'wenbo02'
- return 'returns'
+  yield "wenbo01";
+  yield "wenbo02";
+  return "returns";
 }
-let g = generatorfn()
-console.log(g.next())
-console.log(g.next())
-console.log(g.next())
-console.log(g.next())
+let g = generatorfn();
+console.log(g.next());
+console.log(g.next());
+console.log(g.next());
+console.log(g.next());
 
 //{ value: 'wenbo01', done: false }
 //{ value: 'wenbo02', done: false }
 //{ value: 'returns', done: true }
 //{ value: undefined, done: true }
 ```
+
 :::
 
 ::: tip 注意
 生成器函数内部的执行流程会针对每个生成器对象区分作用域。
-在一个生成器对象上调用next()不会影响其他生成器。
+在一个生成器对象上调用 next()不会影响其他生成器。
 :::
 
 ::: tip 注意
-yield关键字只能在生成器函数内部使用，用在其他地方会抛出异常。
+yield 关键字只能在生成器函数内部使用，用在其他地方会抛出异常。
 :::
 
 ::: tip 注意
-可以使用星号增强yield的行为，让他能够迭代一个可迭代对象，从而一次产出一个值
+可以使用星号增强 yield 的行为，让他能够迭代一个可迭代对象，从而一次产出一个值
 
 ```js
 function* generatorfn() {
- yield*[1, 2, 3]
-
+  yield* [1, 2, 3];
 }
-let g = generatorfn()
-console.log(g.next())
-console.log(g.next())
-console.log(g.next())
-console.log(g.next())
+let g = generatorfn();
+console.log(g.next());
+console.log(g.next());
+console.log(g.next());
+console.log(g.next());
 //{ value: 1, done: false }
 //{ value: 2, done: false }
 //{ value: 3, done: false }
 //{ value: undefined, done: true }
 ```
+
 :::
 
 ### 提前终止生成器
+
 强制生成器进入关闭状态
+
 - `return()` 所有生成器都有`return()`方法，进入关闭无法恢复
 - `throw()`
 
 :::details 点击查看代码
+
 ```js
-//return 
+//return
 function* generatorfn() {
- yield*[1, 2, 3]
+  yield* [1, 2, 3];
 }
 
-let g = generatorfn()
-console.log(g.next())
-console.log(g.return(4))
-console.log(g.next())
+let g = generatorfn();
+console.log(g.next());
+console.log(g.return(4));
+console.log(g.next());
 //{ value: 1, done: false }
 //{ value: 4, done: true }
 //{ value: undefined, done: true }
 
 //throw
-
-
 ```
+
 :::
 
 ## 对象，类与面向对象编程
-> 对象：ECMA-262将对象定义为一组属性的无序集合
+
+> 对象：ECMA-262 将对象定义为一组属性的无序集合
 
 ### 对象属性
 
 描述对象内部特性的属性
-- 数据属性：包含一个保存数据值的位置，值会从这个位置读取，也会写入到这个位置。数据属性有4个特性描述它们的行为。
-- 访问器属性：不包括数值，只包括getter获取和setter设置函数。
+
+- 数据属性：包含一个保存数据值的位置，值会从这个位置读取，也会写入到这个位置。数据属性有 4 个特性描述它们的行为。
+- 访问器属性：不包括数值，只包括 getter 获取和 setter 设置函数。
   - setter：在写入访问器属性的时候调用,会调用设置函数并传入新值，这个函数必须决定对数据做出什么修改
   - getter：在读取访问器属性的时候调用
 
-
 ::: tip 注意
-ECMA-262使用一些内部特性来描述属性的特征。这些特性是由为JavaScript实现引擎的规范定义的。因此，开发者不能在JavaScript中直接访问这些特性。
+ECMA-262 使用一些内部特性来描述属性的特征。这些特性是由为 JavaScript 实现引擎的规范定义的。因此，开发者不能在 JavaScript 中直接访问这些特性。
 :::
+
 #### 数据属性
 
 - 「configurable」：表示属性是否可以通过`delete`删除并重新定义
 - 「enumerable」：表示是否可以通`for-in`循环返回
 - 「writable」：表示属性的值是否可以修改
 - 「value」：包含属性实际的值
-- 以上属性除了value，默认都为`true`
+- 以上属性除了 value，默认都为`true`
 
 #### 设置数据属性
-> 需要修改属性的默认特性，就必须使用Object.defineProperty()方法
-::: details 点击查看代码
+
+> 需要修改属性的默认特性，就必须使用 Object.defineProperty()方法
+> ::: details 点击查看代码
+
 ```js
-let demo = {}
-Object.defineProperty(demo, 'name', {
- configurable: true,
- enumerable: true,
- writable: true,
- value: 'Yevin'
-})
-
+let demo = {};
+Object.defineProperty(demo, "name", {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  value: "Yevin",
+});
 ```
-:::
-#### 访问器属性
-- 「set」：设置函数，在写入属性时调用。默认值为undefined
-- 「get」：获取函数，在读取属性时调用。默认值为undefined。
 
+:::
+
+#### 访问器属性
+
+- 「set」：设置函数，在写入属性时调用。默认值为 undefined
+- 「get」：获取函数，在读取属性时调用。默认值为 undefined。
 
 #### 设置访问器属性
+
 访问器属性不能直接定义，需要借助`Object.defineProperty()`
 ::: details 点击查看代码
+
 ```js
 let demo = {
- _name: 'wenbo'
-}
-console.log(demo, demo._name, demo.name)
+  _name: "wenbo",
+};
+console.log(demo, demo._name, demo.name);
 //{_name:'wenbo'}   wenbo  undefined
-let test = ''
+let test = "";
 //监听demo的name值，使其在改变和获取的时候改变和返回_name的值
 //实际上，并没有直接改变或者获取demo对象上name的值，而是返回和改变demo上_name的值
-Object.defineProperty(demo, 'name', {
- get() {
-  return this._name
- },
- set(val) {
-  this._name = val
-  test = val
- }
-})
-console.log(demo, demo._name, demo.name)
+Object.defineProperty(demo, "name", {
+  get() {
+    return this._name;
+  },
+  set(val) {
+    this._name = val;
+    test = val;
+  },
+});
+console.log(demo, demo._name, demo.name);
 //{_name:'wenbo'}   wenbo  wenbo
-demo.name = "zhijian"
-console.log(demo, demo.name, test)
+demo.name = "zhijian";
+console.log(demo, demo.name, test);
 //{_name:'zhijian'}  zhijian  zhijian
 ```
+
 :::
 
 #### 获取属性的特性
 
-> 使用Object.getOwnPropertyDescriptor()方法可以取得指定属性的属性描述符。
+> 使用 Object.getOwnPropertyDescriptor()方法可以取得指定属性的属性描述符。
 
 ::: details 点击查看代码
+
 ```js
-let demo = {}
+let demo = {};
 
 Object.defineProperties(demo, {
- _name: {
-  value: 'zhijian',
-  enumerable: false
- },
- name: {
-  get() {
-   return this._name
+  _name: {
+    value: "zhijian",
+    enumerable: false,
   },
-  set(val) {
-   this._name = val
-  }
- }
-})
+  name: {
+    get() {
+      return this._name;
+    },
+    set(val) {
+      this._name = val;
+    },
+  },
+});
 
-let test = Object.getOwnPropertyDescriptor(demo, '_name')
-console.log(test.value)
-console.log(test.configurable)
-console.log(test.enumerable)
-console.log(test.writable)
-console.log(test.get)
-console.log(test.set)
+let test = Object.getOwnPropertyDescriptor(demo, "_name");
+console.log(test.value);
+console.log(test.configurable);
+console.log(test.enumerable);
+console.log(test.writable);
+console.log(test.get);
+console.log(test.set);
 //zhijian
 //false
 //false
@@ -1763,13 +1777,13 @@ console.log(test.set)
 //undefined
 //undefined
 
-let test1 = Object.getOwnPropertyDescriptor(demo, 'name')
-console.log(test1.value)
-console.log(test1.configurable)
-console.log(test1.enumerable)
-console.log(test1.writable)
-console.log(test1.get)
-console.log(test1.set)
+let test1 = Object.getOwnPropertyDescriptor(demo, "name");
+console.log(test1.value);
+console.log(test1.configurable);
+console.log(test1.enumerable);
+console.log(test1.writable);
+console.log(test1.get);
+console.log(test1.set);
 //undefined
 //false
 //false
@@ -1777,257 +1791,263 @@ console.log(test1.set)
 //[Function: get]
 //[Function: set]
 ```
+
 :::
 
 ### 对象方法
+
 #### 合并对象
 
->通过ES6 新增方法 `Object.assign()`合并对象
+> 通过 ES6 新增方法 `Object.assign()`合并对象
 
->方法会使用源对象上的[[Get]]取得属性的值，然后使用目标对象上的[[Set]]设置属性的值。
+> 方法会使用源对象上的[[Get]]取得属性的值，然后使用目标对象上的[[Set]]设置属性的值。
 
 ::: tip 注意
 `Object.assign()`实际上对每个源对象执行的是浅复制。
 并且该方法会改变源对象的数据,即第一个参数对象的数据
 :::
 ::: details 点击查看代码
+
 ```js
 let a = {
- name: 'yewen'
-}
+  name: "yewen",
+};
 let b = {
- name: 'zhijian',
- age: '18'
-}
-console.log(Object.assign(a, b), a, b)
+  name: "zhijian",
+  age: "18",
+};
+console.log(Object.assign(a, b), a, b);
 //{ name: 'zhijian', age: '18' } { name: 'zhijian', age: '18' } { name: 'zhijian', age: '18' }
 
-
 let a1 = {
- name: 'yewen',
- age: '18'
-}
+  name: "yewen",
+  age: "18",
+};
 let b1 = {
- name: 'zhijian',
-
-}
-console.log(Object.assign(a1, b1), a1, b1)
+  name: "zhijian",
+};
+console.log(Object.assign(a1, b1), a1, b1);
 //{ name: 'zhijian', age: '18' } { name: 'zhijian', age: '18' } { name: 'zhijian' }
 ```
-:::
-####  相等判定
 
- >ECMAScript 6规范新增了`Object.is()`，方法必须接收两个参数。
+:::
+
+#### 相等判定
+
+> ECMAScript 6 规范新增了`Object.is()`，方法必须接收两个参数。
 
 #### 增强对象语法
 
-- 属性值简写   
+- 属性值简写
 - 可计算属性
 - 方法名简写
 
 ::: details 点击查看代码
+
 ```js
 //属性值简写
-let name="zhijian"
-const obj={
- name
-}
+let name = "zhijian";
+const obj = {
+  name,
+};
 //可计算属性
-let name="yewen"
-const obj={
- [name]:'zhijian'
-}
+let name = "yewen";
+const obj = {
+  [name]: "zhijian",
+};
 //方法名简写
-const obj={
- eat:function(){}
-}
-const obj={
- eat(){
-
- }
-}
-
+const obj = {
+  eat: function() {},
+};
+const obj = {
+  eat() {},
+};
 ```
+
 :::
 
 #### 对象解构
-> 解构，ES6新增语法，可以在一个语句中使用潜逃数据实现一个或者多个赋值操作
 
+> 解构，ES6 新增语法，可以在一个语句中使用潜逃数据实现一个或者多个赋值操作
 
 ```js
 const obj = {
- a: 1,
- b: 2
-}
-const {
- a,
- b
-} = obj
-console.log(obj, a, b) // {a:1,b:2}   1   2
+  a: 1,
+  b: 2,
+};
+const { a, b } = obj;
+console.log(obj, a, b); // {a:1,b:2}   1   2
 
-let {
- a: c,
- b: d
-} = obj
-console.log(c, b) // 1  2
+let { a: c, b: d } = obj;
+console.log(c, b); // 1  2
 ```
+
 - 解构复制可以值复制需要的属性
-- 如果引用的属性不存在，则该变量的值为undefined
+- 如果引用的属性不存在，则该变量的值为 undefined
 - 解构复制的同时也可以定义默认值，当属性不存在，变量就为默认值
 
-
 ### 对象创建
+
 - 字面量
 - 构造函数
 
-> ES6正式开始支持类和继承
-
+> ES6 正式开始支持类和继承
 
 #### 工厂模式
+
 一种按照特定接口创建对象的方式
+
 - 解决创建多个类似对象的问题
 - 没有解决对象标识问题，新创建的对象是什么类型
 
 ```js
 function creatPerson(name, age, job) {
- let o = new Object()
- o.name = name
- o.age = age
- o.job = job
- o.sayName = function () {
-  console.log(this.name)
- }
- return o
+  let o = new Object();
+  o.name = name;
+  o.age = age;
+  o.job = job;
+  o.sayName = function() {
+    console.log(this.name);
+  };
+  return o;
 }
 
-let person1=creatPerson('zhijian',18,'code')
+let person1 = creatPerson("zhijian", 18, "code");
 ```
-
 
 #### 构造函数模式
 
 构造函数是用于构造特定类型对象。
-- 按照惯例，构造函数名称的首字母要大写。
 
+- 按照惯例，构造函数名称的首字母要大写。
 
 ```js
 function Person(name, age, job) {
- this.name = name
- this.age = age
- this.job = job
- this.sayName = function () {
-  console.log(this.name)
- }
+  this.name = name;
+  this.age = age;
+  this.job = job;
+  this.sayName = function() {
+    console.log(this.name);
+  };
 }
-let person1=new Person('zhijian',18,'code')
+let person1 = new Person("zhijian", 18, "code");
 ```
-创建Person实力时，应使用new操作符：
+
+创建 Person 实力时，应使用 new 操作符：
+
 - 在内存中创建一个新对象
-- 这个新对象内部的[[Prototype]]特性被赋值为构造函数的property属性
-- 构造函数内部的this被赋值为这个新对象（this指向新对象）
+- 这个新对象内部的[[Prototype]]特性被赋值为构造函数的 property 属性
+- 构造函数内部的 this 被赋值为这个新对象（this 指向新对象）
 - 执行构造函数内部的代码（给新对象添加属性）
 - 如果构造函数返回非空对象，则返回该对象，否则返回刚创建的新对象
 
 ::: tip 注意
-- 构造函数也是函数，构造函数需要用new调用
+
+- 构造函数也是函数，构造函数需要用 new 调用
 - 问题：定义的方法会在每个实例上创建一遍
 - 解决方法：可以把函数定义转移刀构造函数外部
 - 也可以通过原型来处理
-:::
+  :::
 
 #### 原型模式
 
-> 每个函数都会创建一个prototype属性，这个属性是一个对象，包含应该由特定引用类型的实例共享的属性和方法
+> 每个函数都会创建一个 prototype 属性，这个属性是一个对象，包含应该由特定引用类型的实例共享的属性和方法
 
 实际上，这个对象就是通过调用构造函数创建的对象的原型。使用原型对象的好处是，在它上面定义的属性和方法可以被对象实例共享。
-```js
-function Person(name,age){
- this.name=name
- this.age=age
-}
-Person.property.sayName=function(){
- console.log(this.name)
-}
 
+```js
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+}
+Person.property.sayName = function() {
+  console.log(this.name);
+};
 ```
 
 ::: tip 注意
 原型链理解
+
 - Object.isPrototypeOf
 - Object.getPrototypeOf
 - Object.setPrototypeOf
 - Object.create()
 
-in操作符会在可以通过对象访问指定属性时返回true，无论该属性是在实例上还是在原型上
-operty()返回false，就说明该属性是一个原型属性
+in 操作符会在可以通过对象访问指定属性时返回 true，无论该属性是在实例上还是在原型上
+operty()返回 false，就说明该属性是一个原型属性
 
-Object.keys()和Object.getOwnPropertyNames()不会从原型链上循环拿取属性
+Object.keys()和 Object.getOwnPropertyNames()不会从原型链上循环拿取属性
 :::
 
 #### 属性枚举顺序
- > for-in循环、Object.keys()、Object.getOwnPropertyNames()、Object.getOwnProperty-Symbols()以及Object.assign()在属性枚举顺序方面有很大区别。for-in循环和Object.keys()的枚举顺序是不确定的，取决于JavaScript引擎，可能因浏览器而异。
- 
- > Object.getOwnPropertyNames()、Object.getOwnPropertySymbols()和Object.assign()的枚举顺序是确定性的。先以升序枚举数值键，然后以插入顺序枚举字符串和符号键。在对象字面量中定义的键以它们逗号分隔的顺序插入。
+
+> for-in 循环、Object.keys()、Object.getOwnPropertyNames()、Object.getOwnProperty-Symbols()以及 Object.assign()在属性枚举顺序方面有很大区别。for-in 循环和 Object.keys()的枚举顺序是不确定的，取决于 JavaScript 引擎，可能因浏览器而异。
+
+> Object.getOwnPropertyNames()、Object.getOwnPropertySymbols()和 Object.assign()的枚举顺序是确定性的。先以升序枚举数值键，然后以插入顺序枚举字符串和符号键。在对象字面量中定义的键以它们逗号分隔的顺序插入。
 
 #### 对象迭代
-> ES 2017新增两个静态方法
+
+> ES 2017 新增两个静态方法
 
 - `Object.values()` 返回对象值的数组
 - `Object.entries()` 返回对象健值对的数组
 
 其他原型语法
 
-自定义prototype属性
+自定义 prototype 属性
 
 :::details 点击显示代码
-```js
-function Person(){}
 
-Person.prototype={
- name:'zhijian',
- age:18,
- sayName(){
-  console.log(this.name)
- }
-}
+```js
+function Person() {}
+
+Person.prototype = {
+  name: "zhijian",
+  age: 18,
+  sayName() {
+    console.log(this.name);
+  },
+};
 //注意这样设置后 prototype的constructor属性就不指向Person了，因为重写了默认的prototype对象。
 
 //可以手动指向constructor
 
-function Person(){}
+function Person() {}
 
-Person.prototype={
- constructor:Person,
- name:'zhijian',
- age:18,
- sayName(){
-  console.log(this.name)
- }
-}
+Person.prototype = {
+  constructor: Person,
+  name: "zhijian",
+  age: 18,
+  sayName() {
+    console.log(this.name);
+  },
+};
 //注意：以这种方式恢复constructor属性会创建一个[[Enumerable]]为true的属性。而原生constructor属性默认是不可枚举的
 
 //可以使用Object.defineProperty()方法来定义constructor属性
 
-function Person(){}
+function Person() {}
 
-Person.prototype={
- constructor:Person,
- name:'zhijian',
- age:18,
- sayName(){
-  console.log(this.name)
- }
-}
-Object.defineProperty(Person.prototype,'constructor',{
- enumerable:false,
- value:Person
-})
+Person.prototype = {
+  constructor: Person,
+  name: "zhijian",
+  age: 18,
+  sayName() {
+    console.log(this.name);
+  },
+};
+Object.defineProperty(Person.prototype, "constructor", {
+  enumerable: false,
+  value: Person,
+});
 ```
+
 :::
 
 原型的动态性
 
 > 因为从原型上搜索值的过程是动态的，所以即使实例在修改原型之前已经存在，任何时候对原型对象所做的修改也会在实例上反映出来。
+
 - 简单来说就是定义实例之后，在原型上添加属性，通过实例仍然能够访问到。
 
 ::: tip 注意
@@ -2037,6 +2057,7 @@ Object.defineProperty(Person.prototype,'constructor',{
 :::
 
 ::: details 点击查看代码
+
 ```js
 function Person(){}
 //
@@ -2059,38 +2080,42 @@ Person.prototype={
   console.log(this.name)
  }
 }
-p.sayName() //  报错 
+p.sayName() //  报错
 
 ```
-:::
 
+:::
 
 原生对象原型
 
-> 原型模式之所以重要，不仅体现在自定义类型上，而且还因为它也是实现所有原生引用类型的模式。所有原生引用类型的构造函数（包括Object、Array、String等）都在原型上定义了实例方法。
+> 原型模式之所以重要，不仅体现在自定义类型上，而且还因为它也是实现所有原生引用类型的模式。所有原生引用类型的构造函数（包括 Object、Array、String 等）都在原型上定义了实例方法。
 
 比如：
+
 - Array
   - sort()
 - String
+
   - substring()
 
 - 同样可以该方法给原生引用类型添加自定义方法（但是不建议）
 
 原型中存在的问题
+
 - 多个实例共享属性
 
 ### 继承
- > 很多对象语言支持两种继承：接口继承和实现继承。前者只继承方法签名，后者继承实际的方法。
 
- > 实现继承是ESMAScript唯一支持的继承方式，主要通过原型链实现。
+> 很多对象语言支持两种继承：接口继承和实现继承。前者只继承方法签名，后者继承实际的方法。
+
+> 实现继承是 ESMAScript 唯一支持的继承方式，主要通过原型链实现。
 
 #### 原型链继承
 
 ::: tip 注意
 原型链
 
-默认情况下，所有引用类型都继承自Object
+默认情况下，所有引用类型都继承自 Object
 :::
 
 > 基本思想：通过原型继承多个引用类型的属性和方法
@@ -2105,6 +2130,7 @@ Father.prototype.skill = function() {
 function Son() {}
 Son.prototype = new Father();
 ```
+
 - 注意：原型中的引用对象会被所有的实例共享
 - 子类有时候需要覆盖父类的方法，或者增加父类没有的方法。为此，这些方法必须在原型赋值之后再添加到原型上
 
@@ -2117,26 +2143,26 @@ Father.prototype.skill = function() {
 };
 function Son() {}
 Son.prototype = new Father();
-Son.prototypr.sonSkill=function(){
- console.log('eat')
-}
+Son.prototypr.sonSkill = function() {
+  console.log("eat");
+};
 ```
 
 ::: tip 注意
 继承时，不能通过对象字面量方式添加新方法，这样会重写原型
 :::
 
-
 确定原型与实例关系
 
-- instanceof 
-- isPrototypeOf() 原型链中包含改原型就返回true
-
+- instanceof
+- isPrototypeOf() 原型链中包含改原型就返回 true
 
 #### 借用构造函数继承
+
 > 基本思想：在子类构造函数中调用父类构造函数
 
 - 存在问题：方法定义子在构造函数内，因此每次创建子类实例都会创建一边方法
+
 ```js
 function Father(name) {
   this.name = name;
@@ -2145,9 +2171,9 @@ function Father(name) {
   };
 }
 
-function Son(name,age) {
+function Son(name, age) {
   Father.call(this, name);
-  this.age=age
+  this.age = age;
 }
 Son.prototype = new Father();
 ```
@@ -2155,6 +2181,7 @@ Son.prototype = new Father();
 #### 组合继承
 
 > 基本思想：综合原型链和借用构造函数继承，将两者结合起来。
+
 ```js
 function Father(name) {
   this.name = name;
@@ -2164,13 +2191,12 @@ Father.prototype.sayName = function() {
 };
 
 function Son(name, age) {
- //继承属性
+  //继承属性
   Father.call(this, name);
   this.age = age;
 }
 //继承方法
 Son.prototype = new Father();
-
 ```
 
 #### 原型式继承
@@ -2184,31 +2210,32 @@ function object(o){
 }
 
 ```
+
 ::: tip 注意
-ES5 通过增加Object.create()将原型式继承的概念规范化了。
-- 方法创建一个新对象，使用现有的对象来提供新创建的对象的__proto__。
+ES5 通过增加 Object.create()将原型式继承的概念规范化了。
+
+- 方法创建一个新对象，使用现有的对象来提供新创建的对象的**proto**。
 - 该方法接受两个参数
 - 1.作为新对象原型的对象
 - 2.给新对象额外定义属性的对象 可选
-:::
-
+  :::
 
 #### 寄生式继承
 
 > 基本思想：创建一个实现继承的函数，以某种方式增强对象，然后返回这个对象。
 
 ```js
-function createAnother(o){
- let clone=object(o)
- clone.sayHi=function(){
-  console.log('hi')
- }
- return clone
+function createAnother(o) {
+  let clone = object(o);
+  clone.sayHi = function() {
+    console.log("hi");
+  };
+  return clone;
 }
-
 ```
 
 #### 寄生式组合继承
+
 ```js
 //寄生组合继承
 // 组合继承会导致调用两次父类构造函数
@@ -2226,26 +2253,26 @@ function Son(name, age) {
 
 Son.prototype = Object.create(Father.prototype);
 Son.prototype.constructor = Son;
-
 ```
 
 ### 类
-> ES6引入class关键字，具有正式定义类的能力。
 
+> ES6 引入 class 关键字，具有正式定义类的能力。
 
 #### 定义类
 
 ```js
 //类声明
-class Person{}
+class Person {}
 //类表达式
-const Animal = class{}
+const Animal = class {};
 ```
+
 > 与函数表达式类似，类表达式在它们被求值前也不能引用。不过，与函数定义不同的是，虽然函数声明可以提升，但类定义不能
 
 > 另一个跟函数声明不同的地方是，函数受函数作用域限制，而类受块作用域限制
 
- 类的构成
+类的构成
 
 - 构造函数方法
 - 实例方法
@@ -2254,124 +2281,135 @@ const Animal = class{}
 - 静态类方法
 
 ::: details 点击查看代码
+
 ```js
 //空类定义
-class Foo{}
+class Foo {}
 
 //有构造函数的类
-class Bar{
- constructor(){
-
- }
+class Bar {
+  constructor() {}
 }
 //有获取函数的类
-class Baz{
- get myBaz(){}
+class Baz {
+  get myBaz() {}
 }
 
 //有静态方法的类
-class Qux{
- static myQux(){}
+class Qux {
+  static myQux() {}
 }
 ```
+
 :::
 
 #### 类构造函数
 
-> constructor关键字用于在类定义块内部创建类的构造函数。方法名constructor会告诉解释器在使用new操作符创建类的新实例时，应该调用这个函数。
+> constructor 关键字用于在类定义块内部创建类的构造函数。方法名 constructor 会告诉解释器在使用 new 操作符创建类的新实例时，应该调用这个函数。
 
 实例化
-- 使用new操作符实例化，相当于使用new调用其构造函数
+
+- 使用 new 操作符实例化，相当于使用 new 调用其构造函数
 
 ```js
-class Person{
- constructor(name){
-  console.log('console:',name)
-  this.name=name
- }
+class Person {
+  constructor(name) {
+    console.log("console:", name);
+    this.name = name;
+  }
 }
-let p=new Person('zhijian') // console:zhijian
-console.log(p.name) //zhijian
+let p = new Person("zhijian"); // console:zhijian
+console.log(p.name); //zhijian
 ```
-默认情况下，类构造函数会在执行之后返回this对象，构造函数返回的对象会被用作实例化的对象。
 
-如果返回的不是this对象，而是其他对象，则该对象不会通过instanceof操作符检测出给类有关联。
+默认情况下，类构造函数会在执行之后返回 this 对象，构造函数返回的对象会被用作实例化的对象。
+
+如果返回的不是 this 对象，而是其他对象，则该对象不会通过 instanceof 操作符检测出给类有关联。
 
 类构造函数与构造函数的区别：
-- 调用构造函数必须使用new操作符，否则会报错
-- 普通构造函数不实用new，则会以全局的this作为内部对象
+
+- 调用构造函数必须使用 new 操作符，否则会报错
+- 普通构造函数不实用 new，则会以全局的 this 作为内部对象
 
 把类当成特殊函数
 
-> ECMAScript类就是一种特殊函数。声明一个类之后，通过typeof操作符检测类标识符，表明它是一个函数
+> ECMAScript 类就是一种特殊函数。声明一个类之后，通过 typeof 操作符检测类标识符，表明它是一个函数
+
 ```js
 class Person{}
 console.log(Person)
 console.log(typeof Person) function
 ```
-- 类标识符 有prototype属性，而这个原型也有constructor属性，指向自身
-- 类可以使用instanceof操作符检查构造函数原型是否存在于实例的原型链中
-- 类中定义的constructor方法不会被当成构造函数
 
+- 类标识符 有 prototype 属性，而这个原型也有 constructor 属性，指向自身
+- 类可以使用 instanceof 操作符检查构造函数原型是否存在于实例的原型链中
+- 类中定义的 constructor 方法不会被当成构造函数
 
 #### 实例，原型和类成员
 
 实例成员
+
 - 每个实例都对应一个唯一的成员对象。所有成员都不会在原型上共享
-原型方法与访问器
+  原型方法与访问器
 - 为了在实例间共享方法，类定于语法把在类块中定义的方法作为原型方法。
-- 在constructor上添加的内容会存在于不同的实例上
+- 在 constructor 上添加的内容会存在于不同的实例上
 - 在类块中定义的所有内容都会定义在类的原型上
 
 ```js
-class Person{
- constructor(){
-  this.test=()=>{console.log('heihei')}
- }
- test(){console.log('prototype')}
+class Person {
+  constructor() {
+    this.test = () => {
+      console.log("heihei");
+    };
+  }
+  test() {
+    console.log("prototype");
+  }
 }
 
-let p =new Person()
-p.test() //heihei 
-Person.prototype.test() //prototype
+let p = new Person();
+p.test(); //heihei
+Person.prototype.test(); //prototype
 ```
 
 - 可以把方法定义在类构造函数中或者类块中，但是不能在类块中给原型添加原始值或者对象作为成员数据。
 - 类方法等同于对象属性，因此可以使用字符串，符号（Symbol）或者计算的值作为健。
 - 类定义支持获取和设置访问器
-```js
-class Person{
- set name(newName){
-  this.name_=newName
 
- }
- get name(){
-  return this.name_
- }
+```js
+class Person {
+  set name(newName) {
+    this.name_ = newName;
+  }
+  get name() {
+    return this.name_;
+  }
 }
 ```
 
 静态类方法
 
-> 在类上定义静态方法，静态类成员在类定义中使用statice关键字作为前缀。在静态成员中，this引用类自身
+> 在类上定义静态方法，静态类成员在类定义中使用 statice 关键字作为前缀。在静态成员中，this 引用类自身
 
 ```js
-class Person{
- constructor(){
-  this.test=()=>{console.log('heihei')}
- }
- test(){
-  console.log('prototype')
- }
- static test(){
-  console.log('static')
- }
+class Person {
+  constructor() {
+    this.test = () => {
+      console.log("heihei");
+    };
+  }
+  test() {
+    console.log("prototype");
+  }
+  static test() {
+    console.log("static");
+  }
 }
 
-let p =new Person()
-p.test() //heihei 
-Person.prototype.test() //prototype
-Person.test() //static
+let p = new Person();
+p.test(); //heihei
+Person.prototype.test(); //prototype
+Person.test(); //static
 ```
 
 非函数原型和类成员
@@ -2410,7 +2448,7 @@ class Person{
 }
 let p=new Person()
 for (let [index,nickname] of p){
- console.log(nickname) 
+ console.log(nickname)
 }
 //zhijian
 //yewen
@@ -2420,81 +2458,85 @@ for (let [index,nickname] of p){
 
 #### 继承
 
- > 类继承使用的是新语法，但是背后依旧使用的是原型链
+> 类继承使用的是新语法，但是背后依旧使用的是原型链
 
 继承基础
 
-ES6支持单继承，使用extends关键字就可以继承任何拥有构造函数和原型的对象。不仅可以继承一个类，也可以继承普通的构造函数。
+ES6 支持单继承，使用 extends 关键字就可以继承任何拥有构造函数和原型的对象。不仅可以继承一个类，也可以继承普通的构造函数。
 
 ```js
+class Father {}
+class Son extends Father {}
 
-class Father{}
-class Son extends Father{}
-
-let s=new Son()
-console.log(s instanceof Son)//true
-console.log(s instanceof Father)//true
+let s = new Son();
+console.log(s instanceof Son); //true
+console.log(s instanceof Father); //true
 
 //普通构造函数
 
-function Father(){}
-class Son extends Father{}
-let s=new Son()
-console.log(s instanceof Son)//true
-console.log(s instanceof Father)//true
+function Father() {}
+class Son extends Father {}
+let s = new Son();
+console.log(s instanceof Son); //true
+console.log(s instanceof Father); //true
 ```
 
 ::: tip 注意
-this的值会反映调用响应方法的实例或者类
+this 的值会反映调用响应方法的实例或者类
 :::
 
 ##### super()
+
 - 派生类：利用继承机制，新的类可以从已有的类中派生。那些用于派生的类称为这些特别派生出的类的“基类”。
 
 > `super()`: 派生类可以通过该关键字引用他们的原型。注意：该关键字只能在派生类中使用。而且仅限于类构造函数，实例方法和静态方法内部。
-> 在类构造函数中使用super可以调用父类构造函数
-```js
-class Father{
- constructor(){
-  this.name='zhijian'
- }
-}
-class Son extends Father{
- constructor(){
-  super() //相当于super.constructor()
- }
-}
-
-let s=new Son()
-console.log(s.name) //zhijian
-```
-在静态方法中可以通过super调用继承的类上定义的静态方法
+> 在类构造函数中使用 super 可以调用父类构造函数
 
 ```js
-class Father{
- constructor(){
-  this.name='zhijian'
- }
- static test(){
-  console.log('test') //test
- }
-}
-class Son extends Father{
-  static test1(){
-   super.test()
+class Father {
+  constructor() {
+    this.name = "zhijian";
   }
 }
-Son.test1() //test
+class Son extends Father {
+  constructor() {
+    super(); //相当于super.constructor()
+  }
+}
+
+let s = new Son();
+console.log(s.name); //zhijian
 ```
+
+在静态方法中可以通过 super 调用继承的类上定义的静态方法
+
+```js
+class Father {
+  constructor() {
+    this.name = "zhijian";
+  }
+  static test() {
+    console.log("test"); //test
+  }
+}
+class Son extends Father {
+  static test1() {
+    super.test();
+  }
+}
+Son.test1(); //test
+```
+
 ::: tip 注意
-- super只能在派生类构造函数和静态方法中使用
-- 不能单独引用super关键字，要么用它调用构造函数，要么用它引用静态方法
-- 调用super()会调用父类构造函数，并将返回的实例赋值给this
+
+- super 只能在派生类构造函数和静态方法中使用
+- 不能单独引用 super 关键字，要么用它调用构造函数，要么用它引用静态方法
+- 调用 super()会调用父类构造函数，并将返回的实例赋值给 this
 - super()的行为如同调用构造函数，如果需要给父类构造函数传值，需要手动传入，比如：`super(name,age)`
-- 在类构造函数中，不能在调用super()之前引用this
-- 如果没有定义类构造函数，在实例化派生类是会自动调用super(),而且会传入所有传给派生类的参数。
-- 如果在派生类中显式定义了构造函数，则要么必须在其中调用super()，要么必须在其中返回一个对象。
-:::
+- 在类构造函数中，不能在调用 super()之前引用 this
+- 如果没有定义类构造函数，在实例化派生类是会自动调用 super(),而且会传入所有传给派生类的参数。
+- 如果在派生类中显式定义了构造函数，则要么必须在其中调用 super()，要么必须在其中返回一个对象。
+  :::
 
 抽象基类
 
@@ -2502,88 +2544,98 @@ Son.test1() //test
 
 ```js
 //抽象基类
-class Father{
- constructor(){
-  if(new.targer===Father){
-   throw new Error('Father cannot be directly instantiated')
+class Father {
+  constructor() {
+    if (new.targer === Father) {
+      throw new Error("Father cannot be directly instantiated");
+    }
   }
- }
 }
 
-class Son  extends Father{}
-new  Son()
-new Father() //会报错
+class Son extends Father {}
+new Son();
+new Father(); //会报错
 ```
 
 继承内置类型
 
-> ES6类 为继承内置引用类型提供了顺畅的机制，开发者可以方便的扩展内置类型。
+> ES6 类 为继承内置引用类型提供了顺畅的机制，开发者可以方便的扩展内置类型。
 
 ```js
 class SuperArray extends Array {
- //洗牌算法
- shuffle() {
-  for (let i = this.length - 1; i > 0; i--) {
-   const j = Math.floor(Math.random() * (i + 1));
-   [this[i], this[j]] = [this[j], this[i]]
+  //洗牌算法
+  shuffle() {
+    for (let i = this.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [this[i], this[j]] = [this[j], this[i]];
+    }
   }
- }
 }
 
-let arr = new SuperArray(1, 2, 3, 4, 5)
-console.log(arr) //[1,2,3,4,5]
-arr.shuffle()
-console.log(arr)
+let arr = new SuperArray(1, 2, 3, 4, 5);
+console.log(arr); //[1,2,3,4,5]
+arr.shuffle();
+console.log(arr);
 ```
 
 类混入
 
 > JS 里的 class 和函数一样，都是高阶的，也就是它可以作为参数，也可以作为返回值
-::: tip 注意
-很多JavaScript框架（特别是React）已经抛弃混入模式，转向了组合模式（把方法提取到独立的类和辅助对象中，然后把它们组合起来，但不使用继承）。这反映了那个众所周知的软件设计原则：“组合胜过继承（compositionover inheritance）。”这个设计原则被很多人遵循，在代码设计中能提供极大的灵活性。
-:::
+> ::: tip 注意
+> 很多 JavaScript 框架（特别是 React）已经抛弃混入模式，转向了组合模式（把方法提取到独立的类和辅助对象中，然后把它们组合起来，但不使用继承）。这反映了那个众所周知的软件设计原则：“组合胜过继承（compositionover inheritance）。”这个设计原则被很多人遵循，在代码设计中能提供极大的灵活性。
+> :::
 
 ## 代理与反射
 
-> ECMAScript 6新增的代理和反射为开发者提供了拦截并向基本操作嵌入额外行为的能力。具体地说，可以给目标对象定义一个关联的代理对象，而这个代理对象可以作为抽象的目标对象来使用。在对目标对象的各种操作影响目标对象之前，可以在代理对象中对这些操作加以控制
+> ECMAScript 6 新增的代理和反射为开发者提供了拦截并向基本操作嵌入额外行为的能力。具体地说，可以给目标对象定义一个关联的代理对象，而这个代理对象可以作为抽象的目标对象来使用。在对目标对象的各种操作影响目标对象之前，可以在代理对象中对这些操作加以控制
 
+缺点：
+
+- 不支持向后兼容
+
+优点：
+
+- 通过捕获器，可以拦截 JS 绝大部分基本操作和方法，在遵从捕获器不变式的情况下，可以修改任何基本操作。
+
+应用场景：
+通过代理，可以创造出各种编码模式，比如跟踪你属性访问，隐藏属性，阻止修改或者删除属性，函数参数验证，数据绑定。
 
 ### 代理基础
 
 代理：
+
 - 目标对象的抽象
 - 目标对象既可以直接被操作，也可以通过代理来操作
 
-
 #### 创建代理
-- 使用Proxy构造函数创建,构造函数接受两个参数：
+
+- 使用 Proxy 构造函数创建,构造函数接受两个参数：
   - 目标对象
   - 处理程序对象
 - 两个参数缺一不可，不然会报错
-- 如果创建空代理，可以传
-
+- 如果创建空代理，可以传一个{}
 
 创建空代理
 ::: details 点击查看代码
 
 ```js
 const target = {
- id: 'target'
-}
-const proxy = new Proxy(target, {})
+  id: "target",
+};
+const proxy = new Proxy(target, {});
 
-console.log(target.id) // target
-console.log(proxy.id)// target
+console.log(target.id); // target
+console.log(proxy.id); // target
 
-target.id = 'zhijian'
-console.log(target.id)//zhijian
-console.log(proxy.id)//zhijian
+target.id = "zhijian";
+console.log(target.id); //zhijian
+console.log(proxy.id); //zhijian
 
-proxy.id = 'yewen'
-console.log(target.id)//yewen
-console.log(proxy.id)//yewen
-
+proxy.id = "yewen";
+console.log(target.id); //yewen
+console.log(proxy.id); //yewen
 ```
+
 :::
 
 #### 定义捕获器
@@ -2594,38 +2646,43 @@ console.log(proxy.id)//yewen
 - 每次在代理对象上调用这些基本操作时，代理可以在这些操作传播到目标对象之前先调用捕获器函数，从而拦截并修改响应的行为。
 
 定义一个`get()`捕获器：
-- 当通过代理对象执行get操作时，就会触发定义的get捕获器
-- JavaScript代码中可以通过多种形式触发并被get捕获器拦截到
-   - proxy[property]
-   - proxy.property
-   - Object.create(proxy)[property]
-   - 等等
-::: details 点击查看代码
+
+- 当通过代理对象执行 get 操作时，就会触发定义的 get 捕获器
+- JavaScript 代码中可以通过多种形式触发并被 get 捕获器拦截到
+  - proxy[property]
+  - proxy.property
+  - Object.create(proxy)[property]
+  - 等等
+    ::: details 点击查看代码
+
 ```js
 const target = {
- foo: 'bar'
-}
+  foo: "bar",
+};
 const handler = {
- get() {
-  return 'get捕获器'
- }
-}
-const proxy = new Proxy(target, handler)
+  get() {
+    return "get捕获器";
+  },
+};
+const proxy = new Proxy(target, handler);
 
-console.log(proxy.foo) //get捕获器
-console.log(target.foo)//bar
+console.log(proxy.foo); //get捕获器
+console.log(target.foo); //bar
 ```
+
 :::
 
 #### 捕获器参数
+
 所有捕获器都可以访问响应的参数，基于这些参数可以重建被捕获方法的原始行为。
 
-
 get()捕获器三个参数：
+
 - 目标对象
 - 要查询属性
 - 代理对象
-::: details 点击查看代码
+  ::: details 点击查看代码
+
 ```js
 const target = {
  foo: 'bar'
@@ -2639,56 +2696,1194 @@ const handler = {
  }
 }
 const proxy = new Proxy(target, handler)
-) 
+)
 target.foo
 
 //true
 //foo
 //true
 ```
+
 :::
 
-#### 反射API：Reflect
+#### 反射 API：Reflect
 
-处理程序对象中所有可以捕获的方法都有对象的反射API方法。
-
+处理程序对象中所有可以捕获的方法都有对象的反射 API 方法。
 
 ::: details 点击查看代码
+
 ```js
 const target = {
- foo: 'bar'
-}
+  foo: "bar",
+};
 const handler = {
- get() {
- return Reflect.get(...arguments)
- }
-}
-const proxy = new Proxy(target, handler)
+  get() {
+    return Reflect.get(...arguments);
+  },
+};
+const proxy = new Proxy(target, handler);
 
-console.log(proxy.foo) //bar
-console.log(target.foo) //bar
+console.log(proxy.foo); //bar
+console.log(target.foo); //bar
 
 //以上可以简化为：
 const target = {
- foo: 'bar'
-}
+  foo: "bar",
+};
 const handler = {
- get:Reflect.get
-}
-const proxy = new Proxy(target, handler)
+  get: Reflect.get,
+};
+const proxy = new Proxy(target, handler);
 
-console.log(proxy.foo) //bar
-console.log(target.foo) //bar
+console.log(proxy.foo); //bar
+console.log(target.foo); //bar
 
 //还可以简化为：
 const target = {
- foo: 'bar'
+  foo: "bar",
+};
+
+const proxy = new Proxy(target, Reflect);
+console.log(proxy.foo); //bar
+console.log(target.foo); //bar
+```
+
+:::
+反射 API 为开发者准备好了样板代码，再次基础上可以用最少的代码修改捕获的方法
+
+#### 捕获器不变式
+
+> 根据 ECMAScript 规范，捕获处理程序的行为必须遵循“捕获器不变式”（trapinvariant）。防止捕获器定义出现过于反常的行为。
+
+例如：目标对象又一个不可配置切不可写的数据属性，那么捕获器返回一个与该属性不同的值时，会报错。
+
+#### 可撤销代理
+
+> Proxyb 暴露了`revocable()`方法，该方法支持撤销代理对象与目标对象的关联。需要注意：撤销代理的操作是不可逆的。
+
+- `revoke()`
+
+#### 实用反射 API
+
+反射 API 与对象 API
+
+在使用反射 API 时：
+
+- 反射 API 并不限于捕获处理程序
+- 大多数反射 API 方法在 Object 类型上有对应的方法
+  Object 上的方法适用于通用程序，而反射方法适用于细粒度的对象控制与操作。
+
+状态标记
+
+- 很多反射方法返回 状态标记 的布尔值，表示执行操作是否成功。而在普通对象方法中会报错。
+
+以下反射方法都会提供 状态标记
+
+- Reflect.defineProperty()
+- Reflect.preventExtensions()
+- Reflect.setPrototype()
+- Reflect.set()
+- Reflect.deleteProperty()
+
+反射方法
+
+- Reflect.get() 可以替代对象属性访问操作符
+- Reflect.set() 可以替代=赋值操作符
+- Reflect.has() 可以替代 in 操作符或 with()
+- Reflect.deleteProperty() 可以替代 delete 操作符
+- Reflect.construct() 可以替代 new 操作符
+
+反射函数
+
+- Reflect.apply
+
+#### 代理另一个代理
+
+代理可以拦截反射 API 的操作，而这意味着完全可以创建一个代理，通过它去代理另一个代理
+
+#### 代理的问题与不足
+
+- 代理中的 this 值
+- 内置引用类型 Date 类型
+
+### 代理捕获器和反射方法
+
+> 代理可以捕获 13 种不同的基本操作。这些操作有各自不同的反射 API 方法、参数、关联 ECMAScript 操作和不变式。
+
+注意：捕获器也会拦截他们对应的反射 API 操作。所以可以使用代理去代理另一个代理对象。
+
+#### get()
+
+- `get()`捕获器会在获取属性值的操作中被调用。
+- 反射 API：`Reflect.get()`。
+- 无返回值
+- 拦截操作：
+  - `proxy.property`
+  - `proxy[property]`
+  - `Object.create(proxy)[property]`
+  - `Reflect.get(proxy, property, receiver)`
+- 拦截器函数传参：
+  - `target`：目标对象
+  - `property`：引用的目标对象上的字符串键属性
+  - `receiver`：代理对象或者继承代理对象的对象
+- 捕获不变式：
+  - 如果`target.property`不可写且不可配置，则处理程序的返回值也必须于`target.property`匹配
+  - 如果`target.property`不可配置，且[[Get]]特性为`undefined`，则处理程序的返回值也必须为`undefined`
+
+#### set()
+
+- `set()`捕获器会在设置属性值的操作中被调用。
+- 反射 API：`Reflect.set()`。
+- 返回值：true 表示成功，false 表示失败，严格模式下会抛出 TypeError
+- 拦截操作：
+  - `proxy.property = value`
+  - `proxy[property] = value`
+  - `Object.create(proxy)[property] = value`
+  - `Reflect.set(proxy, property, value, receiver)`
+- 拦截器函数传参：
+  - `target`：目标对象
+  - `property`：引用的目标对象上的字符串键属性
+  - `value`：要赋给属性的值。
+  - `receiver`：代理对象或者继承代理对象的对象
+- 捕获不变式：
+  - 如果`target.property`不可写且不可配置，则不能修改目标属性的值
+  - 如果`target.property`不可配置，且[[Set]]特性为`undefined`，则处理程序的返回值也必须为`undefined`
+  - 严格模式下，处理程序中返回 false 会抛出 TypeError
+
+#### has()
+
+- `has()`捕获器会在 in 操作符中被调用。
+- 反射 API：`Reflect.has()`。
+- 返回值：必须返回布尔值，表示属性是否存在，返回非布尔值，会被自动转型为布尔值
+- 拦截操作：
+  - `property in proxy`
+  - `property in Object.create(proxy)`
+  - `with(proxy){(property)}`
+  - `Reflect.has(proxy, property)`
+- 拦截器函数传参：
+
+  - `target`：目标对象
+  - `property`：引用的目标对象上的字符串键属性
+
+- 捕获不变式：
+  - 如果`target.property`存在且不可配置，则处理程序必须返回 True
+  - 如果`target.property`存在且目标对象不可拓展，则处理程序必须返回 True
+
+#### defineProperty()
+
+- `defineProperty()`捕获器会在`Object.defineProperty()`中被调用。
+- 反射 API：`Reflect.defineProperty()`。
+- 返回值：必须返回布尔值，表示属性是否成功定义，返回非布尔值，会被自动转型为布尔值
+- 拦截操作：
+  - `Object.defineProperty(proxy,property,descriptor)`
+  - `Reflect.defineProperty(proxy,property,descriptor)`
+- 拦截器函数传参：
+
+  - `target`：目标对象
+  - `property`：引用的目标对象上的字符串键属性
+  - `descriptor`：包含可选的`enumerable`、`configurable`、`writable`、`value`、`get`和`set`定义的对象。
+
+- 捕获不变式：
+  - 如果目标对象不可拓展，则无法定义属性
+  - 如果目标对象有一个可配置的属性，则不能添加同名的不可配置属性
+  - 如果目标对象又一个不可配置的属性，则不能添加同名的可配置属性
+
+#### getOwnPropertyDescriptor()
+
+- `getOwnPropertyDescriptor()`捕获器会在`Object.getOwnPropertyDescriptor()`中被调用。
+- 反射 API：`Reflect.getOwnPropertyDescriptor()`。
+- 返回值：必须返回对象，或者在属性不存在时返回 undefined
+- 拦截操作：
+  - `Object.getOwnPropertyDescriptor(proxy,property)`
+  - `Reflect.getOwnPropertyDescriptor(proxy,property)`
+- 拦截器函数传参：
+  - `target`：目标对象
+  - `property`：引用的目标对象上的字符串键属性
+- 捕获不变式：
+  - 如果自有的 target.property 存在且不可配置，则处理程序必须返回一个表示该属性存在的对象。
+  - 如果自有的 target.property 存在且可配置，则处理程序必须返回表示该属性可配置的对象。
+  - 如果自有的 target.property 存在且 target 不可扩展，则处理程序必须返回一个表示该属性存在的对象。
+  - 如果 target.property 不存在且 target 不可扩展，则处理程序必须返回 undefined 表示该属性不存在。
+  - 如果 target.property 不存在，则处理程序不能返回表示该属性可配置的对象。
+
+#### deleteProperty()
+
+- `deleteProperty()`捕获器会在`Object.deleteProperty()`中被调用。
+- 反射 API：`Reflect.deleteProperty()`。
+- 返回值：必须返回布尔值，表示删除是否成功，返回非布尔值，会被自动转型为布尔值
+- 拦截操作：
+
+  - `delete proxy.property`
+  - `delete proxy[property]`
+  - `Reflect.deleteProperty(proxy,property)`
+
+- 拦截器函数传参：
+  - `target`：目标对象
+  - `property`：引用的目标对象上的字符串键属性
+- 捕获不变式：
+  - 如果自由的 target.property 存在且不可配置，则处理程序不能删除这个属性
+
+#### ownKeys()
+
+- `ownKeys()`捕获器会在`Object.Keys()`中被调用。
+- 反射 API：`Reflect.ownKeys()`。
+- 返回值：必须返回包含字符串或者符号的可枚举
+- 拦截操作：
+
+  - `Object.getOwnPropertyNames(proxy)`
+  - `Object.getOwnPropertyNames(proxy)`
+  - `Object.keys(proxy)`
+  - `Reflect.ownKeys(proxy)`
+
+- 拦截器函数传参：
+  - `target`：目标对象
+  - `property`：引用的目标对象上的字符串键属性
+- 捕获不变式：
+  - 返回的可枚举对象必须包含 target 所有不可配置的自有属性
+  - 如果 target 不可扩展，则返回可枚举对象必须准确的包含自由属性键
+
+#### getPropertyOf()
+
+- `getPropertyOf()`捕获器会在`Object.getPropertyOf()`中被调用。
+- 反射 API：`Reflect.getPropertyOf()`。
+- 返回值：必须返回对象或者 null
+- 拦截操作：
+  - `Object.getPropertyOf(proxy)`
+  - `Reflect.getPropertyOf(proxy)`
+  - `proxy.__proto__`
+  - `Object.prototype.isPrototypeOf(proxy)`
+  - `proxy instanceof Object`
+- 拦截器函数传参：
+
+  - `target`：目标对象
+
+- 捕获不变式：
+  - 如果 target 不可扩展，则`Object.getPropertyOf(proxy)`唯一有效的返回值，就是`Object.getPropertyOf(proxy)`的返回值
+
+#### setPropertyOf()
+
+- `setPropertyOf()`捕获器会在`Object.setPropertyOf()`中被调用。
+- 反射 API：`Reflect.setPropertyOf()`。
+- 返回值：必须返回布尔值，表示原型复制是否成功。返回非布尔值会被转型为布尔值。
+- 拦截操作：
+  - `Object.setPropertyOf(proxy)`
+  - `Reflect.setPropertyOf(proxy)`
+- 拦截器函数传参：
+  - `target`：目标对象
+  - `prototype`:target 的替代原型，如果是顶级原型则为 null
+- 捕获不变式：
+  - 如果 target 不可扩展，则唯一有效的返回值，就是`Object.getPropertyOf(proxy)`的返回值
+
+#### isExtensible()
+
+- `isExtensible()`捕获器会在`Object.isExtensible()`中被调用。
+- 反射 API：`Reflect.isExtensible()`。
+- 返回值：必须返回布尔值，表示 target 是否可扩展。返回非布尔值会被转型为布尔值。
+- 拦截操作：
+  - `Object.isExtensible(proxy)`
+  - `Reflect.isExtensible(proxy)`
+- 拦截器函数传参：
+  - `target`：目标对象
+- 捕获不变式：
+  - 如果 target 不可扩展，则处理程序必须返回 false
+  - 如果 target 可扩展，则处理程序必须返回 true
+
+#### preventExtensions()
+
+- `preventExtensions()`捕获器会在`Object.preventExtensions()`中被调用。
+- 反射 API：`Reflect.preventExtensions()`。
+- 返回值：必须返回布尔值，表示 target 是否以及不可扩展。返回非布尔值会被转型为布尔值。
+- 拦截操作：
+  - `Object.preventExtensions(proxy)`
+  - `Reflect.preventExtensions(proxy)`
+- 拦截器函数传参：
+  - `target`：目标对象
+- 捕获不变式：
+  - 如果 Object.isExtensible(proxy)是 false，则处理程序必须返回 true
+
+#### apply()
+
+- `apply()`捕获器会在调用函数时中被调用。
+- 反射 API：`Reflect.apply()`。
+- 返回值：必须返回布尔值，表示 target 是否以及不可扩展。返回非布尔值会被转型为布尔值。
+- 拦截操作：
+  - `proxy(...argumentslList)`
+  - `Function.prototypr.apply(thisArg,argumentslList)`
+  - `Function.prototypr.call(thisArg,argumentslList)`
+  - `Reflect.apply(target,thisArg,argumentslList)`
+- 拦截器函数传参：
+
+  - `target`：目标对象
+  - `thisArg`：调用函数的 this 参数
+  - `argumentslList`：调用函数时的参数列表
+
+- 捕获不变式：
+  - target 必须是一个函数对象
+
+#### construct()
+
+- `construct()`捕获器会在 new 操作符中被调用。
+- 反射 API：`Reflect.construct()`。
+- 返回值：必须返回一个对象
+- 拦截操作：
+  - `new proxy(...argumentslList)`
+  - `Reflect.construct(target,argumentslList,newTarget)`
+- 拦截器函数传参：
+
+  - `target`：目标对象
+  - `argumentslList`：传给目标构造函数的参数列表
+  - `newTarget`：最初被调用的构造函数
+
+- 捕获不变式：
+  - target 必须可以用作构造函数
+
+### 代理模式
+
+#### 跟踪属性访问
+
+- 通过捕获器等操作，可以知道对象属性什么时候进行过什么操作。
+
+#### 隐藏属性
+
+- 通过捕获器，拦截到相关操作，返回 undefined 等，用来隐藏对象属性。
+
+#### 属性验证
+
+- 通过捕获器 set(),根据所赋值内容判断是够允许赋值。
+- 比如只允许一个属性赋值为 number 类型，当判断为其他类型时，不进行赋值。
+
+#### 函数与构造函数参数验证
+
+- 对函数和构造函数参数进行审查判断，可以让函数只接受固定类型的值
+
+#### 数据绑定和可观察对象
+
+- 通过代理可以把运行时原本不相关的部分联系在一起，这样就可以实现各种模式，从而让不同的代码相互操作。
+
+## 函数
+
+::: tip 注意
+函数实际上也是对象。每个函数都是 Function 类型的实例，而 Function 也有相关属性和方法。
+
+函数名实际上就是指向函数对象的指针。
+:::
+
+函数声明方法：
+
+```js
+//函数声明
+function fn(data){
+console.log('hello'，data)
 }
 
-const proxy = new Proxy(target, Reflect)
-console.log(proxy.foo) //bar
-console.log(target.foo) //bar
-```
-:::
-反射API为开发者准备好了样板代码，再次基础上可以用最少的代码修改捕获的方法
+//函数表达式
+let fn = function(data) {
+ console.log('hello'，data)
+};
 
+//箭头函数
+let fn=(data)=>{
+ onsole.log('hello'，data)
+};
+```
+
+### 箭头函数
+
+> ES6 新增，使用箭头愈发定义函数表达式
+
+::: tip 注意
+
+- 箭头函数不能使用 arguments，super，new.target
+- 不能作为构造函数，没有 this 指向，箭头函数中的 this 指向 window
+- 箭头函数没有 prototy 属性
+  :::
+
+```JS
+//箭头函数
+let fn = (data)=>{
+ onsole.log('hello'，data)
+};
+```
+
+只有一个参数时，可以不使用括号：
+
+```JS
+let fn = data=>{
+ onsole.log('hello'，data)
+};
+```
+
+当没有参数，可以使用空括号表示：
+
+```JS
+let fn = ()=>{
+ onsole.log('hello'，data)
+};
+```
+
+::: tip 注意
+箭头函数可以不实用大括号，但会改变函数的行为。
+
+- 使用大括号，表明包含函数体，可以在一个函数中包含多个语句
+- 不使用打括号，那么箭头后面就只能有一行代码，并且省略大括号会隐式返回这行代码的值
+  :::
+
+::: details 点击查看代码
+
+```js
+let fn = (a) => {
+  return a * 2;
+};
+console.log(fn(2)); //4
+
+let fn1 = (a) => a * 2;
+console.log(fn1(2)); //4
+```
+
+:::
+
+### 函数名
+
+- 函数名实际上就是指向函数对象的指针。
+- 因此一个函数可以有多个名称
+
+### 函数参数
+
+::: tip 注意
+实际上，函数并不关心传参个数以及传参类型
+
+ES 函数的参数只是为了方便才写出来，并不是必须。
+
+不写参数的情况下可以通过 arguments[0],arguments[1]等来获取数据。
+:::
+
+- 函数内部 arguments（类数组）对象，储存函数传入的每个参数值。
+- 在定义函数时，没有定义参数，在调用函数时传参，照样可以使用 arguments 获取到。
+- 可以通过 arguments.length 获取传参个数
+- arguments 可以和命名参数混用
+
+::: tip 注意
+箭头函数中不能使用 arguments 关键字访问，只能通过定义的命名参数访问
+:::
+
+### 没有重载
+
+- ES 函数不能像传统编程一样重载。
+- 在 ES 中定义两个同名函数，则后定义的会覆盖掉先定义的。
+
+### 默认参数值
+
+ES5.1 及以前需要判断参数是否等于 undefined
+
+```js
+function fn(name) {
+  name = typeof name !== "undefined" ? name : "yewen";
+  return name;
+}
+```
+
+ES6 之后，可以直接显示定义默认参数
+
+```js
+function fn(name = "yewen") {
+  return name;
+}
+```
+
+::: tip 注意
+需要注意的是，arguments 对象的值不反映，函数的默认的参数传值，
+:::
+
+- 默认参数值，不限制与原始值和对象类型，也可以使用调用函数返回值
+- 需要注意的是：使用函数返回值，只有在调用的时候才会执行函数
+
+### 参数拓展与收集
+
+```js
+function fn(...values) {
+  console.log(arguments);
+}
+
+function fn(name, ...values) {
+  console.log(name);
+  console.log(arguments);
+}
+```
+
+### 函数声明与函数表达式
+
+- 函数声明，会在 Javascript 引擎在任何代码执行之前读取，并在执行上下文中生成函数定义
+  - 函数声明提升，提升到顶部。
+- 函数表达式，会在代码执行到函数表达式的哪一行，才会在执行上下文中生成函数定义
+  - 在函数表达式之前调用函数，会报错
+
+### 函数作为值
+
+- 函数在 ES 中就是变量
+- 函数可以用在任何可以使用变量的地方
+- 可以在函数中返回另一个函数
+
+### 函数内部
+
+ES 中，函数中有两个特殊的对象：
+
+- arguments
+  - 类数组
+  - 有 length 方法
+  - 只存在与 funciton 关键字定义的函数中
+  - callee 方法：指向 arguments 对象所在函数的指针
+- this
+  - this 引用的是把函数当成方法调用的上下文对象
+  - 在网页的全局上下文调用函数时，this 指向 windows
+  - 箭头函数中的 this 会保留定义该函数时的上下文
+- caller
+  - 该属性引用的是调用当前函数的函数
+    ES6 中新增：
+- new.target
+  - 检测函数是否使用 new 关键字调用的 new.target 属性
+  - 函数正常调用 new.target 返回 undefined
+  - 使用 new 关键字调用的，new.target 返回被调用的构造函数
+
+### 函数属性和方法
+
+- length
+  - 保存函数定义的命名参数个数
+- prototype
+  - 保存引用类型所有的实例方法
+- call()
+  - 以指定的 this 调用函数
+  - 第一个值 this
+  - 后面是函数传参数
+- apply()
+  - 以指定的 this 调用函数
+  - 第一个值 this
+  - 第二个值为传参数组
+- bind()
+  - 创建一个新的函数实例，this 值会被绑定到传给 bind()的对象
+
+### 函数表达式
+
+匿名函数：创建一个函数再把它赋值给一个变量
+
+### 递归
+
+递归函数：一个函数通过名称在函数内部调用自己
+
+- 不可以给函数赋值给其他变量
+- 解决方法
+  - 通过 arguments.callee()在函数内部调用自己
+
+### 尾调用优化
+
+- 尾调用：即外部函数的返回值是一个内部函数的返回值
+- ES6 规则新增了恶意相内存管理优化机制，使用尾调用，不会造成大量消耗性能。
+
+### 闭包
+
+> 闭包：引用了另一个函数作用域中变量的函数
+
+- 闭包在被函数返回之后，其作用域一直保存在内存中，直到闭包被销毁。
+  ::: details 点击查看代码
+
+```js
+function createFcuntion(name) {
+  return function(obj1, obj2) {
+    let v1 = obj1[name];
+    let v2 = obj2[name];
+    if (v1 < v2) return -1;
+    else return 1;
+  };
+}
+```
+
+以上代码在，匿名函数内部，引用了外部函数的变量，内部函数被返回后，仍然引用着该变量。
+:::
+
+::: tip 注意
+闭包会保留他们包含函数的作用域，所以比其他函数更占用内存，过度使用闭包可能导致内存过度占用。
+:::
+
+#### this 对象
+
+- 在闭包中使用 this 会让代码变复杂
+- 如果内部函数没有使用箭头函数定义，this 指向运行时绑定到执行函数的上下文
+- 在全局函数中调用 this 指向 window，严格模式下 this 为 undefined
+- 作为某个对象的方法调用，this 指向 window，严格模式下指向 undefined
+
+#### 内存泄漏
+
+- IE9 之前不同的垃圾回收机制造成
+
+### 立即调用函数
+
+```js
+(function() {
+  //code
+  //块级作用域
+})();
+```
+
+::: tip 注意
+在 ES6 之后，可以直接创建块级作用域
+
+```js
+{
+  //code
+  //块级作用域
+}
+```
+
+:::
+
+### 私有变量
+
+> 任意定义在函数或块中的变量，都可以认为是私有的。
+
+- 特权方法：能够访问函数私有变量的公有方法
+- 静态私有变量：可以通过私有作用域定义私有变量和函数实现（可通过匿名函数实现）
+- 模块模式：在单例对象实现隔离和封装
+- 模块增强模式：利用模块模式在返回对象之前先对其进行增强，添加额外属性和方法。
+
+## 期约与异步函数
+
+### 过去异步编程
+
+- 通过回调函数（当代码越来越复杂，需要嵌套很多回调函数）（回调地狱）
+- 错误处理，需要`try catch`
+
+### 期约 Promise
+
+> ES6 增加了对 Promises/A+规范的完善支持，即 Promise 类型。
+
+- 现在浏览器都支持 ES6 期约，很多浏览器 API 也以期约为基础。（fetch 等）
+
+#### 创建 Promise
+
+> Promise 对象是由关键字 new 及其构造函数来创建的。
+
+- 该构造函数会把一个叫做“处理器函数”（executor function）的函数作为它的参数。
+- 这个“处理器函数”接受两个函数——resolve 和 reject ——作为其参数。
+- 当异步任务顺利完成且返回结果值时，会调用 resolve 函数；
+- 而当异步任务失败且返回失败原因（通常是一个错误对象）时，会调用 reject 函数
+
+```js
+new Promise((resolve, reject) => {
+  //处理操作  返回resolve或者reject
+  if (flag) resolve(data);
+  eles(reject(data));
+});
+```
+
+#### Promise 状态
+
+- 待定：pending 初始状态
+- 兑现：fulfilled（resolved）代表成功
+- 拒绝：rejected 代表失败
+
+::: tip 注意
+Promise 的状态是私有的，不能直接通过 Javascript 检测到
+
+- Promise 在落定状态之后，与之相关的处理程序会被排期，不会立刻执行，跟在添加这个处理程序之后的同步代码一定会在处理程序之前执行。（处理程序，promise 中的 then 等等）
+  :::
+
+#### Promise.resolve(data)
+
+> 返回一个状态由给定 data 决定的 Promise 对象
+
+```js
+Promise.resolve("test-resolve")
+  .then((res) => {
+    console.log(res); //test-resolve
+  })
+  .catch((e) => {
+    console.log(e);
+  });
+```
+
+#### Promise.reject(data)
+
+> Promise.reject(data)方法返回一个带有拒绝原因的 Promise 对象。（状态为失败的 Promise）
+
+```js
+Promise.reject("test-reject")
+  .then((res) => {
+    console.log(res);
+  })
+  .catch((e) => {
+    console.log(e); //test-reject
+  });
+```
+
+#### Promise.prototype.then(onFulfilled, onRejected)
+
+> Promise.prototype.then()是为契约实例，添加处理程序的主要方法
+
+> then() 方法返回一个 新的 Promise。它最多需要有两个参数：Promise 的成功和失败情况的回调函数。当只穿一个值得时候默认是 Promise 成功的回调函数
+
+- 该方法接受两个参数：
+- onFulfilled 处理程序 - 兑现状态是执行
+- onRejected 处理程序 - 拒绝状态时执行
+  ::: details 点击查看代码
+
+```js
+//默认一个参数
+var promise = new Promise((resolve, reject) => {
+  resolve("成功~");
+  //or
+  // reject('失败~')
+});
+
+promise.then(
+  (res) => {
+    console.log(res); //成功~
+  },
+  (error) => {
+    console.log(error); // 失败~
+  }
+);
+```
+
+:::
+
+#### Promise.prototype.catch(onRejected)
+
+> catch() 方法返回一个 Promise ，并且处理拒绝的情况
+
+- 实际上 catch 的行为与调用 Promise.prototype.then(undefined, onRejected) 相同
+- `obj.catch(onRejected)` 内部 `calls`了 `obj.then(undefined, onRejected)`
+
+::: details 点击查看代码
+
+```js
+var promise = new Promise((resolve, reject) => {
+  throw "出现了错误~";
+});
+promise.then(
+  (res) => {
+    console.log(res);
+  },
+  (e) => {
+    console.log(e); //出现了错误~
+  }
+);
+
+promise
+  .then((res) => {
+    console.log(res);
+  })
+  .catch((e) => {
+    console.log(e); //出现了错误~
+  });
+```
+
+:::
+
+#### Promise.prototype.finally(onFinally)
+
+> finally() 方法返回一个 Promise。在 promise 结束时，无论结果是 fulfilled 或者是 rejected，都会执行指定的回调函数。
+
+- 需要注意的是 finally 无法知道该期约是成功还是失败
+
+::: details 点击查看代码
+
+```js
+var promise = new Promise((resolve, reject) => {
+  resolve("成功~");
+  //or
+  // reject('失败~')
+});
+
+promise
+  .then(
+    (res) => {
+      console.log(res); //成功~
+    },
+    (error) => {
+      console.log(error); // 失败~
+    }
+  )
+  .finally((res) => {
+    console.log("finally~");
+  });
+```
+
+:::
+
+#### 拒绝期约与拒绝错误处理
+
+- 无论是使用 `reject()`还是 `throwError()`都会在期约的执行函数或者处理程序中抛出错误，导致拒绝。
+- 对应的错误对象会成为拒绝的原因
+- 通常在 Javascript 运行时的错误处理机制，回停止执行抛出错误之后的任何指令
+- 但是在 Promise 中抛出错误时，不会阻止继续执行的同步指令
+
+#### 期约连锁与期约合成
+
+期约连锁
+
+- 由于每个 Promise 的实例方法(`then catch finally`)等都会返回一个新的 Promise 对象，新的 Promise 又有自己新的实例方法。这样连续方法调用构成期约连锁，链式调用。
+- 可以解决回调地狱
+
+#### Promise.all()和 Promise.race()
+
+Promise.all()
+
+> 传参需要是一个可迭代对象 Promise.all 返回一个 Promise 对象（解决值数组对象）。 该 Promise 对象会在 Promise.all 的 iterable 参数对象里的所有 Promise 对象都成功才会触发。
+
+- 简单来说就是只有 Promise.all 参数里的所有 Promise 成功才会触发
+- 有一个失败就不会触发,返回失败。
+- 如果有期约失败，则第一个失败的期约回将自己的理由作为合成期约的拒绝理由，之后在拒绝的期约不会影响最终期约的拒绝理由
+
+Promise.race()
+
+> 传参需要是一个可迭代对象 Promise.race 返回一个 Promise 对象。 接收一个 Promise 对象的集合，当其中的一个 promise 成功或者失败时，就返回那个成功或者失败的 promise 的值。
+
+- 同样的，如果有期约失败，则第一个失败的期约回将自己的理由作为合成期约的拒绝理由，之后在拒绝的期约不会影响最终期约的拒绝理由
+
+#### 期约拓展
+
+ES6 不支持取消期约和进度通知
+
+- 期约取消
+- 期约进度通知
+
+### 异步函数
+
+> ES8 的 async 和 await 旨在解决利用异步结构阻止代码的问题。为此，ECMAScript 对函数进行了拓展，新增加了两个关键字 async 和 await
+
+#### async
+
+> 用于声明异步函数。可以用在函数声明，函数表达式，箭头函数和方法。
+
+::: tip 注意
+如果加了 async 的函数使用 return 关键字返回了值，这个值会被 Promise.resolve()包装成一个 Promise 对象。
+
+- 异步函数始终返回 Promise 对象
+  :::
+
+::: details 点击查看代码
+
+```js
+//无返回值
+async function foo() {
+  console.log(1);
+}
+foo();
+console.log(2);
+//1
+//2
+
+//有返回值
+async function foo() {
+  console.log(1);
+  return 2;
+}
+foo().then((res) => {
+  console.log(res);
+});
+console.log(3);
+//1
+//3
+//2
+```
+
+:::
+
+#### await
+
+> 使用 await 关键字可以暂停异步函数代码的执行，等待期约解决
+> ::: tip 注意
+> await 关键字会暂停执行异步函数后面的代码，当异步函数有值返回后，再恢复异步函数后面代码的执行
+
+- await 必须在异步函数中使用
+- 不能在顶级上下文如 script 标签或者模块中使用
+- 但是可以定义并立即调用异步函数
+  :::
+
+#### 异步函数策略
+
+实现 sleep()
+
+```js
+async function sleep(delay) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, delay);
+  });
+}
+```
+
+利用平行执行
+串行执行期约
+栈追踪与内存管理
+
+## BOM
+
+- BOM 核心-window 对象
+- 控制窗口以及弹窗
+- 通过 location 对象获取页面信息
+- 通过 navigator 对象了解浏览器
+- 通过 history 对象操作浏览器历史
+
+在 HTML5 规范中有一部分涵盖了 BOM 的主要内容。
+
+### Window 对象
+
+> BOM 的核心是 window 对象，表示浏览器的实例。
+
+- window 对象在浏览器中有两重身份 - ECMAScript 中的 Global 对象 - 浏览器窗口的 Javascript 接口
+  ::: tip 注意
+  因为 window 对象的属性在全局作用域汇总有效，因此很多浏览器 API 以及相关构造函数都以 Window 对象属性的形式暴露出来。
+- 因为实现不同，在不同浏览器 window 对象可能存在差异
+  :::
+
+#### Global 作用域
+
+- 通过 var 声明的所有全局变量和方法都会变成 window 对象的属性和方法
+  - 通过 let 和 const 定义的则不会给变量添加给全局对象
+
+通过 window 查询是否存在可能未声明的变量
+
+```js
+var newValue = oldValue; //会报错，如果为定义oldValue
+
+var newValue = window.oldValue; //不会操作，如果oldValue为定义，newValue的值为undefined
+```
+
+#### 窗口关系
+
+- `window.self`
+- `window.parent`
+- `window.top`
+- `window.open()`
+
+#### 窗口位置与像素比
+
+- `window.screenLeft`： 窗口相当于屏幕左侧的位置，返回值单位是 CSS 像素
+- `window.screenTop`：窗口相当于屏幕顶部的位置，返回值单位是 CSS 像素
+
+- `window.moveTo(x,y)`： 移动窗口，接受两个参数，绝对左边 x 和 y
+- `window.moveBy(x,y)`： 移动窗口，接受两个参数，相对与当前位置移动的像素数
+
+* `window.devicePixelRatio`： 像素比
+
+#### 窗口大小
+
+- `window.innerWidth`：返回浏览器窗口的大小
+- `window.innerHeight`：返回浏览器窗口的大小
+
+- `window.outerWidth`：返回浏览器页面窗口的大小
+- `window.outerHeight`：返回浏览器页面窗口的大小
+
+* `document.documentElement.clientWidth`： 返回页面视口宽度
+* `document.documentElement.clientHeight`： 返回页面视口高度
+
+* `document.compatMode`
+  - 值为`BackCompat`时，浏览器客户区宽度是`document.body.clientWidth`；
+  - 值为`CSS1Compat`时，浏览器客户区宽度是`document.documentElement.clientWidth`;
+  - 高度同理
+
+- `resizeTo()`： 调整窗口大小，接受两个值，新的宽度和高度
+- `resizeBy()`： 调整窗口大小，接受两个值，宽度和高度各缩放多少
+
+#### 视口位置
+
+- `window.pageXoffset/window.scrollX`：返回相对于视口滚动距离
+- `window.pageYoffset/window.scrollY`：返回相对于视口滚动距离
+
+- `window.scroll()`：滚动页面，接受两个值，要滚动到的坐标
+- `window.scrollTo()`：滚动页面，接受两个值，要滚动到的坐标
+- `window.scrollBy()`：滚动页面，接受两个值，要滚动的距离
+  - 以上方法可以接受一个`ScrollToOptions`字典
+  - 通过`behavior`属性表示是否平滑滚动`auto,smooth`
+  ```js
+  window.scrollTo({ left: 100, top: 100, behavior: "auto" });
+  ```
+
+#### 导航与打开新窗口
+
+- `window.open()`：打开新的浏览器窗口
+  - 4 个参数：要加载的 URL、目标窗口、特性字符串和表示新窗口在浏览器历史记录中是否替代当前加载页面的布尔值
+
+#### 定时器
+
+- `setTimeout()`：使用定时器在某个时间之后执行代码
+  - 接受两个参数，要执行的代码字符串或者函数，和等待时间
+  - 返回值：一个表示该定时器的数值 ID
+  - `clearTimeout()`，传入定时器 ID，清除定时器，可以在执行之前清除
+  - 在该方法中 this 指向 window
+- `setInterval()`：指定每隔一段时间执行某些代码
+  - 接受两个参数，要执行的代码字符串或者函数，和等待时间
+  - 返回值：一个表示该定时器的数值 ID
+  - `clearInterval()`，传入定时器 ID，清除计时器
+  - 在该方法中 this 指向 window
+
+#### 系统对话框
+
+- `alert()`：弹出指定内容的系统对话框
+- `comfirm()`：弹出指定内容的系统对话框，带有确认与取消
+  - 返回值，确认为 true，取消为 false
+- `prompt()`：弹出提示输入框，
+  - 返回值为输入内容
+
+### location 对象
+
+> location 对象是一个特殊的对象，它既是 window 的属性，也是 document 的属性。
+
+- `window.location`和`document.location`指向同一个对象
+- `location`不仅保存这当前加载文档的信息，也保存着吧 URL 解析为离散片段后通过属性访问的信息
+
+以`http://foouser:barpassword@www.wrox.com:80/WileyCDA/?q=javascript#contents`
+
+为例：
+
+- `location.hash`： URL 散列值，#后面跟着的自负，没有则为空字符串
+  - `#contents`
+- `location.host`： 域名(服务器名)以及端口号
+  - `www.wrox.com:80`
+- `location.hostname`： 域名(服务器名)
+  - `www.wrox.com`
+- `location.href`： 当前加载页面的完整 URL
+  - `http://www.wrox.com:80/WileyCDA/?q=javascript#contents`
+- `location.port`： 请求的端口号
+  - `80`
+- `location.portocol`： 页面使用协议
+  - `http：`
+- `location.search`： URL 的查询字符串，这个字符串以问号开头
+  - `?q=javascript`
+- `location.username`： 域名前指定的用户名
+  - `foouser`
+- `location.password`： 域名前指定的密码
+  - `barpassword`
+- `location.origin`： URL 的原地址（只读）
+  - `http://www.wrox.com`
+
+::: tip 注意
+除了 hash 之外，只要修改 location 的一个属性，就会导致页面重新加载 URL
+:::
+
+#### 查询字符串
+
+> URLSearchParams 提供了一组标准 API 方法，通过他们可以检查和修改查询字符串
+
+- `new URLSearchParams('?key=name&id=123')`
+  - `get(key)`
+  - `set(key,value)`
+  - `delete(key)`
+
+#### 操作地址
+
+- `location.assing(url)`： 跳转到新 URL，同时添加一条历史记录
+
+  - 使用`location.href`和`window.location`时，都会执行与显示调用`assign()`一样的操作
+
+- `location.replace(url)`： 跳转到新 URL 但是不会增加历史记录
+- `location.reload()`： 重新加载
+- `location.reload(true)`： 重新加载，从服务器加载
+
+### navigator 对象
+
+> 客户端标识，只要浏览器启用 Javascript，navigator 对象就一定存在。
+
+- 与其他 BOM 对象一样，每个浏览器都支持自己的属性
+- navigator 具体相关属性不再列举
+
+::: tip 注意
+navigator 对象的属性通常用于确定浏览器的类型
+:::
+
+#### 检测插件
+
+#### 注册处理程序
+
+### screen 对象
+
+> 编程中很少使用，对象中保存的纯粹是客户端能力信息。也就是浏览器窗口外面的客户端显示器的信息，比如像素宽度，和像素高度等等。
+
+### history 对象
+
+> 表示当前窗口首次使用以来用户的导航历史记录。history 是 window 的属性。
+
+#### 导航
+
+- `history.go()`：前进或者后退，根据传参判断多少步
+- `history.back()`： 后退一页
+- `history.forward()`：前进一页
+- `history.length`：表示历史记录中有多个条目，反应历史记录的数量。
+
+#### 历史状态管理
+
+- `history.pushState()` ：让边页面 URL 而不会加载页面
+  - 接受三个参数 state 对象，一个新状态的标题和一个相对 URL，
+  - 会创建新的历史记录
+
+## 客户端检测
+
+> 由于各个浏览器厂商对于浏览器接口相关实现不太一致，因为会存在不同的问题，需要用各种方法来检测客户端，用来避免这些问题。
+
+### 能力检测
+
+直接判断浏览器是否支持某种特性：
+
+```js
+//IE之前不支持该方法
+if (document.getElementById) {
+  return true;
+}
+```
+
+#### 安全能力检测
+
+检测是否存在，并且是自己想要的功能：
+
+- 进行能力检测时应该尽量使用 typeof 操作符
+
+```js
+function isSortable(object) {
+  return typeof object.sort === "function";
+}
+```
+
+#### 基于能力检测进行浏览器分许
+
+- 检测特性
+- 检测浏览器
+
+### 用户代理检测
+
+> 用户代理检测通过浏览器的用户代理字符串确定使用的是什么浏览器,以及浏览器的先关信息
+
+- 在 JavaScript 中可以适用`navigator.userAgent`访问
+
+### 软件与硬件检测
+
+> 现代浏览器提供了一组与页面指向环境相关的信息，包括浏览器，操作系统，硬件和周边设备信息，这些信息可以通过暴露在 window.navigator 上的一组 API 获得。
+
+- 建议在获取相关信息之前，先检测这些 API 是否存在
+
+#### 识别浏览器和操作系统
+
+- `navigator.oscpu`：获取操作系统，系统架构相关信息
+- `navigator.vendor`：获取浏览器开放商信息
+- `navigator.platform`：获取浏览器所在操作系统
+
+#### 浏览器元数据
+
+- `navigator.geolocation`： 获取当前设备的地理位置
+
+```js
+//通过getCurrentPosition()
+
+navigator.geolocation.getCurrentPosition((position) => {
+  console.log(position);
+});
+```
+
+- `navigator.onLine`： 获取浏览器的联网状态，返回一个布尔值
+  - `online` 事件：设备连接到网络时触发
+  - `offline` 事件：设备断开网络时触发
+- `navigator.getBattery()`：返回一个 Promise， 获取电池及充电状态的信息
+
+#### 硬件
+
+- `navigator.hardwareConcurrency` ：返回浏览器支持的逻辑处理器核心数
+- `navigator.deviceMemory` ：返回设备系统内存代销
+- `navigator.maxTouchPoints` ：返回触屏支持的最大关联触电数量
