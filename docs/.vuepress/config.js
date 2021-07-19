@@ -36,7 +36,7 @@ module.exports = {
    },
    {
     text: 'TypeScript',
-    link: '/TypeScript/从0开始了解TypeScript'
+    link: '/TypeScript/TypeScript基础'
    },
    {
     text: 'React',
