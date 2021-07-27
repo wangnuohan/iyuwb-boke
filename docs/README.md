@@ -9,8 +9,8 @@ features:
   - title: 个人信息
     details: 耶温 / Web前端⼯程师 / 本科 / 软件⼯程 / 三年工作经验
   - title: 技术栈
-    details: JavaScript / TypeScript / HTMLCSS / Vue / Nuxt.js / React / 各种UI组件库等。
+    details: JavaScript  / HTMLCSS / Vue / Nuxt.js /  Element / Vant 等。
   - title: 当前状态
-    details: 在职 / 考虑机会 / 期望城市：西安 / 现在居住：上海/
+    details: 离职 / 考虑机会 / 期望城市：西安 / 现在居住：上海/
 footer: 耶温博客 | Copyright © 2021
 ---
