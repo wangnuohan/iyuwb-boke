@@ -1,4 +1,7 @@
 # TypeScript 基础
+> JavaScript的超集，在JS的基础上，做了一些限制并添加了类型。
+- 所有`TypeScript`需要被转换成`js`执行
+- 支持ES一些不具备的新特性
 
 ## 基础类型
 
