@@ -9,29 +9,29 @@
     // console.log(Color.Pink)
 
 
-    // let demo: any = 'yewen'
-    // demo = false
-    // demo = 123456
-    // console.log(demo)
+    let demo: any = 'yewen'
+    demo = false
+    demo = 123456
+    console.log(demo)
 
-    // let someValue: any = 123;
-    // let strLength: number = (<string>someValue).length;
-    // console.log(strLength)
-    // let demo: string | number = '123'
-    // let o: object
-    // o = {}
-    // o = function () { }
+    let someValue: any = 123;
+    let strLength: number = (<string>someValue).length;
+    console.log(strLength)
+    let demo: string | number = '123'
+    let o: object
+    o = {}
+    o = function () { }
 
-    // let o1: { name: string, age: number }
-    // o1.name = 'zhijian'
-    // o1.age = 18
-    // let o1: { name: string, age: number }
-    // let o3: { name: string, [key: string]: any }
-    // o3 = {
-    //     name: "zhijian",
-    //     a: '123',
-    //     b: 123
-    // }
+    let o1: { name: string, age: number }
+    o1.name = 'zhijian'
+    o1.age = 18
+    let o1: { name: string, age: number }
+    let o3: { name: string, [key: string]: any }
+    o3 = {
+        name: "zhijian",
+        a: '123',
+        b: 123
+    }
 
     let arr: object[]
     let demo: string = 'zhijian'
