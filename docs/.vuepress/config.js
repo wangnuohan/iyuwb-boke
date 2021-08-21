@@ -62,6 +62,7 @@ module.exports = {
         'JavaScript简单了解-WebSocket',
       ],
       '/HTMLCSS/': [
+        '响应式',
         'CSS选择器',
         'HTML5CSS3',
         'H5端rem适配方案',
