@@ -1,10 +1,36 @@
 // 头部链接分类
+//设置主题背景色
+a{
+color: #7a94a7
+}
+html,body,#app{
+  background-color: #f3f2ee;
+}
+#app .sidebar{
+ background-color: #f3f2ee;
+ border-right: 2px solid #eaecef;
+}
+#app .navbar{
+ background-color: #f3f2ee;
+ border-bottom: 3px solid #eaecef;
+}
+#app .navbar .links{
+ background-color: #f3f2ee;
+}
+// 编译code样式调整 rgba(211,209,209,0.5)
+// 点击查看代码
+#app .page .custom-block{
+  background-color: rgba(211,209,209,0.7)
+}
+#app .page .custom-block.tip{
+  background-color:#dee5ea;
+  border-color: #7a94a7
+}
 #app .navbar .links .nav-links a.nav-link{
   line-height: 2rem;
   color #444;
   font-weight: normal;
 }
-
 #app .navbar .links .nav-links .nav-item{
   padding:0 6px
 }
@@ -49,9 +75,12 @@ body::-webkit-scrollbar {
  width:2px;  background:#eee; border-radius:10px;
 } 
 #app .sidebar > .sidebar-links > li > a.sidebar-link.active {
-  color: #3eaf7c;
-  background-color: rgba(62, 175, 124, 0.1)
-  border-right-color:  #3eaf7c;
+  //color: #3eaf7c;
+  //background-color: rgba(62, 175, 124, 0.1)
+  //border-right-color:  #3eaf7c;
+  border-right-color:  #7a94a7;
+  background-color: #dee5ea;
+  color:#7a94a7; 
 }
 #app .sidebar .sidebar-sub-headers{
   padding-left:1.5rem;
@@ -64,7 +93,8 @@ body::-webkit-scrollbar {
     color: #666;
   }
   a.active.sidebar-link{
-    color: #3eaf7c;
+    //color: #3eaf7c;
+    color:#7a94a7;
   }
 }
 
@@ -88,7 +118,10 @@ body::-webkit-scrollbar {
 #app .page .theme-default-content  blockquote{
   background-color: rgba(62, 175, 124, 0.1)
   padding: 0.75rem 0 0.75rem 1rem
-  border-left: 0.25rem solid #3eaf7c
+  //border-left: 0.25rem solid #3eaf7c;
+  border-left: 0.25rem solid #7a94a7;
+  background-color: #dee5ea;
+  //color:#7a94a7; 
   p{
    color:#666
   }
@@ -125,4 +158,13 @@ body::-webkit-scrollbar {
   max-width: 100%
   padding: 2rem 1.25rem
  }
+}
+
+#app .navbar .nav-item > a:not(.external):hover,
+#app .navbar .nav-item > a:not(.external).router-link-active{
+   color:#7a94a7;
+   border-bottom-color:#7a94a7;
+}
+.nav-links a:hover, .nav-links a.router-link-active {
+    color: #7a94a7;
 }

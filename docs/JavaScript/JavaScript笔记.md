@@ -251,6 +251,8 @@ console.log(son.getName(), son.getAge()); //heihei 18
 ### Promise 
 实现一个Promise
 :::details 点击查看代码
+
+1111
 :::
 
 ## JavaScript 内置函数
