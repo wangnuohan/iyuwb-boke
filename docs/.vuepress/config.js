@@ -11,6 +11,7 @@ module.exports = {
   base: '/boke/',
   // theme: 'antdocs',
   themeConfig: {
+    astUpdated: 'Last Updated',
     logo: 'http://iyuwb.cn/img/wenbo.jpg',
     //搜索
     // algolia: {
@@ -62,14 +63,15 @@ module.exports = {
         'JavaScript简单了解-WebSocket',
       ],
       '/HTMLCSS/': [
-        '响应式',
+        '网格布局 Grid',
+        '响应式布局方案',
         'CSS选择器',
         'HTML5CSS3',
         'H5端rem适配方案',
         'Canvas实现两张图片合成'
       ],
       '/Notes/': [
-        '前端学习路线',
+        // '前端学习路线',
         '个人简历',
         '前端笔记',
         'GIT相关操作方法',
