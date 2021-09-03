@@ -11,42 +11,46 @@ module.exports = {
   base: '/boke/',
   // theme: 'antdocs',
   themeConfig: {
-    astUpdated: 'Last Updated',
+    lastUpdated: 'Last Updated',
     logo: 'http://iyuwb.cn/img/wenbo.jpg',
-    //搜索
-    // algolia: {
-    //  apiKey: '<API_KEY>',
-    //  indexName: '<INDEX_NAME>'
-    // },
     // 导航栏可以下拉列表
-    nav: [{
-      text: 'Notes',
-      link: '/Notes/个人简历'
-    }, {
-      text: 'JavaScript',
-      link: '/JavaScript/JavaScript-常用方法'
-    },
-    {
-      text: 'HTMLCSS',
-      link: '/HTMLCSS/HTML5CSS3'
-    },
+    nav: [
+      //   {
+      //   text: 'Languages',
+      //   ariaLabel: 'Language Menu',
+      //   items: [
+      //     { text: 'Chinese', link: '/language/chinese/' },
+      //     { text: 'Japanese', link: '/language/japanese/' }
+      //   ]
+      // },
+      {
+        text: 'Notes',
+        link: '/Notes/个人简历'
+      }, {
+        text: 'JavaScript',
+        link: '/JavaScript/JavaScript-常用方法'
+      },
+      {
+        text: 'HTMLCSS',
+        link: '/HTMLCSS/HTML5CSS3'
+      },
 
-    {
-      text: 'Vue',
-      link: '/Vue/Vue进阶之旅'
-    },
-    {
-      text: 'TypeScript',
-      link: '/TypeScript/TypeScript基础'
-    },
-    {
-      text: 'React',
-      link: '/React/React入门'
-    },
-    {
-      text: '读书笔记',
-      link: '/读书笔记/[JavaScript高级程序设计]读书笔记'
-    },
+      {
+        text: 'Vue',
+        link: '/Vue/Vue进阶之旅'
+      },
+      {
+        text: 'TypeScript',
+        link: '/TypeScript/TypeScript基础'
+      },
+      {
+        text: 'React',
+        link: '/React/React入门'
+      },
+      {
+        text: '读书笔记',
+        link: '/读书笔记/[JavaScript高级程序设计]读书笔记'
+      },
     ],
     sidebar: {
       '/JavaScript/': [

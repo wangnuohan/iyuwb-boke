@@ -9,19 +9,30 @@
     <style>
         .grid {
             display: grid;
-            grid-template-rows: repeat(4, 100px);
-            grid-template-columns: repeat(auto-fill, 200px)
+            gap: 10%;
+            grid-template: repeat(4, 100px) / repeat(3, 100px);
+            justify-content: center;
         }
 
         .demo {
-            background-color: #eee;
+            background-color: #ddd;
+        }
+
+        .demo1 {
+            grid-column-start: 1;
+            grid-column-end: 3;
+            grid-row-start: 2;
+            grid-row-end: 4;
+            background-color: pink;
         }
     </style>
+
 </head>
 
 <body>
-    <!-- <span class="left">left</span> -->
+
     <div class="grid">
+        <div class="demo1">0</div>
         <div class="demo">1</div>
         <div class="demo">2</div>
         <div class="demo">3</div>
@@ -32,7 +43,7 @@
         <div class="demo">8</div>
         <div class="demo">9</div>
     </div>
-    <!-- <span class="right">right</span> -->
+
 </body>
 
 </html>
