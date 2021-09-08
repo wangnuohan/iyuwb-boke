@@ -70,7 +70,6 @@ html代码：
 }
 ```
 -   `repeat()`：重复值，可以使用语法repeat(重复次数，重复的值)
-
     -    在`repeat`中可以使用`auto-fill`,根据容器大小，自动填充满单元格
 ```css
 .grid {
@@ -337,5 +336,18 @@ css
 ### 3. `grid-area`
 
 >  指定项目放在哪一个区域。
+
+<!-- 123131
+-    `grid-row: <grid-area-name>`
+-    `grid-area: <row-start> / <column-start> / <row-end> / <column-end> -->
+
+
+
+例如：
+```css
+1
+
+```
+![grid指定位置](https://iyuwb.gitee.io/notes/images/grid-11.png)
 
 ## 案例实现
