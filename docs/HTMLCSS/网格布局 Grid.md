@@ -337,17 +337,49 @@ css
 
 >  指定项目放在哪一个区域。
 
-<!-- 123131
--    `grid-row: <grid-area-name>`
--    `grid-area: <row-start> / <column-start> / <row-end> / <column-end> -->
 
+
+-  `grid-area: <grid-area-name>`
+
+-   `grid-area`属性还可用作`grid-row-start`、`grid-column-start`、`grid-row-end`、`grid-column-end`的合并简写形式，直接指定项目的位置。
 
 
 例如：
 ```css
-1
-
+.grid {
+    display:  grid;
+    gap: 10%;
+    grid-template: repeat(3, 100px) / repeat(3, 100px);
+    grid-template-areas: "a b c"
+                            "d e f"
+                            "g h i";
+}
+.demo {
+    background-color: #ddd;
+}
+.demo1 {
+    grid-area: f;
+    background-color: pink;
+}
 ```
-![grid指定位置](https://iyuwb.gitee.io/notes/images/grid-11.png)
+![grid指定位置](https://iyuwb.gitee.io/notes/images/grid-12.png)
+
+
+### 4. `justify-self`,`align-self`和`place-self`
+
+
+-  `justify-self`:  属性设置单元格内容的水平位置（左中右)
+-  `align-self`:  属性设置单元格内容的垂直位置（上中下）  
+-   取值： `start | end | center | stretch`
+
+#### `place-self`
+
+>    `place-self`属性是`align-self`属性和`justify-self`属性的合并简写形式。
+
+>    ` place-self: <align-self> <justify-self>`
 
 ## 案例实现
+
+::: tip 注意
+待更新
+:::
