@@ -1,0 +1,1 @@
+# JavaScript-严格模式

@@ -67,6 +67,7 @@ module.exports = {
         'JavaScript简单了解-WebSocket',
       ],
       '/HTMLCSS/': [
+        '样式滤镜 filter',
         '网格布局 Grid',
         '响应式布局方案',
         'CSS选择器',
