@@ -9,20 +9,21 @@ module.exports = {
     }]
   ],
   base: '/boke/',
-  // theme: 'antdocs',
   themeConfig: {
-    lastUpdated: 'Last Updated',
+    repo: 'iYevin/iyuwb-boke',
+    docsDir: 'docs',
+    docsBranch: 'master',
+    editLinks: true,
+    editLinkText: '点击编译该文档',
+    // 搜索
+    // algolia: {
+    //   apiKey: '<API_KEY>',
+    //   indexName: '<INDEX_NAME>'
+    // },
+    lastUpdated: '最新更新时间',
     logo: 'http://iyuwb.cn/img/wenbo.jpg',
     // 导航栏可以下拉列表
     nav: [
-      //   {
-      //   text: 'Languages',
-      //   ariaLabel: 'Language Menu',
-      //   items: [
-      //     { text: 'Chinese', link: '/language/chinese/' },
-      //     { text: 'Japanese', link: '/language/japanese/' }
-      //   ]
-      // },
       {
         text: 'Notes',
         link: '/Notes/个人简历'
@@ -34,7 +35,6 @@ module.exports = {
         text: 'HTMLCSS',
         link: '/HTMLCSS/HTML5CSS3'
       },
-
       {
         text: 'Vue',
         link: '/Vue/Vue进阶之旅'
@@ -67,12 +67,12 @@ module.exports = {
         'JavaScript简单了解-WebSocket',
       ],
       '/HTMLCSS/': [
-        '样式滤镜 filter',
+        '样式滤镜 Filter',
         '网格布局 Grid',
         '响应式布局方案',
         'CSS选择器',
         'HTML5CSS3',
-        'H5端rem适配方案',
+        'H5端REM适配方案',
         'Canvas实现两张图片合成'
       ],
       '/Notes/': [

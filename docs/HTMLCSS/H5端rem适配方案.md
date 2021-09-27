@@ -1,11 +1,11 @@
-# H5 端 rem 与 viewport 适配
+# H5响应布局:Rem与Viewport
 
-## rem
+### rem
 
 > rem 是 CSS3 新增的一个相对单位（root em，根 em）
 > 只根据当前页面 HTML 页面的 font-size 设置，如果根目录的 font-size 为 18px，则 1rem=18px
 
-### 媒体查询设置
+#### 媒体查询设置
 
 ```css
 @media screen and (min-width: 320px) {
@@ -30,7 +30,7 @@
 }
 ```
 
-### 使用 JS 动态修改
+#### 使用 JS 动态修改
 
 ```html
 <script>
@@ -48,13 +48,13 @@
 </script>
 ```
 
-## viewport
+### viewport
 
 > 通过缩放来实现移动端各个尺寸的适配
 
 > 适配方案 动态创建 mate viewport 属性，根据当前屏幕尺寸动态设置缩放值
 
-### Viewport 属性
+#### Viewport 属性
 
 | 属性          | 说明                                                  | 备注                                 |
 | ------------- | ----------------------------------------------------- | ------------------------------------ |

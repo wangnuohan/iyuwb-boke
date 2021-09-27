@@ -4,7 +4,7 @@
 
 思路：使用 CSS3 中的 Canvas 将两张图片绘制。
 
-## HTML 部分
+### HTML 部分
 
 ```html
 <div>
@@ -17,7 +17,7 @@
 </div>
 ```
 
-## JavaScript 部分
+### JavaScript 部分
 
 ```js
 var c = document.getElementById("myCanvas");
